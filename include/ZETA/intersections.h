@@ -19,5 +19,11 @@ namespace Collisions {
     // Determine if a point lays within a circle.
     bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle) { return circle.c.distSq(point) <= circle.r*circle.r; };
 
-    
+    // Determine if a point lays within an AABB.
+    bool PointAndAABB(ZMath::Vec2D const &point, Primitives::AABB const &aabb) {
+        ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
+        return min.x <= point.x && point.x <= max.x && min.y <= point.y && point.y <= max.y;
+    };
+
+    // Determine if a p
 }
