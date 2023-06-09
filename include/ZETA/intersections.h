@@ -15,4 +15,9 @@ namespace Collisions {
         return point.x <= max.x && point.y <= max.y && point.x >= min.x && point.y >= min.y && 
                 point.y == ((line.end.y - line.start.y)/(line.end.x - line.start.x) * (point.x - line.start.x) + line.start.y);
     };
+
+    // Determine if a point lays within a circle.
+    bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle) { return circle.c.distSq(point) <= circle.r*circle.r; };
+
+    
 }
