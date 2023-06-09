@@ -25,5 +25,16 @@ namespace Collisions {
         return min.x <= point.x && point.x <= max.x && min.y <= point.y && point.y <= max.y;
     };
 
-    // Determine if a p
+    // Determine if a point lays within a Box2D.
+    bool PointAndBox2D(ZMath::Vec2D const &point, Primitives::Box2D const &box) {
+        // ? Rotate our point into the box2D's UV coords and perform the same check as against the AABB.
+
+        ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
+        ZMath::Vec2D p = point - box.pos;
+
+        // rotate into our UV coords
+        p = box.rot.transpose() * p + box.pos;
+
+        return min.x <= p.x && p.x <= max.x && min.y <= p.y && p.y <= max.y;
+    };
 }
