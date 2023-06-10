@@ -318,7 +318,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    inline bool SphereAndAABB(Primitives::Circle const &circle, Primitives::AABB const & aabb, ZMath::Vec2D &normal) {
+    inline bool CircleAndAABB(Primitives::Circle const &circle, Primitives::AABB const & aabb, ZMath::Vec2D &normal) {
         ZMath::Vec2D closest = circle.c;
         ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
 
@@ -347,7 +347,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    inline bool SphereAndCube(Primitives::Circle const &circle, Primitives::Box2D const &box, ZMath::Vec2D &normal) {
+    inline bool CircleAndBox2D(Primitives::Circle const &circle, Primitives::Box2D const &box, ZMath::Vec2D &normal) {
         ZMath::Vec2D closest = circle.c - box.pos;
         ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
 
@@ -382,6 +382,15 @@ namespace Collisions {
 
     // Determine if an AABB intersects a sphere.
     inline bool AABBAndSphere(Primitives::AABB const &aabb, Primitives::Circle const &circle) { return CircleAndAABB(circle, aabb); };
+
+    // Check for intersection and return the collision normal.
+    // If there is not an intersection, the normal will be a junk value.
+    // The normal will point towards B away from A.
+    bool AABBAndCircle(Primitives::AABB const &aabb, Primitives::Circle const &circle, ZMath::Vec2D &normal) {
+        bool hit = CircleAndAABB(circle, aabb, normal);
+        normal = -normal;
+        return hit;
+    };
 
     // Determine if an AABB intersects another AABB.
     inline bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2) {
