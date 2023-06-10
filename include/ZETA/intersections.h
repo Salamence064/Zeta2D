@@ -344,6 +344,32 @@ namespace Collisions {
         return closest.distSq(circle.c) <= circle.r*circle.r;
     };
 
+    // Check for intersection and return the collision normal.
+    // If there is not an intersection, the normal will be a junk value.
+    // The normal will point towards B away from A.
+    inline bool SphereAndCube(Primitives::Circle const &circle, Primitives::Box2D const &box, ZMath::Vec2D &normal) {
+        ZMath::Vec2D closest = circle.c - box.pos;
+        ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
+
+        // rotate the center of the sphere into the UV coordinates of our Box2D
+        closest = box.rot * closest + box.pos;
+        
+        // perform the check as if it was an AABB vs Sphere
+        closest = ZMath::clamp(closest, min, max);
+        ZMath::Vec2D diff = closest - circle.c;
+
+        if (diff.magSq() > circle.r*circle.r) { return 0; }
+
+        // the closest point to the circle's center will be our contact point rotated back into global coordinates coordinates
+
+        closest -= box.pos;
+        closest = box.rot.transpose() * closest + box.pos;
+
+        normal = diff.normalize();
+
+        return 1;
+    };
+
     // * ===================================
     // * AABB vs Primitives
     // * ===================================
