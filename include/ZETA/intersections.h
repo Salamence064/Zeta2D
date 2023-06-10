@@ -403,6 +403,50 @@ namespace Collisions {
         return min1.x <= max2.x && min2.x <= max1.x && min1.y <= max2.y && min2.y <= max1.y;
     };
 
+    // Check for intersection and return the collision normal.
+    // If there is not an intersection, the normal will be a junk value.
+    // The normal will point towards B away from A.
+    bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2, ZMath::Vec2D &normal) {
+        // half size of AABB a and b respectively
+        ZMath::Vec2D hA = aabb1.getHalfsize(), hB = aabb2.getHalfsize();
+
+        // * Check for intersections using the separating axis theorem.
+        // because both are axis aligned, global space is the same as the local space of both AABBs.
+
+        // distance between the two
+        ZMath::Vec2D dP = aabb2.pos - aabb1.pos;
+        ZMath::Vec2D absDP = ZMath::abs(dP);
+
+        // penetration along A's (and B's) axes
+        ZMath::Vec2D faceA = absDP - hA - hB;
+        if (faceA.x > 0 || faceA.y > 0) { return 0; }
+
+        // ? Since they are axis aligned, the penetration between the two will be the same on any given axis.
+        // ?  Therefore, we only need to check for A.
+
+        // * Find the best axis (i.e. the axis with the least amount of penetration).
+
+        // Assume A's x-axis is the best axis first
+        float separation = faceA.x;
+        normal = dP.x > 0.0f ? ZMath::Vec2D(1, 0) : ZMath::Vec2D(-1, 0);
+
+        // tolerance values
+        float relativeTol = 0.95f;
+        float absoluteTol = 0.01f;
+
+        // ? check if there is another axis better than A's x axis by checking if the penetration along
+        // ?  the current axis being checked is greater than that of the current penetration
+        // ?  (as greater value = less negative = less penetration).
+
+        // A's remaining axes
+        if (faceA.y > relativeTol * separation + absoluteTol * hA.y) {
+            separation = faceA.y;
+            normal = dP.y > 0.0f ? ZMath::Vec2D(0, 1) : ZMath::Vec2D(0, -1);
+        }
+
+        return 1;
+    };
+
     // Determine if an AABB intersects a Box2D.
     inline bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box) {
         // ? Use the separating axis theorem to determine if there is an intersection bewteen the AABB and Box2D.
