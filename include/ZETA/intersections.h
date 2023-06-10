@@ -8,7 +8,7 @@ namespace Collisions {
     // * ===================================
 
     // Determine if a point lays on a line.
-    bool PointAndLine(ZMath::Vec2D const &point, Primitives::Line2D const &line) {
+    inline bool PointAndLine(ZMath::Vec2D const &point, Primitives::Line2D const &line) {
         // ? Use the point slope form equation of a line to find if the point lies on the line.
 
         ZMath::Vec2D min = line.getMin(), max = line.getMax();
@@ -17,16 +17,16 @@ namespace Collisions {
     };
 
     // Determine if a point lays within a circle.
-    bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle) { return circle.c.distSq(point) <= circle.r*circle.r; };
+    inline bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle) { return circle.c.distSq(point) <= circle.r*circle.r; };
 
     // Determine if a point lays within an AABB.
-    bool PointAndAABB(ZMath::Vec2D const &point, Primitives::AABB const &aabb) {
+    inline bool PointAndAABB(ZMath::Vec2D const &point, Primitives::AABB const &aabb) {
         ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
         return min.x <= point.x && point.x <= max.x && min.y <= point.y && point.y <= max.y;
     };
 
     // Determine if a point lays within a Box2D.
-    bool PointAndBox2D(ZMath::Vec2D const &point, Primitives::Box2D const &box) {
+    inline bool PointAndBox2D(ZMath::Vec2D const &point, Primitives::Box2D const &box) {
         // ? Rotate our point into the box2D's UV coords and perform the same check as against the AABB.
 
         ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
@@ -43,10 +43,10 @@ namespace Collisions {
     // * ===================================
 
     // Determine if a line intersects a point.
-    bool LineAndPoint(Primitives::Line2D const &line, ZMath::Vec2D const &point) { return PointAndLine(point, line); };
+    inline bool LineAndPoint(Primitives::Line2D const &line, ZMath::Vec2D const &point) { return PointAndLine(point, line); };
 
     // Determine if a line intersects another line.
-    bool LineAndLine(Primitives::Line2D const &line1, Primitives::Line2D const &line2) {
+    inline bool LineAndLine(Primitives::Line2D const &line1, Primitives::Line2D const &line2) {
         // ? First check if the lines are parallel.
         // ? If the lines are parallel, if the line segments overlap we know we have a collision.
         // ? We can check for this by seeing if start1 lays on line2 if the lines were infinite and that there is overlap in the first place.
@@ -104,4 +104,23 @@ namespace Collisions {
         // ensure the point of intersection falls within the bounds of the lines
         return min.x <= x && x <= max.x && min.y <= y && y <= max.y;
     };
+
+    // Determine if a line intersects a circle.
+    inline bool LineAndCircle(Primitives::Line2D const &line, Primitives::Circle const &circle) {
+        // ? Find the closest point to the circle (using projection) and check if it's within radius distance from the circle's center.
+
+        // check if either of the endpoint is inside the circle
+        if (PointAndCircle(line.start, circle) || PointAndCircle(line.end, circle)) { return 1; }
+
+        ZMath::Vec2D dC = circle.c - line.start;
+        ZMath::Vec2D dL = line.end - line.start;
+
+        // scalar projection
+        float t = (dC * dL)/dL.magSq();
+        if (t < 0.0f || 1.0f < t) { return 0; }
+
+        return PointAndCircle(line.start + (dL * t), circle);
+    };
+
+    
 }
