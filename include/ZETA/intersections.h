@@ -249,4 +249,74 @@ namespace Collisions {
         ZMath::Vec2D faceB = ZMath::abs(dB) - hB - rotBT * hA;
         return faceB.x <= 0 && faceB.y <= 0;
     };
+
+    // * ===================================
+    // * Box2D vs Primitives
+    // * ===================================
+
+    // Determine if a cube intersects a point.
+    inline bool CubeAndPoint(Primitives::Box2D const &box, ZMath::Vec2D const &point) { return PointAndBox2D(point, box); };
+
+    // Determine if a cube intersects a line.
+    inline bool CubeAndLine(Primitives::Box2D const &box, Primitives::Line2D const &line) { return LineAndBox2D(line, box); };
+
+    // Determine if a cube intersects a sphere.
+    inline bool CubeAndSphere(Primitives::Box2D const &box, Primitives::Circle const &circle) { return CircleAndBox2D(circle, box); };
+
+    // Check for intersection and return the collision normal.
+    // If there is not an intersection, the normal will be a junk value.
+    // The normal will point towards B away from A.
+    // bool CubeAndSphere(Primitives::Box2D const &cube, Primitives::Sphere const &sphere, ZMath::Vec3D &normal) {
+    //     bool hit = SphereAndCube(sphere, cube, normal);
+    //     normal = -normal;
+    //     return hit;
+    // };
+
+    // Determine if a cube intersects an unrotated cube.
+    inline bool CubeAndAABB(Primitives::Box2D const &box, Primitives::AABB const &aabb) { return AABBAndBox2D(aabb, box); };
+
+    // Check for intersection and return the collision normal.
+    // If there is not an intersection, the normal will be a junk value.
+    // The normal will point towards B away from A.
+    // bool CubeAndAABB(Primitives::Cube const &cube, Primitives::AABB const &aabb, ZMath::Vec3D &normal) {
+    //     bool hit = AABBAndCube(aabb, cube, normal);
+    //     normal = -normal;
+    //     return hit;
+    // };
+
+    // Determine if a cube intersects another cube.
+    inline bool CubeAndCube(Primitives::Box2D const &box1, Primitives::Box2D const &box2) {
+        // ? Use the separating axis theorem to determine if there is an intersection between the cubes.
+
+        // half size of cube a and b respectively
+        ZMath::Vec2D hA = box1.getHalfsize(), hB = box2.getHalfsize();
+
+        // rotate anything from global space to A's local space
+        ZMath::Mat2D rotAT = box1.rot.transpose();
+
+        // determine the difference between the positions
+        ZMath::Vec2D dP = box2.pos - box1.pos;
+        ZMath::Vec2D dA = rotAT * dP;
+        ZMath::Vec2D dB = box2.rot.transpose() * dP;
+
+        // * rotation matrices for switching between local spaces
+        
+        // ! When we have a proper scene to test, use that to check if the absolute value is necessary
+
+        // Rotate anything from B's local space into A's
+        ZMath::Mat2D C = ZMath::abs(rotAT * box2.rot);
+
+        // Rotate anything from A's local space into B's
+        ZMath::Mat2D CT = C.transpose();
+
+        // * Check for intersections with the separating axis theorem
+
+        // amount of penetration along A's axes
+        ZMath::Vec2D faceA = ZMath::abs(dA) - hA - C * hB;
+        if (faceA.x > 0 || faceA.y > 0) { return 0; }
+
+        // amount of penetration along B's axes
+        ZMath::Vec2D faceB = ZMath::abs(dB) - hB - CT * hA;
+        return faceB.x <= 0 && faceB.y <= 0;
+    };
 }

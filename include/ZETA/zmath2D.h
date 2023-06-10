@@ -385,4 +385,11 @@ namespace ZMath {
                 return Mat2D(c, -s, s, c);
             };
     };
+
+    // * ===================================
+    // * Additional Utility Functions
+    // * ===================================
+
+    // * Take the absolute value of each element of a 2x2 matrix.
+    inline Mat2D abs(Mat2D const &mat) { return Mat2D(std::fabs(mat.c1.x), std::fabs(mat.c2.x), std::fabs(mat.c1.y), std::fabs(mat.c2.y)); };
 }
