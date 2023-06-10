@@ -225,5 +225,28 @@ namespace Collisions {
         return min1.x <= max2.x && min2.x <= max1.x && min1.y <= max2.y && min2.y <= max1.y;
     };
 
-    
+    // Determine if an AABB intersects a Box2D.
+    inline bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box) {
+        // ? Use the separating axis theorem to determine if there is an intersection bewteen the AABB and Box2D.
+
+        // half the size of the AABB and Box2D (A = AABB, B = Box2D)
+        ZMath::Vec2D hA = aabb.getHalfsize(), hB = box.getHalfsize();
+
+        // rotate anything from global space to the cube's local space
+        ZMath::Mat2D rotBT = box.rot.transpose();
+
+        // determine the distance between the positions
+        ZMath::Vec2D dA = box.pos - aabb.pos;
+        ZMath::Vec2D dB = rotBT * dA;
+
+        // * Check for intersection using the separating axis theorem
+
+        // amount of penetration along A's axes
+        ZMath::Vec2D faceA = ZMath::abs(dA) - hA - hB;
+        if (faceA.x > 0 || faceA.y > 0) { return 0; }
+
+        // amount of penetration along B's axes
+        ZMath::Vec2D faceB = ZMath::abs(dB) - hB - rotBT * hA;
+        return faceB.x <= 0 && faceB.y <= 0;
+    };
 }

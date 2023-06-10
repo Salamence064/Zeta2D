@@ -72,7 +72,7 @@ namespace Primitives {
             inline ZMath::Vec2D getMax() const { return pos + halfsize; };
 
             // Get half the distance between the AABB's min and max vertices.
-            inline ZMath::Vec2D getHalfSize() const { return halfsize; };
+            inline ZMath::Vec2D getHalfsize() const { return halfsize; };
 
             // Get the vertices of the AABB.
             // Remember to call delete[] on what you assign this to afterwards to free the memory.
