@@ -29,16 +29,16 @@ namespace Collisions {
             CollisionManifold result;
 
             float r = circle1.r + circle2.r;
-            ZMath::Vec2D sphereDiff = circle2.c - circle1.c;
+            ZMath::Vec2D circleDiff = circle2.c - circle1.c;
 
-            result.hit = sphereDiff.magSq() <= r*r;
+            result.hit = circleDiff.magSq() <= r*r;
 
             if (!result.hit) { return result; }
             
-            float d = sphereDiff.mag(); // allows us to only take the sqrt once
+            float d = circleDiff.mag(); // allows us to only take the sqrt once
 
             result.pDist = (circle1.r + circle2.r - d) * 0.5f;
-            result.normal = sphereDiff * (1.0f/d);
+            result.normal = circleDiff * (1.0f/d);
 
             // determine the contact point
             result.numPoints = 1;
@@ -51,10 +51,10 @@ namespace Collisions {
         CollisionManifold findCollisionFeatures(Primitives::Circle const &circle, Primitives::AABB const &aabb) {
             CollisionManifold result;
 
-            // ? We know a sphere and AABB would intersect if the distance from the closest point to the center on the AABB
-            // ?  from the center is less than or equal to the radius of the sphere.
-            // ? We can determine the closet point by clamping the value of the sphere's center between the min and max of the AABB.
-            // ? From here, we can check the distance from this point to the sphere's center.
+            // ? We know a circle and AABB would intersect if the distance from the closest point to the center on the AABB
+            // ?  from the center is less than or equal to the radius of the circle.
+            // ? We can determine the closet point by clamping the value of the circle's center between the min and max of the AABB.
+            // ? From here, we can check the distance from this point to the circle's center.
 
             ZMath::Vec2D closest = circle.c;
             ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
@@ -64,7 +64,7 @@ namespace Collisions {
 
             if (!result.hit) { return result; }
 
-            // The closest point to the sphere's center will be our contact point.
+            // The closest point to the circle's center will be our contact point.
             // Therefore, we just set our contact point to closest.
 
             result.numPoints = 1;
@@ -87,16 +87,16 @@ namespace Collisions {
             ZMath::Vec2D closest = circle.c - box.pos;
             ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
 
-            // rotate the center of the sphere into the UVW coordinates of our cube
+            // rotate the center of the circle into the UVW coordinates of our Box2D
             closest = box.rot * closest + box.pos;
             
-            // perform the check as if it was an AABB vs Sphere
+            // perform the check as if it was an AABB vs circle
             closest = ZMath::clamp(closest, min, max);
             result.hit = closest.distSq(circle.c) <= circle.r*circle.r;
 
             if (!result.hit) { return result; }
 
-            // the closest point to the sphere's center will be our contact point rotated back into global coordinates coordinates
+            // the closest point to the circle's center will be our contact point rotated back into global coordinates coordinates
 
             closest -= box.pos;
             closest = box.rot.transpose() * closest + box.pos;
@@ -119,7 +119,7 @@ namespace Collisions {
         // * Helper Functions for 3D Box Collision Manifolds
         // * ====================================================
 
-        // * Enums used for denotating the edges of the cubes
+        // * Enums used for denotating the edges of the Box2Ds
         enum Axis {
             FACE_A_X,
             FACE_A_Y,
@@ -128,7 +128,7 @@ namespace Collisions {
         };
 
         /**
-         * @brief Determine the 2 vertices comprising the incident face when the incident cube is an AABB.
+         * @brief Determine the 2 vertices comprising the incident face when the incident Box2D is an AABB.
          * 
          * @param v Array which gets filled with the 2 vertices making up the incident face.
          * @param h Halfsize of the incident AABB.
@@ -142,21 +142,21 @@ namespace Collisions {
             // Determine the vertices.
             // Vertex array starts in the bottom left corner when considering the face as a 2D box and goes around counterclockwise.
             if (nAbs.x > nAbs.y) { // x > y
-                if (normal.x > 0.0f) { // incident cube is intersecting on its -x side
+                if (normal.x > 0.0f) { // incident Box2D is intersecting on its -x side
                     v[0] = pos - h;
                     v[1] = ZMath::Vec2D(pos.x - h.x, pos.y + h.y);
 
-                } else { // incident cube is intersecting on its +x side
+                } else { // incident Box2D is intersecting on its +x side
                     v[0] = ZMath::Vec2D(pos.x + h.x, pos.y - h.y);
                     v[1] = pos + h;
                 }
 
             } else { // y >= x
-                if (normal.y > 0.0f) { // incident cube is intersecting on its -y side
+                if (normal.y > 0.0f) { // incident Box2D is intersecting on its -y side
                     v[0] = pos - h;
                     v[1] = ZMath::Vec2D(pos.x + h.x, pos.y - h.y);
 
-                } else { // incident cube is intersecting on its +y side
+                } else { // incident Box2D is intersecting on its +y side
                     v[0] = ZMath::Vec2D(pos.x - h.x, pos.y + h.y);
                     v[1] = pos + h;
                 }
@@ -167,36 +167,36 @@ namespace Collisions {
          * @brief Determine the 2 vertices making up the incident face.
          * 
          * @param v Array which gets filled with the 2 vertices comprising the incident face.
-         * @param h Halfsize of the incident cube.
-         * @param pos The position of the incident cube.
-         * @param rot The rotation matrix of the incident cube.
+         * @param h Halfsize of the incident Box2D.
+         * @param pos The position of the incident Box2D.
+         * @param rot The rotation matrix of the incident Box2D.
          * @param normal The normal vector of the collision.
          */
         static void computeIncidentFace(ZMath::Vec2D v[2], const ZMath::Vec2D& h, const ZMath::Vec2D& pos, 
                                         const ZMath::Mat2D& rot, const ZMath::Vec2D& normal) {
 
-            // Rotate the normal to the incident cube's local space.
+            // Rotate the normal to the incident Box2D's local space.
             ZMath::Vec2D n = rot.transpose() * normal;
             ZMath::Vec2D nAbs = ZMath::abs(n);
 
             // Determine the vertices in terms of halfsize.
             // Vertex array starts in bottom left corner when considering the face as a 2D box and goes around counterclockwise.
             if (nAbs.x > nAbs.y) { // x > y
-                if (n.x > 0.0f) { // incident cube is intersecting on its -x side
+                if (n.x > 0.0f) { // incident Box2D is intersecting on its -x side
                     v[0] = ZMath::Vec2D(-h.x, -h.y);
                     v[1] = ZMath::Vec2D(-h.x, h.y);
 
-                } else { // incident cube is intersecting on its +x side
+                } else { // incident Box2D is intersecting on its +x side
                     v[0] = ZMath::Vec2D(h.x, -h.y);
                     v[1] = ZMath::Vec2D(h.x, h.y);
                 }
 
             } else { // y >= x
-                if (n.y > 0.0f) { // incident cube is intersecting on its -y side
+                if (n.y > 0.0f) { // incident Box2D is intersecting on its -y side
                     v[0] = ZMath::Vec2D(-h.x, -h.y);
                     v[1] = ZMath::Vec2D(h.x, -h.y);
 
-                } else { // incident cube is intersecting on its +y side
+                } else { // incident Box2D is intersecting on its +y side
                     v[0] = ZMath::Vec2D(-h.x, h.y);
                     v[1] = ZMath::Vec2D(h.x, h.y);
                 }
@@ -225,8 +225,8 @@ namespace Collisions {
             float d1 = n * vIn[1] - offset;
 
             // * Compute the clipping points.
-            // ? If the points are outside the reference cube's clipping plane (more or less inside the cube), add them as clipping points.
-            // ? Otherwise, check if the vertices are separated by the edge of the reference cube used for this clipping plane.
+            // ? If the points are outside the reference Box2D's clipping plane (more or less inside the Box2D), add them as clipping points.
+            // ? Otherwise, check if the vertices are separated by the edge of the reference Box2D used for this clipping plane.
             
             if (d0 <= 0.0f) { vOut[np++] = vIn[0]; }
 	        if (d1 <= 0.0f) { vOut[np++] = vIn[1]; }
@@ -544,7 +544,7 @@ namespace Collisions {
         CollisionManifold findCollisionFeatures(Primitives::Box2D const &box1, Primitives::Box2D const &box2) {
             CollisionManifold result;
 
-            // half size of cube a and b respectively
+            // half size of Box2D a and b respectively
             ZMath::Vec2D hA = box1.getHalfsize(), hB = box2.getHalfsize();
 
             // * determine the rotation matrices of A and B
