@@ -124,9 +124,7 @@ namespace Collisions {
             FACE_A_X,
             FACE_A_Y,
             FACE_A_Z,
-            FACE_B_X,
-            FACE_B_Y,
-            FACE_B_Z
+            FACE_B_X
         };
 
         /**
@@ -137,52 +135,52 @@ namespace Collisions {
          * @param pos The position of the incident AABB.
          * @param normal The normal vector of the collision (points towards B away from A).
          */
-        static void computeIncidentFaceAABB(ZMath::Vec3D v[4], const ZMath::Vec3D& h, const ZMath::Vec3D& pos, const ZMath::Vec3D& normal) {
+        static void computeIncidentFaceAABB(ZMath::Vec2D v[4], const ZMath::Vec2D& h, const ZMath::Vec2D& pos, const ZMath::Vec2D& normal) {
             // Take the absolute value of the normal for comparisons.
-            ZMath::Vec3D nAbs = ZMath::abs(normal);
+            ZMath::Vec2D nAbs = ZMath::abs(normal);
 
             // Determine the vertices in terms of halfsize.
             // Vertex array starts in the bottom left corner when considering the face as a 2D box and goes around counterclockwise.
             if (nAbs.x > nAbs.y && nAbs.x > nAbs.z) { // x > y && x > z
                 if (normal.x > 0.0f) { // incident cube is intersecting on its -x side
-                    v[0] = ZMath::Vec3D(-h.x, -h.y, -h.z);
-                    v[1] = ZMath::Vec3D(-h.x, h.y, -h.z);
-                    v[2] = ZMath::Vec3D(-h.x, h.y, h.z);
-                    v[3] = ZMath::Vec3D(-h.x, -h.y, h.z);
+                    v[0] = ZMath::Vec2D(-h.x, -h.y, -h.z);
+                    v[1] = ZMath::Vec2D(-h.x, h.y, -h.z);
+                    v[2] = ZMath::Vec2D(-h.x, h.y, h.z);
+                    v[3] = ZMath::Vec2D(-h.x, -h.y, h.z);
 
                 } else { // incident cube is intersecting on its +x side
-                    v[0] = ZMath::Vec3D(h.x, -h.y, -h.z);
-                    v[1] = ZMath::Vec3D(h.x, h.y, -h.z);
-                    v[2] = ZMath::Vec3D(h.x, h.y, h.z);
-                    v[3] = ZMath::Vec3D(h.x, -h.y, h.z);
+                    v[0] = ZMath::Vec2D(h.x, -h.y, -h.z);
+                    v[1] = ZMath::Vec2D(h.x, h.y, -h.z);
+                    v[2] = ZMath::Vec2D(h.x, h.y, h.z);
+                    v[3] = ZMath::Vec2D(h.x, -h.y, h.z);
                 }
 
             } else if (nAbs.y > nAbs.z) { // y >= x && y > z
                 if (normal.y > 0.0f) { // incident cube is intersecting on its -y side
-                    v[0] = ZMath::Vec3D(-h.x, -h.y, -h.z);
-                    v[1] = ZMath::Vec3D(h.x, -h.y, -h.z);
-                    v[2] = ZMath::Vec3D(h.x, -h.y, h.z);
-                    v[3] = ZMath::Vec3D(-h.x, -h.y, h.z);
+                    v[0] = ZMath::Vec2D(-h.x, -h.y, -h.z);
+                    v[1] = ZMath::Vec2D(h.x, -h.y, -h.z);
+                    v[2] = ZMath::Vec2D(h.x, -h.y, h.z);
+                    v[3] = ZMath::Vec2D(-h.x, -h.y, h.z);
 
                 } else { // incident cube is intersecting on its +y side
-                    v[0] = ZMath::Vec3D(-h.x, h.y, -h.z);
-                    v[1] = ZMath::Vec3D(h.x, h.y, -h.z);
-                    v[2] = ZMath::Vec3D(h.x, h.y, h.z);
-                    v[3] = ZMath::Vec3D(-h.x, h.y, h.z);
+                    v[0] = ZMath::Vec2D(-h.x, h.y, -h.z);
+                    v[1] = ZMath::Vec2D(h.x, h.y, -h.z);
+                    v[2] = ZMath::Vec2D(h.x, h.y, h.z);
+                    v[3] = ZMath::Vec2D(-h.x, h.y, h.z);
                 }
 
             } else { // z >= y && z >= x
                 if (normal.z > 0.0f) { // incident cube is intersecting on its -z side
-                    v[0] = ZMath::Vec3D(-h.x, -h.y, -h.z);
-                    v[1] = ZMath::Vec3D(-h.x, h.y, -h.z);
-                    v[2] = ZMath::Vec3D(h.x, h.y, -h.z);
-                    v[3] = ZMath::Vec3D(h.x, -h.y, -h.z);
+                    v[0] = ZMath::Vec2D(-h.x, -h.y, -h.z);
+                    v[1] = ZMath::Vec2D(-h.x, h.y, -h.z);
+                    v[2] = ZMath::Vec2D(h.x, h.y, -h.z);
+                    v[3] = ZMath::Vec2D(h.x, -h.y, -h.z);
 
                 } else { // incdient cube is intersecting on its +z side
-                    v[0] = ZMath::Vec3D(-h.x, -h.y, h.z);
-                    v[1] = ZMath::Vec3D(-h.x, h.y, h.z);
-                    v[2] = ZMath::Vec3D(h.x, h.y, h.z);
-                    v[3] = ZMath::Vec3D(h.x, -h.y, h.z);
+                    v[0] = ZMath::Vec2D(-h.x, -h.y, h.z);
+                    v[1] = ZMath::Vec2D(-h.x, h.y, h.z);
+                    v[2] = ZMath::Vec2D(h.x, h.y, h.z);
+                    v[3] = ZMath::Vec2D(h.x, -h.y, h.z);
                 }
             }
 
@@ -194,7 +192,7 @@ namespace Collisions {
         };
 
         /**
-         * @brief Determine the 4 vertices making up the incident face.
+         * @brief Determine the 2 vertices making up the incident face.
          * 
          * @param v Array which gets filled with the 4 vertices comprising the incident face.
          * @param h Halfsize of the incident cube.
@@ -202,63 +200,39 @@ namespace Collisions {
          * @param rot The rotation matrix of the incident cube.
          * @param normal The normal vector of the collision.
          */
-        static void computeIncidentFace(ZMath::Vec3D v[4], const ZMath::Vec3D& h, const ZMath::Vec3D& pos, 
-                                        const ZMath::Mat3D& rot, const ZMath::Vec3D& normal) {
+        static void computeIncidentFace(ZMath::Vec2D v[2], const ZMath::Vec2D& h, const ZMath::Vec2D& pos, 
+                                        const ZMath::Mat2D& rot, const ZMath::Vec2D& normal) {
 
             // Rotate the normal to the incident cube's local space.
-            ZMath::Vec3D n = rot.transpose() * normal;
-            ZMath::Vec3D nAbs = ZMath::abs(n);
+            ZMath::Vec2D n = rot.transpose() * normal;
+            ZMath::Vec2D nAbs = ZMath::abs(n);
 
             // Determine the vertices in terms of halfsize.
             // Vertex array starts in bottom left corner when considering the face as a 2D box and goes around counterclockwise.
-            if (nAbs.x > nAbs.y && nAbs.x > nAbs.z) { // x > y && x > z
+            if (nAbs.x > nAbs.y) { // x > y
                 if (n.x > 0.0f) { // incident cube is intersecting on its -x side
-                    v[0] = ZMath::Vec3D(-h.x, -h.y, -h.z);
-                    v[1] = ZMath::Vec3D(-h.x, h.y, -h.z);
-                    v[2] = ZMath::Vec3D(-h.x, h.y, h.z);
-                    v[3] = ZMath::Vec3D(-h.x, -h.y, h.z);
+                    v[0] = ZMath::Vec2D(-h.x, -h.y);
+                    v[1] = ZMath::Vec2D(-h.x, h.y);
 
                 } else { // incident cube is intersecting on its +x side
-                    v[0] = ZMath::Vec3D(h.x, -h.y, -h.z);
-                    v[1] = ZMath::Vec3D(h.x, h.y, -h.z);
-                    v[2] = ZMath::Vec3D(h.x, h.y, h.z);
-                    v[3] = ZMath::Vec3D(h.x, -h.y, h.z);
+                    v[0] = ZMath::Vec2D(h.x, -h.y);
+                    v[1] = ZMath::Vec2D(h.x, h.y);
                 }
 
-            } else if (nAbs.y > nAbs.z) { // y >= x && y > z
+            } else { // y >= x
                 if (n.y > 0.0f) { // incident cube is intersecting on its -y side
-                    v[0] = ZMath::Vec3D(-h.x, -h.y, -h.z);
-                    v[1] = ZMath::Vec3D(h.x, -h.y, -h.z);
-                    v[2] = ZMath::Vec3D(h.x, -h.y, h.z);
-                    v[3] = ZMath::Vec3D(-h.x, -h.y, h.z);
+                    v[0] = ZMath::Vec2D(-h.x, -h.y);
+                    v[1] = ZMath::Vec2D(h.x, -h.y);
 
                 } else { // incident cube is intersecting on its +y side
-                    v[0] = ZMath::Vec3D(-h.x, h.y, -h.z);
-                    v[1] = ZMath::Vec3D(h.x, h.y, -h.z);
-                    v[2] = ZMath::Vec3D(h.x, h.y, h.z);
-                    v[3] = ZMath::Vec3D(-h.x, h.y, h.z);
-                }
-
-            } else { // z >= y && z >= x
-                if (n.z > 0.0f) { // incident cube is intersecting on its -z side
-                    v[0] = ZMath::Vec3D(-h.x, -h.y, -h.z);
-                    v[1] = ZMath::Vec3D(-h.x, h.y, -h.z);
-                    v[2] = ZMath::Vec3D(h.x, h.y, -h.z);
-                    v[3] = ZMath::Vec3D(h.x, -h.y, -h.z);
-
-                } else { // incdient cube is intersecting on its +z side
-                    v[0] = ZMath::Vec3D(-h.x, -h.y, h.z);
-                    v[1] = ZMath::Vec3D(-h.x, h.y, h.z);
-                    v[2] = ZMath::Vec3D(h.x, h.y, h.z);
-                    v[3] = ZMath::Vec3D(h.x, -h.y, h.z);
+                    v[0] = ZMath::Vec2D(-h.x, h.y);
+                    v[1] = ZMath::Vec2D(h.x, h.y);
                 }
             }
 
             // rotate vertices back into global coordinates and translate them to their proper positions
             v[0] = pos + rot * v[0];
             v[1] = pos + rot * v[1];
-            v[2] = pos + rot * v[2];
-            v[3] = pos + rot * v[3];
         };
 
         /**
