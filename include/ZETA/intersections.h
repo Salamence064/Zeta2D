@@ -152,4 +152,26 @@ namespace Collisions {
 
         return minL.x <= maxC.x && minC.x <= maxL.x && minL.y <= maxC.y && minC.y <= maxL.y;
     };
+
+    // * =================
+    // * Raycasting
+    // * =================
+
+
+
+    // * ===================================
+    // * Sphere vs Primitives
+    // * ===================================
+
+    // Determine if a sphere intersects a point.
+    inline bool SphereAndPoint(Primitives::Circle const &circle, ZMath::Vec2D const &point) { return PointAndCircle(point, circle); };
+
+    // Determine if a sphere intersects a line.
+    inline bool SphereAndLine(Primitives::Circle const &circle, Primitives::Line2D const &line) { return LineAndCircle(line, circle); };
+
+    // Determine if a sphere intersects another sphere.
+    inline bool SphereAndSphere(Primitives::Circle const &circle1, Primitives::Circle const &circle2) {
+        float r = circle1.r + circle2.r;
+        return circle1.c.distSq(circle2.c) <= r*r;
+    };
 }
