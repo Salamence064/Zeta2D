@@ -157,14 +157,14 @@ namespace Collisions {
     // * Raycasting
     // * =================
 
-    // Determine if a ray intersects a sphere.
-    // dist will be modified to equal the distance from the ray it hits the sphere.
+    // Determine if a ray intersects a circle.
+    // dist will be modified to equal the distance from the ray it hits the circle.
     // dist is set to -1 if there is no intersection.
     inline bool raycast(Primitives::Circle const &circle, Primitives::Ray2D const &ray, float &dist) {
         // todo at some point we may want to get the hit point.
         // todo if we do, we simply do hit = ray.origin + dist*ray.dir;
 
-        // ? First we find the closest point on the ray to the sphere.
+        // ? First we find the closest point on the ray to the circle.
         // ? To find this point, we find the distance to it using dir * (center - origin).
         // ? Next we solve origin + t*origin to find the closest point.
         // ? If the distance of that closest point to the center is less than or equal to the radius, we have an intersection.
@@ -172,7 +172,7 @@ namespace Collisions {
         // determine the closest point and the distance to that point
         float t = ray.dir * (circle.c - ray.origin);
 
-        // the sphere is behind the ray
+        // the circle is behind the ray
         if (t < 0) {
             dist = -1.0f;
             return 0;
@@ -195,7 +195,7 @@ namespace Collisions {
             return 1;
         }
 
-        // ray started in the sphere
+        // ray started in the circle
         if (t < circle.r) {
             dist = t + sqrtf(rSq - dSq);
             return 1;
@@ -248,14 +248,14 @@ namespace Collisions {
         return 1;
     };
 
-    // Determine if a ray intersects a cube.
-    // dist will be modified to equal the distance from the ray it hits the cube.
+    // Determine if a ray intersects a Box2D.
+    // dist will be modified to equal the distance from the ray it hits the Box2D.
     // dist is set to -1 if there is no intersection.
     inline bool raycast(Primitives::Box2D const &box, Primitives::Ray2D const &ray, float &dist) {
         // ? Rotate and apply the AABB solution.
 
-        ZMath::Vec2D cubeMin = box.getLocalMin();
-        ZMath::Vec2D cubeMax = box.getLocalMax();
+        ZMath::Vec2D Box2DMin = box.getLocalMin();
+        ZMath::Vec2D Box2DMax = box.getLocalMax();
 
         ZMath::Vec2D rayOrigin = ray.origin - box.pos;
         ZMath::Vec2D rayDir = ray.dir;
@@ -266,12 +266,12 @@ namespace Collisions {
         rayOrigin = box.rot * rayOrigin + box.pos;
         rayDir = box.rot * rayDir;
 
-        Primitives::AABB newCube(box.getLocalMin(), box.getLocalMax());
+        Primitives::AABB newBox2D(box.getLocalMin(), box.getLocalMax());
         Primitives::Ray2D newRay(rayOrigin, rayDir);
 
         float d2 = 0; // ! simply for making it pass the unit tests
 
-        return raycast(newCube, newRay, d2);
+        return raycast(newBox2D, newRay, d2);
     };
 
     // * ===================================
@@ -295,10 +295,10 @@ namespace Collisions {
     // The normal will point towards B away from A.
     inline bool CircleAndCircle(Primitives::Circle const &circle1, Primitives::Circle const &circle2, ZMath::Vec2D &normal) {
         float r = circle1.r + circle2.r;
-        ZMath::Vec2D sphereDiff = circle2.c - circle1.c;
+        ZMath::Vec2D circleDiff = circle2.c - circle1.c;
 
-        if (sphereDiff.magSq() > r*r) { return 0; }
-        normal = sphereDiff.normalize();
+        if (circleDiff.magSq() > r*r) { return 0; }
+        normal = circleDiff.normalize();
 
         return 1;
     };
@@ -351,10 +351,10 @@ namespace Collisions {
         ZMath::Vec2D closest = circle.c - box.pos;
         ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
 
-        // rotate the center of the sphere into the UV coordinates of our Box2D
+        // rotate the center of the circle into the UV coordinates of our Box2D
         closest = box.rot * closest + box.pos;
         
-        // perform the check as if it was an AABB vs Sphere
+        // perform the check as if it was an AABB vs circle
         closest = ZMath::clamp(closest, min, max);
         ZMath::Vec2D diff = closest - circle.c;
 
@@ -380,7 +380,7 @@ namespace Collisions {
     // Determine if an AABB intersects a line.
     inline bool AABBAndLine(Primitives::AABB const &aabb, Primitives::Line2D const &line) { return LineAndAABB(line, aabb); };
 
-    // Determine if an AABB intersects a sphere.
+    // Determine if an AABB intersects a circle.
     inline bool AABBAndCircle(Primitives::AABB const &aabb, Primitives::Circle const &circle) { return CircleAndAABB(circle, aabb); };
 
     // Check for intersection and return the collision normal.
@@ -454,7 +454,7 @@ namespace Collisions {
         // half the size of the AABB and Box2D (A = AABB, B = Box2D)
         ZMath::Vec2D hA = aabb.getHalfsize(), hB = box.getHalfsize();
 
-        // rotate anything from global space to the cube's local space
+        // rotate anything from global space to the Box2D's local space
         ZMath::Mat2D rotBT = box.rot.transpose();
 
         // determine the distance between the positions
@@ -476,7 +476,7 @@ namespace Collisions {
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
     inline bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box, ZMath::Vec2D &normal) {
-        // ? Use the separating axis theorem to determine if there is an intersection between the AABB and cube.
+        // ? Use the separating axis theorem to determine if there is an intersection between the AABB and Box2D.
 
         // half size of the aabb and box respectively (A = AABB, B = box)
         ZMath::Vec2D hA = aabb.getHalfsize(), hB = box.getHalfsize();
@@ -542,7 +542,7 @@ namespace Collisions {
     // Determine if a Box2D intersects a line.
     inline bool Box2DAndLine(Primitives::Box2D const &box, Primitives::Line2D const &line) { return LineAndBox2D(line, box); };
 
-    // Determine if a Box2D intersects a sphere.
+    // Determine if a Box2D intersects a circle.
     inline bool Box2DAndCircle(Primitives::Box2D const &box, Primitives::Circle const &circle) { return CircleAndBox2D(circle, box); };
 
     // Check for intersection and return the collision normal.
@@ -560,7 +560,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    inline bool CubeAndAABB(Primitives::Box2D const &box, Primitives::AABB const &aabb, ZMath::Vec2D &normal) {
+    inline bool Box2DAndAABB(Primitives::Box2D const &box, Primitives::AABB const &aabb, ZMath::Vec2D &normal) {
         bool hit = AABBAndBox2D(aabb, box, normal);
         normal = -normal;
         return hit;
@@ -568,9 +568,9 @@ namespace Collisions {
 
     // Determine if a Box2D intersects another Box2D.
     inline bool Box2DAndBox2D(Primitives::Box2D const &box1, Primitives::Box2D const &box2) {
-        // ? Use the separating axis theorem to determine if there is an intersection between the cubes.
+        // ? Use the separating axis theorem to determine if there is an intersection between the Box2Ds.
 
-        // half size of cube a and b respectively
+        // half size of Box2D a and b respectively
         ZMath::Vec2D hA = box1.getHalfsize(), hB = box2.getHalfsize();
 
         // rotate anything from global space to A's local space
@@ -600,5 +600,76 @@ namespace Collisions {
         // amount of penetration along B's axes
         ZMath::Vec2D faceB = ZMath::abs(dB) - hB - CT * hA;
         return faceB.x <= 0 && faceB.y <= 0;
+    };
+
+    // Check for intersection and return the collision normal.
+    // If there is not an intersection, the normal will be a junk value.
+    // The normal will point towards B away from A.
+    bool Box2DAndBox2D(Primitives::Box2D const &box1, Primitives::Box2D const &box2, ZMath::Vec2D &normal) {
+        // ? Use the separating axis theorem to determine if there is an intersection between the Box2Ds.
+
+        // half size of Box2D a and b respectively
+        ZMath::Vec2D hA = box1.getHalfsize(), hB = box2.getHalfsize();
+
+        // rotate anything from global space to A's local space
+        ZMath::Mat2D rotAT = box1.rot.transpose();
+
+        // determine the difference between the positions
+        ZMath::Vec2D dP = box2.pos - box1.pos;
+        ZMath::Vec2D dA = rotAT * dP;
+        ZMath::Vec2D dB = box2.rot.transpose() * dP;
+
+        // * rotation matrices for switching between local spaces
+        
+        // ! When we have a proper scene to test, use that to check if the absolute value is necessary
+
+        // Rotate anything from B's local space into A's
+        ZMath::Mat2D C = ZMath::abs(rotAT * box2.rot);
+
+        // Rotate anything from A's local space into B's
+        ZMath::Mat2D CT = C.transpose();
+
+        // * Check for intersections with the separating axis theorem
+
+        // amount of penetration along A's axes
+        ZMath::Vec2D faceA = ZMath::abs(dA) - hA - C * hB;
+        if (faceA.x > 0 || faceA.y > 0) { return 0; }
+
+        // amount of penetration along B's axes
+        ZMath::Vec2D faceB = ZMath::abs(dB) - hB - CT * hA;
+        if (faceB.x > 0 || faceB.y > 0) { return 0; }
+        
+        // * Find the best axis (i.e. the axis with the least penetration).
+
+        // Assume A's x-axis is the best axis first.
+        float separation = faceA.x;
+        normal = dA.x > 0.0f ? box1.rot.c1 : -box1.rot.c1;
+
+        // tolerance values
+        float relativeTol = 0.95f;
+        float absoluteTol = 0.01f;
+
+        // ? check if there is another axis better than A's x axis by checking if the penetration along
+        // ?  the current axis being checked is greater than that of the current penetration
+        // ?  (as greater value = less negative = less penetration).
+
+        // A's remaining axes
+        if (faceA.y > relativeTol * separation + absoluteTol * hA.y) {
+            separation = faceA.y;
+            normal = dA.y > 0.0f ? box1.rot.c2 : -box1.rot.c2;
+        }
+
+        // B's axes
+        if (faceB.x > relativeTol * separation + absoluteTol * hB.x) {
+            separation = faceB.x;
+            normal = dB.x > 0.0f ? box2.rot.c1 : -box2.rot.c1;
+        }
+
+        if (faceB.y > relativeTol * separation + absoluteTol * hB.y) {
+            separation = faceB.y;
+            normal = dB.y > 0.0f ? box2.rot.c2 : -box2.rot.c2;
+        }
+
+        return 1;
     };
 }
