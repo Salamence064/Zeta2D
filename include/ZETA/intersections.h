@@ -200,4 +200,6 @@ namespace Collisions {
         closest = ZMath::clamp(closest, min, max);
         return closest.distSq(circle.c) <= circle.r*circle.r;
     };
+
+    
 }
