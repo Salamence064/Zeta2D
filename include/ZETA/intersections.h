@@ -278,8 +278,6 @@ namespace Collisions {
     // * Circle vs Primitives
     // * ===================================
 
-    // todo add intersections with returning collision normals, too
-
     // Determine if a circle intersects a point.
     inline bool CircleAndPoint(Primitives::Circle const &circle, ZMath::Vec2D const &point) { return PointAndCircle(point, circle); };
 
@@ -290,6 +288,19 @@ namespace Collisions {
     inline bool CircleAndCircle(Primitives::Circle const &circle1, Primitives::Circle const &circle2) {
         float r = circle1.r + circle2.r;
         return circle1.c.distSq(circle2.c) <= r*r;
+    };
+
+    // Check for intersection and return the collision normal.
+    // If there is not an intersection, the normal will be a junk value.
+    // The normal will point towards B away from A.
+    bool SphereAndSphere(Primitives::Circle const &circle1, Primitives::Circle const &circle2, ZMath::Vec2D &normal) {
+        float r = circle1.r + circle2.r;
+        ZMath::Vec2D sphereDiff = circle2.c - circle1.c;
+
+        if (sphereDiff.magSq() > r*r) { return 0; }
+        normal = sphereDiff.normalize();
+
+        return 1;
     };
 
     // Determine if a circle intersects an AABB.
