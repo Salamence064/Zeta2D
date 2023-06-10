@@ -730,54 +730,54 @@ namespace Collisions {
         };
     }
 
-    // // Find the collision features and resolve the impulse between two arbitrary primitives.
-    // CollisionManifold findCollisionFeatures(Primitives::RigidBody3D* rb1, Primitives::RigidBody3D* rb2) {
-    //     switch (rb1->colliderType) {
-    //         case Primitives::RIGID_SPHERE_COLLIDER: {
-    //             if (rb2->colliderType == Primitives::RIGID_SPHERE_COLLIDER) { return findCollisionFeatures(rb1->sphere, rb2->sphere); }
-    //             if (rb2->colliderType == Primitives::RIGID_AABB_COLLIDER) { return findCollisionFeatures(rb1->sphere, rb2->aabb); }
-    //             if (rb2->colliderType == Primitives::RIGID_CUBE_COLLIDER) { return findCollisionFeatures(rb1->sphere, rb2->cube); }
+    // Find the collision features and resolve the impulse between two arbitrary primitives.
+    CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2) {
+        switch (rb1->colliderType) {
+            case Primitives::RIGID_CIRCLE_COLLIDER: {
+                if (rb2->colliderType == Primitives::RIGID_CIRCLE_COLLIDER) { return findCollisionFeatures(rb1->circle, rb2->circle); }
+                if (rb2->colliderType == Primitives::RIGID_AABB_COLLIDER) { return findCollisionFeatures(rb1->circle, rb2->aabb); }
+                if (rb2->colliderType == Primitives::RIGID_BOX2D_COLLIDER) { return findCollisionFeatures(rb1->circle, rb2->box); }
 
-    //             break;
-    //         }
+                break;
+            }
 
-    //         case Primitives::RIGID_AABB_COLLIDER: {
-    //             if (rb2->colliderType == Primitives::RIGID_SPHERE_COLLIDER) {
-    //                 CollisionManifold manifold = findCollisionFeatures(rb2->sphere, rb1->aabb);
-    //                 manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
-    //                 return manifold;
-    //             }
+            case Primitives::RIGID_AABB_COLLIDER: {
+                if (rb2->colliderType == Primitives::RIGID_CIRCLE_COLLIDER) {
+                    CollisionManifold manifold = findCollisionFeatures(rb2->circle, rb1->aabb);
+                    manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
+                    return manifold;
+                }
 
-    //             if (rb2->colliderType == Primitives::RIGID_AABB_COLLIDER) { return findCollisionFeatures(rb1->aabb, rb2->aabb); }
-    //             if (rb2->colliderType == Primitives::RIGID_CUBE_COLLIDER) { return findCollisionFeatures(rb1->aabb, rb2->cube); }
+                if (rb2->colliderType == Primitives::RIGID_AABB_COLLIDER) { return findCollisionFeatures(rb1->aabb, rb2->aabb); }
+                if (rb2->colliderType == Primitives::RIGID_BOX2D_COLLIDER) { return findCollisionFeatures(rb1->aabb, rb2->box); }
 
-    //             break;
-    //         }
+                break;
+            }
 
-    //         case Primitives::RIGID_CUBE_COLLIDER: {
-    //             if (rb2->colliderType == Primitives::RIGID_SPHERE_COLLIDER) {
-    //                 CollisionManifold manifold = findCollisionFeatures(rb2->sphere, rb1->cube);
-    //                 manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
-    //                 return manifold;
-    //             }
+            case Primitives::RIGID_BOX2D_COLLIDER: {
+                if (rb2->colliderType == Primitives::RIGID_CIRCLE_COLLIDER) {
+                    CollisionManifold manifold = findCollisionFeatures(rb2->circle, rb1->box);
+                    manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
+                    return manifold;
+                }
 
-    //             if (rb2->colliderType == Primitives::RIGID_AABB_COLLIDER) {
-    //                 CollisionManifold manifold = findCollisionFeatures(rb2->aabb, rb1->cube);
-    //                 manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
-    //                 return manifold;
-    //             }
+                if (rb2->colliderType == Primitives::RIGID_AABB_COLLIDER) {
+                    CollisionManifold manifold = findCollisionFeatures(rb2->aabb, rb1->box);
+                    manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
+                    return manifold;
+                }
 
-    //             if (rb2->colliderType == Primitives::RIGID_CUBE_COLLIDER) { return findCollisionFeatures(rb1->cube, rb2->cube); }
+                if (rb2->colliderType == Primitives::RIGID_BOX2D_COLLIDER) { return findCollisionFeatures(rb1->box, rb2->box); }
 
-    //             break;
-    //         }
+                break;
+            }
 
-    //         default: {
-    //             // * User defined types go here.
-    //             break;
-    //         }
-    //     }
+            default: {
+                // * User defined types go here.
+                break;
+            }
+        }
 
-    //     return {ZMath::Vec3D(), nullptr, -1.0f, 0, 0};
-    // };
+        return {ZMath::Vec2D(), nullptr, -1.0f, 0, 0};
+    };
 }
