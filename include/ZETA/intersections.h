@@ -214,7 +214,7 @@ namespace Collisions {
         // ?  by the corresponding component from the unit directional vector.
         // ? We know if tMin > tMax, then we have no intersection and if tMax is negative the AABB is behind us and we do not have a hit.
 
-        ZMath::Vec2D dirfrac(1.0f/ray.dir.x, 1.0f/ray.dir.y, 1.0f/ray.dir.z);
+        ZMath::Vec2D dirfrac(1.0f/ray.dir.x, 1.0f/ray.dir.y);
         ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
 
         float t1 = (min.x - ray.origin.x)*dirfrac.x;
@@ -254,20 +254,20 @@ namespace Collisions {
     inline bool raycast(Primitives::Box2D const &box, Primitives::Ray2D const &ray, float &dist) {
         // ? Rotate and apply the AABB solution.
 
-        ZMath::Vec3D cubeMin = cube.getLocalMin();
-        ZMath::Vec3D cubeMax = cube.getLocalMax();
+        ZMath::Vec2D cubeMin = box.getLocalMin();
+        ZMath::Vec2D cubeMax = box.getLocalMax();
 
-        ZMath::Vec3D rayOrigin = ray.origin - cube.pos;
-        ZMath::Vec3D rayDir = ray.dir;
+        ZMath::Vec2D rayOrigin = ray.origin - box.pos;
+        ZMath::Vec2D rayDir = ray.dir;
 
         // todo unsure if this will work for angles outside the first quadrant; it should, though (I think)
         // ! test although im p sure it should work
 
-        rayOrigin = cube.rot * rayOrigin + cube.pos;
-        rayDir = cube.rot * rayDir;
+        rayOrigin = box.rot * rayOrigin + box.pos;
+        rayDir = box.rot * rayDir;
 
-        Primitives::AABB newCube(cube.getLocalMin(), cube.getLocalMax());
-        Primitives::Ray3D newRay(rayOrigin, rayDir);
+        Primitives::AABB newCube(box.getLocalMin(), box.getLocalMax());
+        Primitives::Ray2D newRay(rayOrigin, rayDir);
 
         float d2 = 0; // ! simply for making it pass the unit tests
 
