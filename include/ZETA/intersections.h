@@ -293,7 +293,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool SphereAndSphere(Primitives::Circle const &circle1, Primitives::Circle const &circle2, ZMath::Vec2D &normal) {
+    inline bool CircleAndCircle(Primitives::Circle const &circle1, Primitives::Circle const &circle2, ZMath::Vec2D &normal) {
         float r = circle1.r + circle2.r;
         ZMath::Vec2D sphereDiff = circle2.c - circle1.c;
 
@@ -313,6 +313,23 @@ namespace Collisions {
 
         closest = ZMath::clamp(closest, min, max);
         return closest.distSq(circle.c) <= circle.r*circle.r;
+    };
+
+    // Check for intersection and return the collision normal.
+    // If there is not an intersection, the normal will be a junk value.
+    // The normal will point towards B away from A.
+    inline bool SphereAndAABB(Primitives::Circle const &circle, Primitives::AABB const & aabb, ZMath::Vec2D &normal) {
+        ZMath::Vec2D closest = circle.c;
+        ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
+
+        closest = ZMath::clamp(closest, min, max);
+        ZMath::Vec2D diff = closest - circle.c;
+
+        if (diff.magSq() > circle.r*circle.r) { return 0; }
+
+        normal = diff.normalize();
+
+        return 1;
     };
 
     // Determine if a circle intersects a Box2D.
