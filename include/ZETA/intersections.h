@@ -135,4 +135,21 @@ namespace Collisions {
 
     // Determine if a line intersects a Box2D.
     // todo test
+    inline bool LineAndBox2D(Primitives::Line2D const &line, Primitives::Box2D const &box) {
+        // ? Rotate into the box's UV coords and perform the same check as with the AABB.
+
+        Primitives::Line2D l(line.start - box.pos, line.end - box.pos);
+
+        // Rotate into the box's UV coords.
+        l.start = box.rot * l.start + box.pos;
+        l.end = box.rot * l.end + box.pos;
+
+        // todo try just getting the line's original min and max and rotating that into local coords
+        // ! slightly more efficient
+
+        ZMath::Vec2D minL = l.getMin(), maxL = l.getMax();
+        ZMath::Vec2D minC = box.getLocalMin(), maxC = box.getLocalMax();
+
+        return minL.x <= maxC.x && minC.x <= maxL.x && minL.y <= maxC.y && minC.y <= maxL.y;
+    };
 }
