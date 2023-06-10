@@ -381,7 +381,7 @@ namespace Collisions {
     inline bool AABBAndLine(Primitives::AABB const &aabb, Primitives::Line2D const &line) { return LineAndAABB(line, aabb); };
 
     // Determine if an AABB intersects a sphere.
-    inline bool AABBAndSphere(Primitives::AABB const &aabb, Primitives::Circle const &circle) { return CircleAndAABB(circle, aabb); };
+    inline bool AABBAndCircle(Primitives::AABB const &aabb, Primitives::Circle const &circle) { return CircleAndAABB(circle, aabb); };
 
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
@@ -472,6 +472,66 @@ namespace Collisions {
         return faceB.x <= 0 && faceB.y <= 0;
     };
 
+    // Check for intersection and return the collision normal.
+    // If there is not an intersection, the normal will be a junk value.
+    // The normal will point towards B away from A.
+    bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box, ZMath::Vec2D &normal) {
+        // ? Use the separating axis theorem to determine if there is an intersection between the AABB and cube.
+
+        // half size of the aabb and box respectively (A = AABB, B = box)
+        ZMath::Vec2D hA = aabb.getHalfsize(), hB = box.getHalfsize();
+
+        // rotate anything from global space to the box's local space
+        ZMath::Mat2D rotBT = box.rot.transpose();
+
+        // determine the distance between the positions
+        ZMath::Vec2D dA = box.pos - aabb.pos; // global space is the AABB's local space
+        ZMath::Vec2D dB = rotBT * dA;
+
+        // * Check for intersection using the separating axis theorem
+
+        // amount of penetration along A's axes
+        ZMath::Vec2D faceA = ZMath::abs(dA) - hA - hB;
+        if (faceA.x > 0 || faceA.y > 0) { return 0; }
+
+        // amount of penetration along B's axes
+        ZMath::Vec2D faceB = ZMath::abs(dB) - hB - rotBT * hA;
+        if (faceB.x > 0 || faceB.y > 0) { return 0; }
+        
+        // * Find the best axis (i.e. the axis with the least amount of penetration).
+
+        // Assume A's x-axis is the best axis first
+        float separation = faceA.x;
+        normal = dA.x > 0.0f ? ZMath::Vec2D(1, 0) : ZMath::Vec2D(-1, 0);
+
+        // tolerance values
+        float relativeTol = 0.95f;
+        float absoluteTol = 0.01f;
+
+        // ? check if there is another axis better than A's x axis by checking if the penetration along
+        // ?  the current axis being checked is greater than that of the current penetration
+        // ?  (as greater value = less negative = less penetration).
+
+        // A's remaining axes
+        if (faceA.y > relativeTol * separation + absoluteTol * hA.y) {
+            separation = faceA.y;
+            normal = dA.y > 0.0f ? ZMath::Vec2D(0, 1) : ZMath::Vec2D(0, -1);
+        }
+
+        // B's axes
+        if (faceB.x > relativeTol * separation + absoluteTol * hB.x) {
+            separation = faceB.x;
+            normal = dB.x > 0.0f ? box.rot.c1 : -box.rot.c1;
+        }
+
+        if (faceB.y > relativeTol * separation + absoluteTol * hB.y) {
+            separation = faceB.y;
+            normal = dB.y > 0.0f ? box.rot.c2 : -box.rot.c2;
+        }
+
+        return 1;
+    };
+
     // * ===================================
     // * Box2D vs Primitives
     // * ===================================
@@ -483,7 +543,7 @@ namespace Collisions {
     inline bool CubeAndLine(Primitives::Box2D const &box, Primitives::Line2D const &line) { return LineAndBox2D(line, box); };
 
     // Determine if a cube intersects a sphere.
-    inline bool CubeAndSphere(Primitives::Box2D const &box, Primitives::Circle const &circle) { return CircleAndBox2D(circle, box); };
+    inline bool CubeAndCircle(Primitives::Box2D const &box, Primitives::Circle const &circle) { return CircleAndBox2D(circle, box); };
 
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
