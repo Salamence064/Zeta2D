@@ -122,5 +122,17 @@ namespace Collisions {
         return PointAndCircle(line.start + (dL * t), circle);
     };
 
-    
+    // Determine if a line intersects an AABB.
+    // todo test
+    inline bool LineAndAABB(Primitives::Line2D const &line, Primitives::AABB const &aabb) {
+        // ? Check if the line has any point within the AABB's bounds
+
+        ZMath::Vec2D minL = line.getMin(), maxL = line.getMax();
+        ZMath::Vec2D minA = aabb.getMin(), maxA = aabb.getMax();
+
+        return minL.x <= maxA.x && minA.x <= maxL.x && minL.y <= maxA.y && minA.y <= maxL.y;
+    };
+
+    // Determine if a line intersects a Box2D.
+    // todo test
 }
