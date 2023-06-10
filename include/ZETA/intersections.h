@@ -214,19 +214,17 @@ namespace Collisions {
         // ?  by the corresponding component from the unit directional vector.
         // ? We know if tMin > tMax, then we have no intersection and if tMax is negative the AABB is behind us and we do not have a hit.
 
-        ZMath::Vec3D dirfrac(1.0f/ray.dir.x, 1.0f/ray.dir.y, 1.0f/ray.dir.z);
-        ZMath::Vec3D min = aabb.getMin(), max = aabb.getMax();
+        ZMath::Vec2D dirfrac(1.0f/ray.dir.x, 1.0f/ray.dir.y, 1.0f/ray.dir.z);
+        ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
 
         float t1 = (min.x - ray.origin.x)*dirfrac.x;
         float t2 = (max.x - ray.origin.x)*dirfrac.x;
         float t3 = (min.y - ray.origin.y)*dirfrac.y;
         float t4 = (max.y - ray.origin.y)*dirfrac.y;
-        float t5 = (min.z - ray.origin.z)*dirfrac.z;
-        float t6 = (max.z - ray.origin.z)*dirfrac.z;
 
         // tMin is the max of the mins and tMx is the min of the maxes
-        float tMin = ZMath::max(ZMath::max(ZMath::min(t1, t2), ZMath::min(t3, t4)), ZMath::min(t5, t6));
-        float tMax = ZMath::min(ZMath::min(ZMath::max(t1, t2), ZMath::max(t3, t4)), ZMath::max(t5, t6));
+        float tMin = MAX(MIN(t1, t2), MIN(t3, t4));
+        float tMax = MIN(MAX(t1, t2), MAX(t3, t4));
 
         // if tMax < 0 the ray is intersecting behind it. Therefore, we do not actually have a collision.
         if (tMax < 0) {
