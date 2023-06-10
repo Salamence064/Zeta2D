@@ -188,4 +188,16 @@ namespace Collisions {
         closest = ZMath::clamp(closest, min, max);
         return closest.distSq(circle.c) <= circle.r*circle.r;
     };
+
+    // Determine if a circle intersects a Box2D.
+    inline bool CircleAndBox2D(Primitives::Circle const &circle, Primitives::Box2D const &box) {
+        // ? Do the same thing as in the AABB check but first rotate the circle into the box's UV coords.
+
+        ZMath::Vec2D closest = circle.c - box.pos;
+        ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
+
+        closest = box.rot.transpose() * closest + box.pos;
+        closest = ZMath::clamp(closest, min, max);
+        return closest.distSq(circle.c) <= circle.r*circle.r;
+    };
 }
