@@ -116,7 +116,7 @@ namespace Collisions {
         };
 
         // * ====================================================
-        // * Helper Functions for 3D Box Collision Manifolds
+        // * Helper Functions for 2D Box Collision Manifolds
         // * ====================================================
 
         // * Enums used for denotating the edges of the Box2Ds
@@ -285,7 +285,7 @@ namespace Collisions {
             // * Setup clipping plane data based on the best axis
 
             ZMath::Vec2D sideNormal;
-            ZMath::Vec2D incidentFace[2]; // 4 vertices for the collision in 3D
+            ZMath::Vec2D incidentFace[2]; // 2 vertices for the collision in 2D
             float front, negSide, posSide;
 
             // * Compute the clipping lines and line segment to be clipped
@@ -436,7 +436,7 @@ namespace Collisions {
             // * Setup clipping plane data based on the best axis
 
             ZMath::Vec2D sideNormal;
-            ZMath::Vec2D incidentFace[2]; // 4 vertices for the collision in 3D
+            ZMath::Vec2D incidentFace[2]; // 2 vertices for the collision in 2D
             float front, negSide, posSide;
 
             // * Compute the clipping lines and line segment to be clipped
@@ -624,7 +624,7 @@ namespace Collisions {
             // * Setup clipping plane data based on the best axis
 
             ZMath::Vec2D sideNormal;
-            ZMath::Vec2D incidentFace[2]; // 4 vertices for the collision in 3D
+            ZMath::Vec2D incidentFace[2]; // 2 vertices for the collision in 2D
             float front, negSide, posSide;
 
             // * Compute the clipping lines and line segment to be clipped
