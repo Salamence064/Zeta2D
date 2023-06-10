@@ -201,5 +201,29 @@ namespace Collisions {
         return closest.distSq(circle.c) <= circle.r*circle.r;
     };
 
+    // * ===================================
+    // * AABB vs Primitives
+    // * ===================================
+
+    // Determine if an AABB intersects a point.
+    inline bool AABBAndPoint(Primitives::AABB const &aabb, ZMath::Vec2D const &point) { return PointAndAABB(point, aabb); };
+
+    // Determine if an AABB intersects a line.
+    inline bool AABBAndLine(Primitives::AABB const &aabb, Primitives::Line2D const &line) { return LineAndAABB(line, aabb); };
+
+    // Determine if an AABB intersects a sphere.
+    inline bool AABBAndSphere(Primitives::AABB const &aabb, Primitives::Circle const &circle) { return CircleAndAABB(circle, aabb); };
+
+    // Determine if an AABB intersects another AABB.
+    inline bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2) {
+        // ? Check if there is overlap on all three axes.
+        // ? If so, the AABBs intersect.
+
+        ZMath::Vec2D min1 = aabb1.getMin(), max1 = aabb1.getMax();
+        ZMath::Vec2D min2 = aabb2.getMin(), max2 = aabb2.getMax();
+
+        return min1.x <= max2.x && min2.x <= max1.x && min1.y <= max2.y && min2.y <= max1.y;
+    };
+
     
 }
