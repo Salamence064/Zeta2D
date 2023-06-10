@@ -81,7 +81,7 @@ namespace Collisions {
             return result;
         };
 
-        CollisionManifold findCollisionFeatures(Primitives::Sphere const &sphere, Primitives::Cube const &cube) {
+        CollisionManifold findCollisionFeatures(Primitives::Circle const &circle, Primitives::Box2D const &box) {
             CollisionManifold result;
 
             ZMath::Vec3D closest = sphere.c - cube.pos;
