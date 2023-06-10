@@ -212,52 +212,25 @@ namespace Collisions {
          * 
          * @param vOut Array which gets filled with the clipping points.
          * @param vIn Array containing the input points.
-         * @param n1 Side normal 1.
-         * @param n2 Side normal 2.
-         * @param offset1 Distance to the side corresponding with side normal 1.
-         * @param offset2 Distance to the side corresponding with side normal 2.
+         * @param n Side normal.
+         * @param offset Distance to the side corresponding with side normal.
          * @return (int) The number of clipping points. If this does not return 2, there is not an intersection on this axis.
          */
-        int clipSegmentToLine(ZMath::Vec3D vOut[4], ZMath::Vec3D vIn[4], const ZMath::Vec3D &n1, const ZMath::Vec3D &n2, float offset1, float offset2) {
+        int clipSegmentToLine(ZMath::Vec2D vOut[2], ZMath::Vec2D vIn[2], const ZMath::Vec2D &n, float offset) {
             // begin with 0 output points
             int np = 0;
 
-            // calculate the distance
-            // first set of distances
-            float d0 = n1 * vIn[0] - offset1;
-            float d1 = n1 * vIn[1] - offset1;
-
-            // second set of distances
-            float d2 = n2 * vIn[0] - offset2;
-            float d3 = n2 * vIn[3] - offset2;
+            // calculate the distances
+            float d0 = n * vIn[0] - offset;
+            float d1 = n * vIn[1] - offset;
 
             // * Compute the clipping points.
             // ? If the points are outside the reference cube's clipping plane (more or less inside the cube), add them as clipping points.
             // ? Otherwise, check if the vertices are separated by the edge of the reference cube used for this clipping plane.
             
-            // first input point
-            if (d0 <= 0.0f && d2 <= 0.0f) { vOut[np++] = vIn[0]; }
-            else if (d0 * d1 < 0.0f && d2 * d3 < 0.0f) { vOut[np++] = vIn[0] + (vIn[1] - vIn[0]) * (d0/(d1 + d0)) + (vIn[3] - vIn[0]) * (d2/(d3 + d2)); }
-            else if (d0 * d1 < 0.0f) { vOut[np++] = vIn[0] + (vIn[1] - vIn[0]) * (d0/(d1 + d0)); } 
-            else if (d2 * d3 < 0.0f) { vOut[np++] = vIn[0] + (vIn[3] - vIn[0]) * (d2/(d3 + d2)); }
-
-            // second input point
-            if (d1 <= 0.0f && d2 <= 0.0f) { vOut[np++] = vIn[1]; }
-            else if (d0 * d1 < 0.0f && d2 * d3 < 0.0f) { vOut[np++] = vIn[1] + (vIn[0] - vIn[1]) * (d1/(d1 + d0)) + (vIn[2] - vIn[1]) * (d2/(d2 + d3)); }
-            else if (d0 * d1 < 0.0f) { vOut[np++] = vIn[1] + (vIn[0] - vIn[1]) * (d1/(d1 + d0)); }
-            else if (d2 * d3 < 0.0f) { vOut[np++] = vIn[1] + (vIn[2] - vIn[1]) * (d2/(d3 + d2)); }
-
-            // third input point
-            if (d1 <= 0.0f && d3 <= 0.0f) { vOut[np++] = vIn[2]; }
-            else if (d0 * d1 < 0.0f && d2 * d3 < 0.0f) { vOut[np++] = vIn[2] + (vIn[3] - vIn[2]) * (d1/(d1 + d0)) + (vIn[1] - vIn[2]) * (d3/(d2 + d3)); }
-            else if (d0 * d1 < 0.0f) { vOut[np++] = vIn[2] + (vIn[3] - vIn[2]) * (d1/(d1 + d0)); }
-            else if (d2 * d3 < 0.0f) { vOut[np++] = vIn[2] + (vIn[1] - vIn[2]) * (d3/(d3 + d2)); }
-
-            // fourth input point
-            if (d0 <= 0.0f && d3 <= 0.0f) { vOut[np++] = vIn[3]; }
-            else if (d0 * d1 < 0.0f && d2 * d3 < 0.0f) { vOut[np++] = vIn[3] + (vIn[2] - vIn[3]) * (d0/(d1 + d0)) + (vIn[0] - vIn[3]) * (d3/(d3 + d2)); }
-            else if (d0 * d1 < 0.0f) { vOut[np++] = vIn[3] + (vIn[2] - vIn[3]) * (d0/(d1 + d0)); }
-            else if (d2 * d3 < 0.0f) { vOut[np++] = vIn[3] + (vIn[0] - vIn[3]) * (d3/(d3 + d2)); }
+            if (d0 <= 0.0f) { vOut[np++] = vIn[0]; }
+	        if (d1 <= 0.0f) { vOut[np++] = vIn[1]; }
+            if (d0 * d1 < 0.0f) { vOut[np++] = vIn[0] + (vIn[1] - vIn[0]) * (d0/d1 + d0); }
 
             return np;
         };
@@ -311,18 +284,19 @@ namespace Collisions {
 
             // * Setup clipping plane data based on the best axis
 
-            ZMath::Vec2D sideNormal1, sideNormal2;
+            ZMath::Vec2D sideNormal;
             ZMath::Vec2D incidentFace[2]; // 4 vertices for the collision in 3D
-            float front, negSide1, negSide2, posSide1, posSide2;
+            float front, negSide, posSide;
 
             // * Compute the clipping lines and line segment to be clipped
 
             switch(axis) {
                 case FACE_A_X: {
                     front = aabb1.pos * result.normal + hA.x;
+                    sideNormal = ZMath::Vec2D(0, 1);
 
-                    negSide1 = aabb1.pos.y - hA.y; // negSideY
-                    posSide1 = aabb1.pos.y + hA.y; // posSideY
+                    negSide = aabb1.pos.y - hA.y; // negSideY
+                    posSide = aabb1.pos.y + hA.y; // posSideY
 
                     computeIncidentFaceAABB(incidentFace, hB, aabb2.pos, result.normal);
                     break;
@@ -330,9 +304,10 @@ namespace Collisions {
 
                 case FACE_A_Y: {
                     front = aabb1.pos * result.normal + hA.y;
+                    sideNormal = ZMath::Vec2D(1, 0);
 
-                    negSide1 = aabb1.pos.x - hA.x; // negSideX
-                    posSide1 = aabb1.pos.x + hA.x; // posSideX
+                    negSide = aabb1.pos.x - hA.x; // negSideX
+                    posSide = aabb1.pos.x + hA.x; // posSideX
 
                     computeIncidentFaceAABB(incidentFace, hB, aabb2.pos, result.normal);
                     break;
@@ -345,7 +320,7 @@ namespace Collisions {
             ZMath::Vec2D clipPoints2[2];
 
             // Clip to side 1
-            int np = clipSegmentToLine(clipPoints1, incidentFace, -sideNormal1, -sideNormal2, negSide1, negSide2);
+            int np = clipSegmentToLine(clipPoints1, incidentFace, -sideNormal, negSide);
 
             if (np < 2) {
                 result.hit = 0;
@@ -353,7 +328,7 @@ namespace Collisions {
             }
 
             // Clip to the negative side 1
-            np = clipSegmentToLine(clipPoints2, clipPoints1, sideNormal1, sideNormal2, posSide1, posSide2);
+            np = clipSegmentToLine(clipPoints2, clipPoints1, sideNormal, posSide);
 
             if (np < 2) {
                 result.hit = 0;
