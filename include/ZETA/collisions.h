@@ -73,9 +73,9 @@ namespace Collisions {
 
             // determine the penetration distance and collision normal
 
-            ZMath::Vec2D diff = closest - sphere.c;
+            ZMath::Vec2D diff = closest - circle.c;
             float d = diff.mag(); // allows us to only take the sqrt once
-            result.pDist = sphere.r - d;
+            result.pDist = circle.r - d;
             result.normal = diff * (1.0f/d);
 
             return result;
@@ -84,32 +84,32 @@ namespace Collisions {
         CollisionManifold findCollisionFeatures(Primitives::Circle const &circle, Primitives::Box2D const &box) {
             CollisionManifold result;
 
-            ZMath::Vec3D closest = sphere.c - cube.pos;
-            ZMath::Vec3D min = cube.getLocalMin(), max = cube.getLocalMax();
+            ZMath::Vec2D closest = circle.c - box.pos;
+            ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
 
             // rotate the center of the sphere into the UVW coordinates of our cube
-            closest = cube.rot * closest + cube.pos;
+            closest = box.rot * closest + box.pos;
             
             // perform the check as if it was an AABB vs Sphere
             closest = ZMath::clamp(closest, min, max);
-            result.hit = closest.distSq(sphere.c) <= sphere.r*sphere.r;
+            result.hit = closest.distSq(circle.c) <= circle.r*circle.r;
 
             if (!result.hit) { return result; }
 
             // the closest point to the sphere's center will be our contact point rotated back into global coordinates coordinates
 
-            closest -= cube.pos;
-            closest = cube.rot.transpose() * closest + cube.pos;
+            closest -= box.pos;
+            closest = box.rot.transpose() * closest + box.pos;
 
             result.numPoints = 1;
-            result.contactPoints = new ZMath::Vec3D[1];
+            result.contactPoints = new ZMath::Vec2D[1];
             result.contactPoints[0] = closest;
 
             // determine the penetration distance and the collision normal
 
-            ZMath::Vec3D diff = closest - sphere.c;
+            ZMath::Vec2D diff = closest - circle.c;
             float d = diff.mag(); // allows us to only take the sqrt once
-            result.pDist = sphere.r - d;
+            result.pDist = circle.r - d;
             result.normal = diff * (1.0f/d);
 
             return result;
