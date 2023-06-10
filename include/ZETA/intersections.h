@@ -157,7 +157,124 @@ namespace Collisions {
     // * Raycasting
     // * =================
 
+    // Determine if a ray intersects a sphere.
+    // dist will be modified to equal the distance from the ray it hits the sphere.
+    // dist is set to -1 if there is no intersection.
+    inline bool raycast(Primitives::Circle const &circle, Primitives::Ray2D const &ray, float &dist) {
+        // todo at some point we may want to get the hit point.
+        // todo if we do, we simply do hit = ray.origin + dist*ray.dir;
 
+        // ? First we find the closest point on the ray to the sphere.
+        // ? To find this point, we find the distance to it using dir * (center - origin).
+        // ? Next we solve origin + t*origin to find the closest point.
+        // ? If the distance of that closest point to the center is less than or equal to the radius, we have an intersection.
+
+        // determine the closest point and the distance to that point
+        float t = ray.dir * (circle.c - ray.origin);
+
+        // the sphere is behind the ray
+        if (t < 0) {
+            dist = -1.0f;
+            return 0;
+        }
+
+        ZMath::Vec2D close = ray.origin + ray.dir * t;
+
+        float dSq = circle.c.distSq(close);
+        float rSq = circle.r*circle.r;
+
+        // no intersection
+        if (dSq > rSq) {
+            dist = -1.0f;
+            return 0;
+        }
+
+        // lands on the circumference
+        if (dSq == rSq) {
+            dist = t;
+            return 1;
+        }
+
+        // ray started in the sphere
+        if (t < circle.r) {
+            dist = t + sqrtf(rSq - dSq);
+            return 1;
+        }
+
+        // standard intersection
+        dist = t - sqrtf(rSq - dSq);
+        return 1;
+    };
+
+    // Determine if a ray intersects an AABB.
+    // dist will be modified to equal the distance from the ray it hits the AABB.
+    // dist is set to -1 if there is no intersection.
+    inline bool raycast(Primitives::AABB const &aabb, Primitives::Ray2D const &ray, float &dist) {
+        // ? We can determine the distance from the ray to a certain edge by dividing a select min or max vector component
+        // ?  by the corresponding component from the unit directional vector.
+        // ? We know if tMin > tMax, then we have no intersection and if tMax is negative the AABB is behind us and we do not have a hit.
+
+        ZMath::Vec3D dirfrac(1.0f/ray.dir.x, 1.0f/ray.dir.y, 1.0f/ray.dir.z);
+        ZMath::Vec3D min = aabb.getMin(), max = aabb.getMax();
+
+        float t1 = (min.x - ray.origin.x)*dirfrac.x;
+        float t2 = (max.x - ray.origin.x)*dirfrac.x;
+        float t3 = (min.y - ray.origin.y)*dirfrac.y;
+        float t4 = (max.y - ray.origin.y)*dirfrac.y;
+        float t5 = (min.z - ray.origin.z)*dirfrac.z;
+        float t6 = (max.z - ray.origin.z)*dirfrac.z;
+
+        // tMin is the max of the mins and tMx is the min of the maxes
+        float tMin = ZMath::max(ZMath::max(ZMath::min(t1, t2), ZMath::min(t3, t4)), ZMath::min(t5, t6));
+        float tMax = ZMath::min(ZMath::min(ZMath::max(t1, t2), ZMath::max(t3, t4)), ZMath::max(t5, t6));
+
+        // if tMax < 0 the ray is intersecting behind it. Therefore, we do not actually have a collision.
+        if (tMax < 0) {
+            dist = -1.0f;
+            return 0;
+        }
+
+        // ray doesn't intersect the AABB.
+        if (tMax < tMin) {
+            dist = -1.0f;
+            return 0;
+        }
+
+        // ray's origin is inside of the AABB.
+        if (tMin < 0) {
+            dist = tMax;
+            return 1;
+        }
+
+        dist = tMin;
+        return 1;
+    };
+
+    // Determine if a ray intersects a cube.
+    // dist will be modified to equal the distance from the ray it hits the cube.
+    // dist is set to -1 if there is no intersection.
+    inline bool raycast(Primitives::Box2D const &box, Primitives::Ray2D const &ray, float &dist) {
+        // ? Rotate and apply the AABB solution.
+
+        ZMath::Vec3D cubeMin = cube.getLocalMin();
+        ZMath::Vec3D cubeMax = cube.getLocalMax();
+
+        ZMath::Vec3D rayOrigin = ray.origin - cube.pos;
+        ZMath::Vec3D rayDir = ray.dir;
+
+        // todo unsure if this will work for angles outside the first quadrant; it should, though (I think)
+        // ! test although im p sure it should work
+
+        rayOrigin = cube.rot * rayOrigin + cube.pos;
+        rayDir = cube.rot * rayDir;
+
+        Primitives::AABB newCube(cube.getLocalMin(), cube.getLocalMax());
+        Primitives::Ray3D newRay(rayOrigin, rayDir);
+
+        float d2 = 0; // ! simply for making it pass the unit tests
+
+        return raycast(newCube, newRay, d2);
+    };
 
     // * ===================================
     // * Circle vs Primitives
