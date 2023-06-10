@@ -460,9 +460,9 @@ namespace Collisions {
 
             // * Setup clipping plane data based on the best axis
 
-            ZMath::Vec2D sideNormal1, sideNormal2;
+            ZMath::Vec2D sideNormal;
             ZMath::Vec2D incidentFace[2]; // 4 vertices for the collision in 3D
-            float front, negSide1, negSide2, posSide1, posSide2;
+            float front, negSide, posSide;
 
             // * Compute the clipping lines and line segment to be clipped
 
@@ -470,8 +470,8 @@ namespace Collisions {
                 case FACE_A_X: {
                     front = aabb.pos * result.normal + hA.x;
 
-                    negSide1 = aabb.pos.y - hA.y; // negSideY
-                    posSide1 = aabb.pos.y + hA.y; // posSideY
+                    negSide = aabb.pos.y - hA.y; // negSideY
+                    posSide = aabb.pos.y + hA.y; // posSideY
 
                     computeIncidentFace(incidentFace, hB, box.pos, box.rot, result.normal);
                     break;
@@ -480,8 +480,8 @@ namespace Collisions {
                 case FACE_A_Y: {
                     front = aabb.pos * result.normal + hA.y;
 
-                    negSide1 = aabb.pos.x - hA.x; // negSideX
-                    posSide1 = aabb.pos.x + hA.x; // posSideX
+                    negSide = aabb.pos.x - hA.x; // negSideX
+                    posSide = aabb.pos.x + hA.x; // posSideX
 
                     computeIncidentFace(incidentFace, hB, box.pos, box.rot, result.normal);
                     break;
@@ -489,11 +489,11 @@ namespace Collisions {
 
                 case FACE_B_X: {
                     front = box.pos * result.normal + hB.x;
-                    sideNormal1 = box.rot.c2; // yNormal
-                    float ySide = box.pos * sideNormal1;
+                    sideNormal = box.rot.c2; // yNormal
+                    float ySide = box.pos * sideNormal;
 
-                    negSide1 = -ySide + hB.y; // negSideY
-                    posSide1 = ySide + hB.y; // posSideY
+                    negSide = -ySide + hB.y; // negSideY
+                    posSide = ySide + hB.y; // posSideY
 
                     computeIncidentFaceAABB(incidentFace, hA, aabb.pos, result.normal);
                     break;
@@ -501,11 +501,11 @@ namespace Collisions {
 
                 case FACE_B_Y: {
                     front = box.pos * result.normal + hB.y;
-                    sideNormal1 = box.rot.c1; // xNormal
-                    float xSide = box.pos * sideNormal1;
+                    sideNormal = box.rot.c1; // xNormal
+                    float xSide = box.pos * sideNormal;
 
-                    negSide1 = -xSide + hB.x; // negSideX
-                    posSide1 = xSide + hB.x; // posSideX
+                    negSide = -xSide + hB.x; // negSideX
+                    posSide = xSide + hB.x; // posSideX
 
                     computeIncidentFaceAABB(incidentFace, hA, aabb.pos, result.normal);
                     break;
@@ -518,7 +518,7 @@ namespace Collisions {
             ZMath::Vec2D clipPoints2[2];
 
             // Clip to side 1
-            int np = clipSegmentToLine(clipPoints1, incidentFace, -sideNormal1, -sideNormal2, negSide1, negSide2);
+            int np = clipSegmentToLine(clipPoints1, incidentFace, -sideNormal, negSide);
 
             if (np < 2) {
                 result.hit = 0;
@@ -526,7 +526,7 @@ namespace Collisions {
             }
 
             // Clip to the negative side 1
-            np = clipSegmentToLine(clipPoints2, clipPoints1, sideNormal1, sideNormal2, posSide1, posSide2);
+            np = clipSegmentToLine(clipPoints2, clipPoints1, sideNormal, posSide);
 
             if (np < 2) {
                 result.hit = 0;
@@ -564,47 +564,47 @@ namespace Collisions {
 
         // ? Normal points towards B and away from A
 
-        CollisionManifold findCollisionFeatures(Primitives::Cube const &cube1, Primitives::Cube const &cube2) {
+        CollisionManifold findCollisionFeatures(Primitives::Box2D const &box1, Primitives::Box2D const &box2) {
             CollisionManifold result;
 
             // half size of cube a and b respectively
-            ZMath::Vec3D hA = cube1.getHalfSize(), hB = cube2.getHalfSize();
+            ZMath::Vec2D hA = box1.getHalfsize(), hB = box2.getHalfsize();
 
             // * determine the rotation matrices of A and B
 
             // rotate anything from global space to A's local space
-            ZMath::Mat3D rotAT = cube1.rot.transpose();
+            ZMath::Mat2D rotAT = box1.rot.transpose();
 
             // rotate anything from gobal space to B's local space
-            ZMath::Mat3D rotBT = cube2.rot.transpose();
+            ZMath::Mat2D rotBT = box2.rot.transpose();
 
             // determine the difference between the positions
-            ZMath::Vec3D dP = cube2.pos - cube1.pos;
-            ZMath::Vec3D dA = rotAT * dP;
-            ZMath::Vec3D dB = rotBT * dP;
+            ZMath::Vec2D dP = box2.pos - box1.pos;
+            ZMath::Vec2D dA = rotAT * dP;
+            ZMath::Vec2D dB = rotBT * dP;
 
             // * rotation matrices for switching between local spaces
 
             // ! When scenes are developed test if we actually need the absolute value
 
             // Rotate anything from B's local space into A's
-            ZMath::Mat3D C = ZMath::abs(rotAT * cube2.rot);
+            ZMath::Mat2D C = ZMath::abs(rotAT * box2.rot);
 
             // Rotate anything from A's local space into B's
-            ZMath::Mat3D CT = C.transpose();
+            ZMath::Mat2D CT = C.transpose();
 
             // * Check for intersections with the separating axis theorem
 
             // amount of penetration along A's axes
-            ZMath::Vec3D faceA = ZMath::abs(dA) - hA - C * hB;
-            if (faceA.x > 0 || faceA.y > 0 || faceA.z > 0) {
+            ZMath::Vec2D faceA = ZMath::abs(dA) - hA - C * hB;
+            if (faceA.x > 0 || faceA.y > 0) {
                 result.hit = 0;
                 return result;
             }
 
             // amount of penetration along B's axes
-            ZMath::Vec3D faceB = ZMath::abs(dB) - hB - CT * hA;
-            if (faceB.x > 0 || faceB.y > 0 || faceB.z > 0) {
+            ZMath::Vec2D faceB = ZMath::abs(dB) - hB - CT * hA;
+            if (faceB.x > 0 || faceB.y > 0) {
                 result.hit = 0;
                 return result;
             }
@@ -614,7 +614,7 @@ namespace Collisions {
             // Assume A's x-axis is the best axis first.
             Axis axis = FACE_A_X;
             float separation = faceA.x;
-            result.normal = dA.x > 0.0f ? cube1.rot.c1 : -cube1.rot.c1;
+            result.normal = dA.x > 0.0f ? box1.rot.c1 : -box1.rot.c1;
 
             // tolerance values
             float relativeTol = 0.95f;
@@ -628,157 +628,97 @@ namespace Collisions {
             if (faceA.y > relativeTol * separation + absoluteTol * hA.y) {
                 axis = FACE_A_Y;
                 separation = faceA.y;
-                result.normal = dA.y > 0.0f ? cube1.rot.c2 : -cube1.rot.c2;
-            }
-
-            if (faceA.z > relativeTol * separation + absoluteTol * hA.z) {
-                axis = FACE_A_Z;
-                separation = faceA.z;
-                result.normal = dA.z > 0.0f ? cube1.rot.c3 : -cube1.rot.c3;
+                result.normal = dA.y > 0.0f ? box1.rot.c2 : -box1.rot.c2;
             }
 
             // B's axes
             if (faceB.x > relativeTol * separation + absoluteTol * hB.x) {
                 axis = FACE_B_X;
                 separation = faceB.x;
-                result.normal = dB.x > 0.0f ? cube2.rot.c1 : -cube2.rot.c1;
+                result.normal = dB.x > 0.0f ? box2.rot.c1 : -box2.rot.c1;
             }
 
             if (faceB.y > relativeTol * separation + absoluteTol * hB.y) {
                 axis = FACE_B_Y;
                 separation = faceB.y;
-                result.normal = dB.y > 0.0f ? cube2.rot.c2 : -cube2.rot.c2;
-            }
-
-            if (faceB.z > relativeTol * separation + absoluteTol * hB.z) {
-                axis = FACE_B_Z;
-                separation = faceB.z;
-                result.normal = dB.z > 0.0f ? cube2.rot.c3 : -cube2.rot.c3;
+                result.normal = dB.y > 0.0f ? box2.rot.c2 : -box2.rot.c2;
             }
 
             // * Setup clipping plane data based on the best axis
 
-            ZMath::Vec3D sideNormal1, sideNormal2;
-            ZMath::Vec3D incidentFace[4]; // 4 vertices for the collision in 3D
-            float front, negSide1, negSide2, posSide1, posSide2;
+            ZMath::Vec2D sideNormal;
+            ZMath::Vec2D incidentFace[2]; // 4 vertices for the collision in 3D
+            float front, negSide, posSide;
 
             // * Compute the clipping lines and line segment to be clipped
 
             switch(axis) {
                 case FACE_A_X: {
-                    front = cube1.pos * result.normal + hA.x;
-                    sideNormal1 = cube1.rot.c2; // yNormal
-                    sideNormal2 = cube1.rot.c3; // zNormal
-                    float ySide = cube1.pos * sideNormal1;
-                    float zSide = cube1.pos * sideNormal2;
+                    front = box1.pos * result.normal + hA.x;
+                    sideNormal = box1.rot.c2; // yNormal
+                    float ySide = box1.pos * sideNormal;
 
-                    negSide1 = -ySide + hA.y; // negSideY
-                    posSide1 = ySide + hA.y; // posSideY
-                    negSide2 = -zSide + hA.z; // negSideZ
-                    posSide2 = zSide + hA.z; // posSideZ
+                    negSide = -ySide + hA.y; // negSideY
+                    posSide = ySide + hA.y; // posSideY
 
-                    computeIncidentFace(incidentFace, hB, cube2.pos, cube2.rot, result.normal);
+                    computeIncidentFace(incidentFace, hB, box2.pos, box2.rot, result.normal);
                     break;
                 }
 
                 case FACE_A_Y: {
-                    front = cube1.pos * result.normal + hA.y;
-                    sideNormal1 = cube1.rot.c1; // xNormal
-                    sideNormal2 = cube1.rot.c3; // zNormal
-                    float xSide = cube1.pos * sideNormal1;
-                    float zSide = cube1.pos * sideNormal2;
+                    front = box1.pos * result.normal + hA.y;
+                    sideNormal = box1.rot.c1; // xNormal
+                    float xSide = box1.pos * sideNormal;
 
-                    negSide1 = -xSide + hA.x; // negSideX
-                    posSide1 = xSide + hA.x; // posSideX
-                    negSide2 = -zSide + hA.z; // negSideZ
-                    posSide2 = zSide + hA.z; // posSideZ
+                    negSide = -xSide + hA.x; // negSideX
+                    posSide = xSide + hA.x; // posSideX
 
-                    computeIncidentFace(incidentFace, hB, cube2.pos, cube2.rot, result.normal);
-                    break;
-                }
-
-                case FACE_A_Z: {
-                    front = cube1.pos * result.normal + hA.z;
-                    sideNormal1 = cube1.rot.c1; // xNormal
-                    sideNormal2 = cube1.rot.c2; // yNormal
-                    float xSide = cube1.pos * sideNormal1;
-                    float ySide = cube1.pos * sideNormal2;
-
-                    negSide1 = -xSide + hA.x; // negSideX
-                    posSide1 = xSide + hA.x; // posSideX
-                    negSide2 = -ySide + hA.y; // negSideY
-                    posSide2 = ySide + hA.y; // posSideY
-
-                    computeIncidentFace(incidentFace, hB, cube2.pos, cube2.rot, result.normal);
+                    computeIncidentFace(incidentFace, hB, box2.pos, box2.rot, result.normal);
                     break;
                 }
 
                 case FACE_B_X: {
-                    front = cube2.pos * result.normal + hB.x;
-                    sideNormal1 = cube2.rot.c2; // yNormal
-                    sideNormal2 = cube2.rot.c3; // zNormal
-                    float ySide = cube2.pos * sideNormal1;
-                    float zSide = cube2.pos * sideNormal2;
+                    front = box2.pos * result.normal + hB.x;
+                    sideNormal = box2.rot.c2; // yNormal
+                    float ySide = box2.pos * sideNormal;
 
-                    negSide1 = -ySide + hB.y; // negSideY
-                    posSide1 = ySide + hB.y; // posSideY
-                    negSide2 = -zSide + hB.z; // negSideZ
-                    posSide2 = zSide + hB.z; // posSideZ
+                    negSide = -ySide + hB.y; // negSideY
+                    posSide = ySide + hB.y; // posSideY
 
-                    computeIncidentFace(incidentFace, hA, cube1.pos, cube1.rot, result.normal);
+                    computeIncidentFace(incidentFace, hA, box1.pos, box1.rot, result.normal);
                     break;
                 }
 
                 case FACE_B_Y: {
-                    front = cube2.pos * result.normal + hB.y;
-                    sideNormal1 = cube2.rot.c1; // xNormal
-                    sideNormal2 = cube2.rot.c3; // zNormal
-                    float xSide = cube2.pos * sideNormal1;
-                    float zSide = cube2.pos * sideNormal2;
+                    front = box2.pos * result.normal + hB.y;
+                    sideNormal = box2.rot.c1; // xNormal
+                    float xSide = box2.pos * sideNormal;
 
-                    negSide1 = -xSide + hB.x; // negSideX
-                    posSide1 = xSide + hB.x; // posSideX
-                    negSide2 = -zSide + hB.z; // negSideZ
-                    posSide2 = zSide + hB.z; // posSideZ
+                    negSide = -xSide + hB.x; // negSideX
+                    posSide = xSide + hB.x; // posSideX
 
-                    computeIncidentFace(incidentFace, hA, cube1.pos, cube1.rot, result.normal);
-                    break;
-                }
-
-                case FACE_B_Z: {
-                    front = cube2.pos * result.normal + hB.z;
-                    sideNormal1 = cube2.rot.c1; // xNormal
-                    sideNormal2 = cube2.rot.c2; // yNormal
-                    float xSide = cube2.pos * sideNormal1;
-                    float ySide = cube2.pos * sideNormal2;
-
-                    negSide1 = -xSide + hB.x; // negSideX
-                    posSide1 = xSide + hB.x; // posSideX
-                    negSide2 = -ySide + hB.y; // negSideY
-                    posSide2 = ySide + hB.y; // posSideY
-
-                    computeIncidentFace(incidentFace, hA, cube1.pos, cube1.rot, result.normal);
+                    computeIncidentFace(incidentFace, hA, box1.pos, box1.rot, result.normal);
                     break;
                 }
             }
 
             // * Clip the incident edge with box planes.
 
-            ZMath::Vec3D clipPoints1[4];
-            ZMath::Vec3D clipPoints2[4];
+            ZMath::Vec2D clipPoints1[2];
+            ZMath::Vec2D clipPoints2[2];
 
             // Clip to side 1
-            int np = clipSegmentToLine(clipPoints1, incidentFace, -sideNormal1, -sideNormal2, negSide1, negSide2);
+            int np = clipSegmentToLine(clipPoints1, incidentFace, -sideNormal, negSide);
 
-            if (np < 4) {
+            if (np < 2) {
                 result.hit = 0;
                 return result;
             }
 
             // Clip to the negative side 1
-            np = clipSegmentToLine(clipPoints2, clipPoints1, sideNormal1, sideNormal2, posSide1, posSide2);
+            np = clipSegmentToLine(clipPoints2, clipPoints1, sideNormal, posSide);
 
-            if (np < 4) {
+            if (np < 2) {
                 result.hit = 0;
                 return result;
             }
@@ -787,11 +727,11 @@ namespace Collisions {
             // * Compute the contact points.
             
             // store the conatct points in here and add them to the dynamic array after they are determined
-            ZMath::Vec3D contactPoints[4];
+            ZMath::Vec2D contactPoints[2];
             np = 0;
             result.pDist = 0.0f;
 
-            for (int i = 0; i < 4; ++i) {
+            for (int i = 0; i < 2; ++i) {
                 separation = result.normal * clipPoints2[i] - front;
 
                 if (separation <= 0) {
@@ -805,7 +745,7 @@ namespace Collisions {
             result.pDist = -result.pDist;
             result.hit = 1;
             result.numPoints = np;
-            result.contactPoints = new ZMath::Vec3D[np];
+            result.contactPoints = new ZMath::Vec2D[np];
 
             for (int i = 0; i < np; ++i) { result.contactPoints[i] = contactPoints[i]; }
             
