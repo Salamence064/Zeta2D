@@ -444,6 +444,7 @@ namespace Collisions {
             switch(axis) {
                 case FACE_A_X: {
                     front = aabb.pos * result.normal + hA.x;
+                    sideNormal = ZMath::Vec2D(0, 1);
 
                     negSide = aabb.pos.y - hA.y; // negSideY
                     posSide = aabb.pos.y + hA.y; // posSideY
@@ -454,6 +455,7 @@ namespace Collisions {
 
                 case FACE_A_Y: {
                     front = aabb.pos * result.normal + hA.y;
+                    sideNormal = ZMath::Vec2D(1, 0);
 
                     negSide = aabb.pos.x - hA.x; // negSideX
                     posSide = aabb.pos.x + hA.x; // posSideX
