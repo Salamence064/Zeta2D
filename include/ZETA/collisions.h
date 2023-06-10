@@ -128,14 +128,14 @@ namespace Collisions {
         };
 
         /**
-         * @brief Determine the 4 vertices comprising the incident face when the incident cube is an AABB.
+         * @brief Determine the 2 vertices comprising the incident face when the incident cube is an AABB.
          * 
-         * @param v Array which gets filled with the 4 vertices making up the incident face.
+         * @param v Array which gets filled with the 2 vertices making up the incident face.
          * @param h Halfsize of the incident AABB.
          * @param pos The position of the incident AABB.
          * @param normal The normal vector of the collision (points towards B away from A).
          */
-        static void computeIncidentFaceAABB(ZMath::Vec2D v[4], const ZMath::Vec2D& h, const ZMath::Vec2D& pos, const ZMath::Vec2D& normal) {
+        static void computeIncidentFaceAABB(ZMath::Vec2D v[2], const ZMath::Vec2D& h, const ZMath::Vec2D& pos, const ZMath::Vec2D& normal) {
             // Take the absolute value of the normal for comparisons.
             ZMath::Vec2D nAbs = ZMath::abs(normal);
 
@@ -153,7 +153,7 @@ namespace Collisions {
 
             } else { // y >= x
                 if (normal.y > 0.0f) { // incident cube is intersecting on its -y side
-                    v[0] = pos.x - h;
+                    v[0] = pos - h;
                     v[1] = ZMath::Vec2D(pos.x + h.x, pos.y - h.y);
 
                 } else { // incident cube is intersecting on its +y side
@@ -166,7 +166,7 @@ namespace Collisions {
         /**
          * @brief Determine the 2 vertices making up the incident face.
          * 
-         * @param v Array which gets filled with the 4 vertices comprising the incident face.
+         * @param v Array which gets filled with the 2 vertices comprising the incident face.
          * @param h Halfsize of the incident cube.
          * @param pos The position of the incident cube.
          * @param rot The rotation matrix of the incident cube.
@@ -216,7 +216,7 @@ namespace Collisions {
          * @param n2 Side normal 2.
          * @param offset1 Distance to the side corresponding with side normal 1.
          * @param offset2 Distance to the side corresponding with side normal 2.
-         * @return (int) The number of clipping points. If this does not return 4, there is not an intersection on this axis.
+         * @return (int) The number of clipping points. If this does not return 2, there is not an intersection on this axis.
          */
         int clipSegmentToLine(ZMath::Vec3D vOut[4], ZMath::Vec3D vIn[4], const ZMath::Vec3D &n1, const ZMath::Vec3D &n2, float offset1, float offset2) {
             // begin with 0 output points
@@ -268,18 +268,18 @@ namespace Collisions {
             CollisionManifold result;
 
             // half size of AABB a and b respectively
-            ZMath::Vec3D hA = aabb1.getHalfSize(), hB = aabb2.getHalfSize();
+            ZMath::Vec2D hA = aabb1.getHalfsize(), hB = aabb2.getHalfsize();
 
             // * Check for intersections using the separating axis theorem.
             // because both are axis aligned, global space is the same as the local space of both AABBs.
 
             // distance between the two
-            ZMath::Vec3D dP = aabb2.pos - aabb1.pos;
-            ZMath::Vec3D absDP = ZMath::abs(dP);
+            ZMath::Vec2D dP = aabb2.pos - aabb1.pos;
+            ZMath::Vec2D absDP = ZMath::abs(dP);
 
             // penetration along A's (and B's) axes
-            ZMath::Vec3D faceA = absDP - hA - hB;
-            if (faceA.x > 0 || faceA.y > 0 || faceA.z > 0) {
+            ZMath::Vec2D faceA = absDP - hA - hB;
+            if (faceA.x > 0 || faceA.y > 0) {
                 result.hit = 0;
                 return result;
             }
@@ -292,7 +292,7 @@ namespace Collisions {
             // Assume A's x-axis is the best axis first
             Axis axis = FACE_A_X;
             float separation = faceA.x;
-            result.normal = dP.x > 0.0f ? ZMath::Vec3D(1, 0, 0) : ZMath::Vec3D(-1, 0, 0);
+            result.normal = dP.x > 0.0f ? ZMath::Vec2D(1, 0) : ZMath::Vec2D(-1, 0);
 
             // tolerance values
             float relativeTol = 0.95f;
@@ -306,19 +306,13 @@ namespace Collisions {
             if (faceA.y > relativeTol * separation + absoluteTol * hA.y) {
                 axis = FACE_A_Y;
                 separation = faceA.y;
-                result.normal = dP.y > 0.0f ? ZMath::Vec3D(0, 1, 0) : ZMath::Vec3D(0, -1, 0);
-            }
-
-            if (faceA.z > relativeTol * separation + absoluteTol * hA.z) {
-                axis = FACE_A_Z;
-                separation = faceA.z;
-                result.normal = dP.z > 0.0f ? ZMath::Vec3D(0, 0, 1) : ZMath::Vec3D(0, 0, -1);
+                result.normal = dP.y > 0.0f ? ZMath::Vec2D(0, 1) : ZMath::Vec2D(0, -1);
             }
 
             // * Setup clipping plane data based on the best axis
 
-            ZMath::Vec3D sideNormal1, sideNormal2;
-            ZMath::Vec3D incidentFace[4]; // 4 vertices for the collision in 3D
+            ZMath::Vec2D sideNormal1, sideNormal2;
+            ZMath::Vec2D incidentFace[2]; // 4 vertices for the collision in 3D
             float front, negSide1, negSide2, posSide1, posSide2;
 
             // * Compute the clipping lines and line segment to be clipped
@@ -329,8 +323,6 @@ namespace Collisions {
 
                     negSide1 = aabb1.pos.y - hA.y; // negSideY
                     posSide1 = aabb1.pos.y + hA.y; // posSideY
-                    negSide2 = aabb1.pos.z - hA.z; // negSideZ
-                    posSide2 = aabb1.pos.z + hA.z; // posSideZ
 
                     computeIncidentFaceAABB(incidentFace, hB, aabb2.pos, result.normal);
                     break;
@@ -341,20 +333,6 @@ namespace Collisions {
 
                     negSide1 = aabb1.pos.x - hA.x; // negSideX
                     posSide1 = aabb1.pos.x + hA.x; // posSideX
-                    negSide2 = aabb1.pos.z - hA.z; // negSideZ
-                    posSide2 = aabb1.pos.z + hA.z; // posSideZ
-
-                    computeIncidentFaceAABB(incidentFace, hB, aabb2.pos, result.normal);
-                    break;
-                }
-
-                case FACE_A_Z: {
-                    front = aabb1.pos * result.normal + hA.z;
-
-                    negSide1 = aabb1.pos.x - hA.x; // negSideX
-                    posSide1 = aabb1.pos.x + hA.x; // posSideX
-                    negSide2 = aabb1.pos.y - hA.y; // negSideY
-                    posSide2 = aabb1.pos.y + hA.y; // posSideY
 
                     computeIncidentFaceAABB(incidentFace, hB, aabb2.pos, result.normal);
                     break;
@@ -363,8 +341,8 @@ namespace Collisions {
 
             // * Clip the incident edge with box planes.
 
-            ZMath::Vec3D clipPoints1[4];
-            ZMath::Vec3D clipPoints2[4];
+            ZMath::Vec2D clipPoints1[2];
+            ZMath::Vec2D clipPoints2[2];
 
             // Clip to side 1
             int np = clipSegmentToLine(clipPoints1, incidentFace, -sideNormal1, -sideNormal2, negSide1, negSide2);
@@ -386,11 +364,11 @@ namespace Collisions {
             // * Compute the contact points.
             
             // store the conatct points in here and add them to the dynamic array after they are determined
-            ZMath::Vec3D contactPoints[4];
+            ZMath::Vec2D contactPoints[2];
             np = 0;
             result.pDist = 0.0f;
 
-            for (int i = 0; i < 4; ++i) {
+            for (int i = 0; i < 2; ++i) {
                 separation = result.normal * clipPoints2[i] - front;
 
                 if (separation <= 0) {
@@ -404,7 +382,7 @@ namespace Collisions {
             result.pDist = -result.pDist;
             result.hit = 1;
             result.numPoints = np;
-            result.contactPoints = new ZMath::Vec3D[np];
+            result.contactPoints = new ZMath::Vec2D[np];
 
             for (int i = 0; i < np; ++i) { result.contactPoints[i] = contactPoints[i]; }
             
@@ -413,11 +391,11 @@ namespace Collisions {
 
         // ? Normal points towards B and away from A
 
-        CollisionManifold findCollisionFeatures(Primitives::AABB const &aabb, Primitives::Cube const &cube) {
+        CollisionManifold findCollisionFeatures(Primitives::AABB const &aabb, Primitives::Box2D const &box) {
             CollisionManifold result;
 
             // half size of a and b respectively
-            ZMath::Vec3D hA = aabb.getHalfSize(), hB = cube.getHalfSize();
+            ZMath::Vec3D hA = aabb.getHalfsize(), hB = cube.getHalfsize();
 
             // * determine the rotation matrices of A and B
             // * global space is A's local space so we do not need a rotation matrix for it
