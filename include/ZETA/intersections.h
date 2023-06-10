@@ -386,7 +386,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool AABBAndCircle(Primitives::AABB const &aabb, Primitives::Circle const &circle, ZMath::Vec2D &normal) {
+    inline bool AABBAndCircle(Primitives::AABB const &aabb, Primitives::Circle const &circle, ZMath::Vec2D &normal) {
         bool hit = CircleAndAABB(circle, aabb, normal);
         normal = -normal;
         return hit;
@@ -406,7 +406,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2, ZMath::Vec2D &normal) {
+    inline bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2, ZMath::Vec2D &normal) {
         // half size of AABB a and b respectively
         ZMath::Vec2D hA = aabb1.getHalfsize(), hB = aabb2.getHalfsize();
 
@@ -475,7 +475,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box, ZMath::Vec2D &normal) {
+    inline bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box, ZMath::Vec2D &normal) {
         // ? Use the separating axis theorem to determine if there is an intersection between the AABB and cube.
 
         // half size of the aabb and box respectively (A = AABB, B = box)
@@ -548,11 +548,11 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    // bool CubeAndSphere(Primitives::Box2D const &cube, Primitives::Sphere const &sphere, ZMath::Vec3D &normal) {
-    //     bool hit = SphereAndCube(sphere, cube, normal);
-    //     normal = -normal;
-    //     return hit;
-    // };
+    inline bool Box2DAndCircle(Primitives::Box2D const &box, Primitives::Circle const &circle, ZMath::Vec2D &normal) {
+        bool hit = CircleAndBox2D(circle, box, normal);
+        normal = -normal;
+        return hit;
+    };
 
     // Determine if a cube intersects an unrotated cube.
     inline bool CubeAndAABB(Primitives::Box2D const &box, Primitives::AABB const &aabb) { return AABBAndBox2D(aabb, box); };
