@@ -160,18 +160,32 @@ namespace Collisions {
 
 
     // * ===================================
-    // * Sphere vs Primitives
+    // * Circle vs Primitives
     // * ===================================
 
-    // Determine if a sphere intersects a point.
-    inline bool SphereAndPoint(Primitives::Circle const &circle, ZMath::Vec2D const &point) { return PointAndCircle(point, circle); };
+    // todo add intersections with returning collision normals, too
 
-    // Determine if a sphere intersects a line.
-    inline bool SphereAndLine(Primitives::Circle const &circle, Primitives::Line2D const &line) { return LineAndCircle(line, circle); };
+    // Determine if a circle intersects a point.
+    inline bool CircleAndPoint(Primitives::Circle const &circle, ZMath::Vec2D const &point) { return PointAndCircle(point, circle); };
 
-    // Determine if a sphere intersects another sphere.
-    inline bool SphereAndSphere(Primitives::Circle const &circle1, Primitives::Circle const &circle2) {
+    // Determine if a circle intersects a line.
+    inline bool CircleAndLine(Primitives::Circle const &circle, Primitives::Line2D const &line) { return LineAndCircle(line, circle); };
+
+    // Determine if a circle intersects another circle.
+    inline bool CircleAndCircle(Primitives::Circle const &circle1, Primitives::Circle const &circle2) {
         float r = circle1.r + circle2.r;
         return circle1.c.distSq(circle2.c) <= r*r;
+    };
+
+    // Determine if a circle intersects an AABB.
+    inline bool CircleAndAABB(Primitives::Circle const &circle, Primitives::AABB const &aabb) {
+        // ? Determine the distance from the closest point on the AABB to the center of the circle.
+        // ? If that distance is less than the radius of the circle, there is an intersection.
+
+        ZMath::Vec2D closest = circle.c;
+        ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
+
+        closest = ZMath::clamp(closest, min, max);
+        return closest.distSq(circle.c) <= circle.r*circle.r;
     };
 }
