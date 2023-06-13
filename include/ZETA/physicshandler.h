@@ -3,7 +3,7 @@
 #include "collisions.h"
 #include <stdexcept>
 
-namespace PhysicsHandler {
+namespace Zeta {
     // * ====================================
     // * Common Framerates for Handler
     // * ====================================
@@ -204,7 +204,7 @@ namespace PhysicsHandler {
             // * ============================
 
             // Add a rigid body to the list of rigid bodies to be updated.
-            void addRigidBody(Primitives::RigidBody2D* rb) {
+            inline void addRigidBody(Primitives::RigidBody2D* rb) {
                 if (rbs.count == rbs.capacity) {
                     rbs.capacity *= 2;
                     Primitives::RigidBody2D** temp = new Primitives::RigidBody2D*[rbs.capacity];
@@ -219,7 +219,7 @@ namespace PhysicsHandler {
             };
 
             // Remove a rigid body at the given index.
-            void removeRigidBody(int index) {
+            inline void removeRigidBody(int index) {
                 delete rbs.rigidBodies[index];
                 for (int i = index; i < rbs.count; ++i) { rbs.rigidBodies[i] = rbs.rigidBodies[i + 1]; }
                 rbs.count--;
