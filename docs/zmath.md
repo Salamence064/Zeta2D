@@ -66,6 +66,7 @@ Vec2D getSigns() const;                 // Get a vector with the signs of each c
 ```
 
 ### <span style="color:darkolivegreen">Mat2D</span>
+This class models a 2x2 matrix. It's used primarily to store rotation matrices to rotate points in the physics engine. Any function described as being "expensive" is expensive in the computational sense. Below are the core functions and operators.
 
 #### <span style="color:steelblue">Fields</span>
 | <span style="color:slategrey">Type</span> | <span style="color:slategrey">Identifier</span> | <span style="color:slategrey">Description</span> |
