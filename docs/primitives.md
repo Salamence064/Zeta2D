@@ -178,7 +178,14 @@ This struct models a 2D rigid body. A rigid body is an object that's affected by
 * collider (void*) - Pointer to the collider of the rigid body. If this does not match the collider type specified, undefined behavior will occur. If you specify the RIGID_NONE collider type, you should set this to nullptr. This constructor will call delete on it so do not try to use the collider pointer after creating the rigid body.
 
 ```c++
-RigidBody2D(ZMath::Vec2D const &pos, float mass, float cor, float linearDamping, RigidBodyCollider colliderType, void* collider);
+RigidBody2D(
+    ZMath::Vec2D const &pos,
+    float mass,
+    float cor,
+    float linearDamping, 
+    RigidBodyCollider colliderType,
+    void* collider
+);
 ```
 
 RigidBody2D also offers a default constructor that does nothing. If you use the default constructor, you must manually assign **every field** or the rigid body will cause undefined behavior.
