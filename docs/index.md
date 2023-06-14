@@ -33,6 +33,8 @@ If your graphics library defines any of these, go into the corresponding header 
 #endif
 ```
 
+___
+
 ##<span style="color:fuchsia">Getting Started</span>
 
 Here is a quick snippet to get Zeta2D up and running in your project. There are many more functions and classes than those used here. Information on those will be available throughout this documentation.
@@ -86,6 +88,8 @@ int main() {
     return 0;
 };
 ```
+
+___
 
 ##<span style="color:fuchsia">Contributing and Bugs</span>
 If you encounter a bug while using the engine, open it as an issue on [Zeta's github page](https://github.com/Salamence064/Zeta2D), and it will be fixed as soon as possible.  

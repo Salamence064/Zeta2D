@@ -59,26 +59,26 @@ namespace ZMath {
             // * ============================
 
             // * Zero this vector.
-            void zero() {
+            inline void zero() {
                 x = 0;
                 y = 0;
             };
 
             // * Set this vector's components equal to another.
-            void set (Vec2D const &vec) {
+            inline void set (Vec2D const &vec) {
                 this->x = vec.x;
                 this->y = vec.y;
             };
 
             // * Set all components of this vector to the same value.
-            void set (float d) {
+            inline void set (float d) {
                 x = d;
                 y = d;
             };
 
             // * Set each component of this vector.
             // * Less expensive than creating a new Vec3D object.
-            void set (float i, float j) {
+            inline void set (float i, float j) {
                 x = i;
                 y = j;
             };
@@ -132,7 +132,7 @@ namespace ZMath {
             inline Vec2D operator - () const { return Vec2D(-x, -y); };
 
             // * Get the cross product of this and another vector.
-            inline Vec2D cross (Vec2D const &vec) const { return x*vec.y - y*vec.x; };
+            inline float cross (Vec2D const &vec) const { return x*vec.y - y*vec.x; };
 
             // * Get the magnitude.
             inline float mag() const { return sqrtf(x*x + y*y); };
@@ -158,12 +158,6 @@ namespace ZMath {
             // * Keep in mind range restrictions for arccos.
             // * This function is very expensive. Only call if absolutely needed.
             inline float angle (Vec2D const &vec) const { return acos((x*vec.x + y*vec.y)/(sqrtf(x*x + y*y) * sqrtf(vec.x*vec.x + vec.y*vec.y))); };
-
-            // * Get the value of cos^2(theta) between the vectors.
-            inline float cos2Ang (Vec2D const &vec) const {
-                float d = x*vec.x + y*vec.y;
-                return (d*d)/((x*x + y*y)*(vec.x*vec.x + vec.y*vec.y));
-            };
 
             // * Get the sign of each entry.
             inline Vec2D getSigns() const { return Vec2D(SIGNOF(x), SIGNOF(y)); };

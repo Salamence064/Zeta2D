@@ -13,7 +13,7 @@ ___
 ___
 
 ## Documentation
-[Zeta documentation can be found here.](https://salamence064.github.io/Zeta2D/)
+Zeta documentation can be found [here](https://salamence064.github.io/Zeta2D/).
 ___
 
 ## The Original
