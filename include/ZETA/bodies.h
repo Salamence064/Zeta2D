@@ -107,7 +107,7 @@ namespace Primitives {
          * @param colliderType The type of collider attached to the staticbody. This should be set to STATIC_NONE if there will not be one attached.
          * @param collider A pointer to the collider of the static body. If this does not match the colliderType specified, it will
          *                   cause undefined behvior to occur. If you specify STATIC_NONE, this should be set to nullptr. 
-         *                   This will call delete on it afterwards so do not try to use the pointer passed after creating the rigid body.
+         *                   This will call delete on it afterwards so do not try to use the pointer passed after creating the static body.
          */
         StaticBody3D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType, void* collider) : pos(pos), colliderType(colliderType) {
             switch(colliderType) {

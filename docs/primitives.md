@@ -175,9 +175,10 @@ This struct models a 2D rigid body. A rigid body is an object that's affected by
 * cor (float) - The coefficient of restitution of the rigid body. Should be between 0 and 1 inclusive.
 * linearDamping (float) - The linear damping of the rigid body. Should be on the interval (0, 1].
 * colliderType (RigidBodyCollider) - Enum value informing the engine which type of collider is attached to the rigid body.
+* collider (void*) - Pointer to the collider of the rigid body. If this does not match the collider type specified, undefined behavior will occur. If you specify the RIGID_NONE collider type, you should set this to nullptr. This constructor will call delete on it so do not try to use the collider pointer after creating the rigid body.
 
 ```c++
-RigidBody2D(ZMath::Vec2D const &pos, float mass, float cor, float linearDamping, RigidBodyCollider colliderType);
+RigidBody2D(ZMath::Vec2D const &pos, float mass, float cor, float linearDamping, RigidBodyCollider colliderType, void* collider);
 ```
 
 RigidBody2D also offers a default constructor that does nothing. If you use the default constructor, you must manually assign **every field** or the rigid body will cause undefined behavior.
@@ -207,7 +208,7 @@ This struct models a 2D static body. A static body is an object unaffected by ph
 |:----:|:----------:|:-----------:|
 | <span style="color:hotpink">Vec2D</span> | <span style="color:seagreen">pos</span> | The static body's centerpoint. |
 | <span style="color:hotpink">StaticBodyCollider</span> | <span style="color:seagreen">colliderType</span> | The collider type attached to the static body. |
-| <span style="color:hotpink"><br>Union</span> | <span style="color:seagreen"><br>collider</span> | A union containing a circle, AABB, and Box2D referenced by .circle, .aabb, and .box respectively.<br>Only use the collider associated with the collider type attached. You **must manually assign this**<br>and assigning the wrong collider will break the physics engine. |
+| <span style="color:hotpink">Union</span> | <span style="color:seagreen">collider</span> | A union containing a circle, AABB, and Box2D referenced by .circle, .aabb, and .box respectively.<br>Only use the collider associated with the collider type attached. |
 
 
 #### <span style="color:steelblue">Constructors</span>
@@ -219,9 +220,10 @@ This struct models a 2D static body. A static body is an object unaffected by ph
 
 * pos (Vec2D) - The centerpoint of the static body.
 * colliderType (StaticBodyCollider) - Enum value informing the engine which type of collider is attached to the static body.
+* collider (void*) - Pointer to the collider of the static body. If this does not match the collider type specified, undefined behavior will occur. If you specify the STATIC_NONE collider type, you should set this to nullptr. This constructor will call delete on it so do not try to use the collider pointer after creating the static body.
 
 ```c++
-StaticBody2D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType);
+StaticBody2D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType, void* collider);
 ```
 
 StaticBody2D also offers a default constructor that does nothing. If you use the default constructor, you must manually assign **every field** or the static body will cause undefined behavior.
