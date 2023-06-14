@@ -147,6 +147,28 @@ ___
 ## <span style="color:fuchsia">Structs</span>
 This subsection talks about the structs contained in the Primitives namespace. Both of these structs &#8212; RigidBody2D and StaticBody2D &#8212; store vital information about a rigid or static body respectively. 
 
+### <span style="color:darkolivegreen">RigidBody2D</span>
+This struct models a 2D rigid body. A rigid body is an object that's affected by physics. It has various fields storing information to use for physics updates. Below are the core fields and functions.
+
+#### <span style="color:steelblue">Fields</span>
+| <span style="color:slategrey">Type</span> | <span style="color:slategrey">Identifier</span> | <span style="color:slategrey">Description</span> |
+|:----:|:----------:|:-----------:|
+| <span style="color:hotpink">Vec2D</span> | <span style="color:seagreen">pos</span> | The rigid body's centerpoint. |
+| <span style="color:hotpink">Vec2D</span> | <span style="color:seagreen">vel</span> | The rigid body's velocity. It is initialized to the 0 vector by default. |
+| <span style="color:hotpink">Vec2D</span> | <span style="color:seagreen">netForce</span> | The rigid body's net force. It is initialized to the 0 vector by default. |
+| <span style="color:hotpink">float</span> | <span style="color:seagreen">mass</span> | The mass of the rigid body in grams. |
+| <span style="color:hotpink">float</span> | <span style="color:seagreen">invMass</span> | 1 over the mass of the rigid body in grams. |
+| <span style="color:hotpink">float</span> | <span style="color:seagreen">cor</span> | The coefficient of restitution of the rigid body.This represents a loss of kinetic energy due<br>to heat and should be between 0 and 1. 1 is perfectly elastic and 0 is perfectly inelastic. |
+| <span style="color:hotpink">float</span> | <span style="color:seagreen">linearDamping</span> | Controls how much the rigid body resists translation and should be included in the interval (0, 1].<br>1 = no resistance to translation. |
+| <span style="color:hotpink">RigidBodyCollider</span> | <span style="color:seagreen">colliderType</span> | The collider type attached to the rigid body. |
+| <span style="color:hotpink">Circle</span> | <span style="color:seagreen">circle</span> | The collider type attached to the rigid body. |
+
+
+#### <span style="color:steelblue">Intended Methods</span>
+
+### <span style="color:darkolivegreen">StaticBody2D</span>
+This struct models a 2D static body. A static body is an object unaffected by physics. Static bodies are commonly used to model walls, goals, death zones, etc. as those objects should be unaffected by physics. Static bodies still contain a collider, allowing you to check and resolve static body collisions how you see fit. Below are the core fields.
+
 ___
 
 ## <span style="color:fuchsia">Enums</span>

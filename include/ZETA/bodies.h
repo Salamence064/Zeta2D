@@ -41,12 +41,14 @@ namespace Primitives {
         // * Handle and store the collider.
 
         RigidBodyCollider colliderType;
-        union {
+        union Collider {
+            Collider() {}; // to make the compiler happy
+
             Circle circle;
             AABB aabb;
             Box2D box;
             // * Add custom colliders here.
-        };
+        } collider;
 
         // * Handle and store the physics.
 
@@ -72,13 +74,15 @@ namespace Primitives {
             netForce += g * mass;
             vel += (netForce * invMass) * dt;
             pos += vel * dt;
+
+            vel *= linearDamping;
             netForce = ZMath::Vec2D();
 
             // Update the pos of the collider.
             // If statements are more readable than a switch here.
-            if      (colliderType == RIGID_CIRCLE_COLLIDER) { circle.c = pos; }
-            else if (colliderType == RIGID_AABB_COLLIDER)   { aabb.pos = pos; }
-            else if (colliderType == RIGID_BOX2D_COLLIDER)  { box.pos = pos;  }
+            if      (colliderType == RIGID_CIRCLE_COLLIDER) { collider.circle.c = pos; }
+            else if (colliderType == RIGID_AABB_COLLIDER)   { collider.aabb.pos = pos; }
+            else if (colliderType == RIGID_BOX2D_COLLIDER)  { collider.box.pos = pos;  }
         };
     };
 
