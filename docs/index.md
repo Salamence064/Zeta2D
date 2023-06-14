@@ -1,6 +1,6 @@
 # Introduction
 
-Welcome to the Zeta2D Physics Engine! Zeta provides a simple solution for modeling 2D physics for anything you'd need. This page gives an overview of the organization of this engine and how to get started.
+Welcome to the Zeta2D Physics Engine! Zeta provides a simple solution for modeling 2D physics for anything you'd need. This page gives an overview of the organization of this engine and how to get started. For the purposes of this documentation assume a field is public unless otherwise specified.
 
 ___
 
@@ -8,9 +8,9 @@ ___
 The engine and documentation are split into sections by namespace with each namespace providing a select core functionality. There are 4 namespaces used throughout the engine:  
 
 1. [**ZMath**](https://salamence064.github.io/Zeta2D/zmath/): contains Zeta's custom math library, including many vital math utility functions.
-2. **Primitives**: contains all of the primitive shapes supported by Zeta and rigid and static bodies.
-3. **Collisions**: contains intersection detection, collision manifolds, and collision manifold calculators.
-4. **Zeta**: contains the physics handler used to model physics in your program.
+2. [**Primitives**](https://salamence064.github.io/Zeta2D/primitives/): contains all of the primitive shapes supported by Zeta and rigid and static bodies.
+3. [**Collisions**](https://salamence064.github.io/Zeta2D/collisions/): contains intersection detection, collision manifolds, and collision manifold calculators.
+4. [**Zeta**](https://salamence064.github.io/Zeta2D/zeta/): contains the physics handler used to model physics in your program.
   
 Zeta also makes use of preprocessor directives for certain constants and macros. If any of these are already defined, Zeta will fail to compile. Zeta defines the following keywords:
 
