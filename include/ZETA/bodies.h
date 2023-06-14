@@ -32,12 +32,22 @@ namespace Primitives {
          * @param cor The coefficient of restituion of the rigidbody. This represents a loss of kinetic energy due to heat and should be
          *              between 0 and 1 inclusive with 1 being perfectly elastic.
          * @param colliderType The type of collider attached to the rigidbody. This should be set to RIGID_NONE if there will not be one attached.
-         *                       Remember to manually assign a value to sphere, aabb, or cube depending on the collider type specified. DO NOT
-         *                       assign a value to a collider other than the one corresponding to the type specified.
+         * @param collider A pointer to the collider of the rigid body. If this does not match the colliderType specified, it will
+         *                   cause undefined behvior to occur. If you specify RIGID_NONE, this should be set to nullptr. 
+         *                   This will call delete on it afterwards so do not try to use the pointer passed after creating the rigid body. 
          */
-        // todo use a template to allow the user to pass in their collider
-        RigidBody2D(ZMath::Vec2D const &pos, float mass, float cor, float linearDamping, RigidBodyCollider colliderType) 
-                : pos(pos), mass(mass), invMass(1.0f/mass), cor(cor), linearDamping(linearDamping), colliderType(colliderType) {};
+        RigidBody2D(ZMath::Vec2D const &pos, float mass, float cor, float linearDamping, RigidBodyCollider colliderType, void* collider) 
+                : pos(pos), mass(mass), invMass(1.0f/mass), cor(cor), linearDamping(linearDamping), colliderType(colliderType)
+        {
+            switch(colliderType) {
+                case RIGID_CIRCLE_COLLIDER: { this->collider.circle = *((Circle*) collider); }
+                case RIGID_AABB_COLLIDER: { this->collider.aabb = *((AABB*) collider); }
+                case RIGID_BOX2D_COLLIDER: { this->collider.box = *((Box2D*) collider); }
+                // * User defined colliders go here.
+            }
+
+            if (collider) { delete collider; }
+        };
 
         // * Handle and store the collider.
 
@@ -95,10 +105,20 @@ namespace Primitives {
          * 
          * @param pos The centerpoint of the staticbody.
          * @param colliderType The type of collider attached to the staticbody. This should be set to STATIC_NONE if there will not be one attached.
-         *                       Remember to manually assign a value to plane, sphere, aabb, or cube depending on the collider type specified.
-         *                       DO NOT assign a value to a collider other than the one corresponding to the type specified.
+         * @param collider A pointer to the collider of the static body. If this does not match the colliderType specified, it will
+         *                   cause undefined behvior to occur. If you specify STATIC_NONE, this should be set to nullptr. 
+         *                   This will call delete on it afterwards so do not try to use the pointer passed after creating the rigid body.
          */
-        StaticBody3D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType) : pos(pos), colliderType(colliderType) {};
+        StaticBody3D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType, void* collider) : pos(pos), colliderType(colliderType) {
+            switch(colliderType) {
+                case STATIC_CIRCLE_COLLIDER: { this->collider.circle = *((Circle*) collider); }
+                case STATIC_AABB_COLLIDER: { this->collider.aabb = *((AABB*) collider); }
+                case STATIC_BOX2D_COLLIDER: { this->collider.box = *((Box2D*) collider); }
+                // * User defined colliders go here.
+            }
+
+            if (collider) { delete collider; }
+        };
 
         // * Information related to the static body.
 
