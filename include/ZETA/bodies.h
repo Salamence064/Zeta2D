@@ -35,6 +35,7 @@ namespace Primitives {
          *                       Remember to manually assign a value to sphere, aabb, or cube depending on the collider type specified. DO NOT
          *                       assign a value to a collider other than the one corresponding to the type specified.
          */
+        // todo use a template to allow the user to pass in their collider
         RigidBody2D(ZMath::Vec2D const &pos, float mass, float cor, float linearDamping, RigidBodyCollider colliderType) 
                 : pos(pos), mass(mass), invMass(1.0f/mass), cor(cor), linearDamping(linearDamping), colliderType(colliderType) {};
 
@@ -90,7 +91,7 @@ namespace Primitives {
         StaticBody3D() {}; // Default constructor to make the compiler happy (for efficiency).
 
         /**
-         * @brief Create a 3D staticbody.
+         * @brief Create a 2D staticbody.
          * 
          * @param pos The centerpoint of the staticbody.
          * @param colliderType The type of collider attached to the staticbody. This should be set to STATIC_NONE if there will not be one attached.

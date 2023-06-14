@@ -161,15 +161,95 @@ This struct models a 2D rigid body. A rigid body is an object that's affected by
 | <span style="color:hotpink">float</span> | <span style="color:seagreen">cor</span> | The coefficient of restitution of the rigid body.This represents a loss of kinetic energy due<br>to heat and should be between 0 and 1. 1 is perfectly elastic and 0 is perfectly inelastic. |
 | <span style="color:hotpink">float</span> | <span style="color:seagreen">linearDamping</span> | Controls how much the rigid body resists translation and should be included in the interval (0, 1].<br>1 = no resistance to translation. |
 | <span style="color:hotpink">RigidBodyCollider</span> | <span style="color:seagreen">colliderType</span> | The collider type attached to the rigid body. |
-| <span style="color:hotpink">Circle</span> | <span style="color:seagreen">circle</span> | The collider type attached to the rigid body. |
+| <span style="color:hotpink"><br>Union</span> | <span style="color:seagreen"><br>collider</span> | A union containing a circle, AABB, and Box2D referenced by .circle, .aabb, and .box respectively.<br>Only use the collider associated with the collider type attached. You **must manually assign this**<br>and assigning the wrong collider will break the physics engine. |
+
+#### <span style="color:steelblue">Constructors</span>
+<span style="color:slategrey">Description:</span>  
+&ensp; &ensp; Create a 2D rigid body from a position, mass, coefficient of restitution, linear damping value, and colliderType.  
+&ensp; &ensp; Be aware that you will need to manually assign your own collider or the rigid body will cause undefined behavior.
+  
+<span style="color:slategrey">Parameters:</span>
+
+* pos (Vec2D) - The centerpoint of the rigid body.
+* mass (float) - The mass of the rigid body in grams.
+* cor (float) - The coefficient of restitution of the rigid body. Should be between 0 and 1 inclusive.
+* linearDamping (float) - The linear damping of the rigid body. Should be on the interval (0, 1].
+* colliderType (RigidBodyCollider) - Enum value informing the engine which type of collider is attached to the rigid body.
+
+```c++
+RigidBody2D(ZMath::Vec2D const &pos, float mass, float cor, float linearDamping, RigidBodyCollider colliderType);
+```
+
+RigidBody2D also offers a default constructor that does nothing. If you use the default constructor, you must manually assign **every field** or the rigid body will cause undefined behavior.
 
 
-#### <span style="color:steelblue">Intended Methods</span>
+#### <span style="color:steelblue">Functions</span>
+<span style="color:slategrey">Function Signature:</span>
+
+```c++
+void update(ZMath::Vec2D const &g, float dt);
+```
+
+<span style="color:slategrey">Description:</span>  
+&ensp; &ensp; Updates the rigid body based on its current physics attributes.  
+&ensp; &ensp; The physics handler will run this for it so it is **not recommended** to call this.
+
+<span style="color:slategrey">Parameters:</span>
+
+* g (Vec2D) - The acceleration due to gravity.
+* dt (float) - Amount of time passed since the last update.
 
 ### <span style="color:darkolivegreen">StaticBody2D</span>
 This struct models a 2D static body. A static body is an object unaffected by physics. Static bodies are commonly used to model walls, goals, death zones, etc. as those objects should be unaffected by physics. Static bodies still contain a collider, allowing you to check and resolve static body collisions how you see fit. Below are the core fields.
+
+#### <span style="color:steelblue">Fields</span>
+| <span style="color:slategrey">Type</span> | <span style="color:slategrey">Identifier</span> | <span style="color:slategrey">Description</span> |
+|:----:|:----------:|:-----------:|
+| <span style="color:hotpink">Vec2D</span> | <span style="color:seagreen">pos</span> | The static body's centerpoint. |
+| <span style="color:hotpink">StaticBodyCollider</span> | <span style="color:seagreen">colliderType</span> | The collider type attached to the static body. |
+| <span style="color:hotpink"><br>Union</span> | <span style="color:seagreen"><br>collider</span> | A union containing a circle, AABB, and Box2D referenced by .circle, .aabb, and .box respectively.<br>Only use the collider associated with the collider type attached. You **must manually assign this**<br>and assigning the wrong collider will break the physics engine. |
+
+
+#### <span style="color:steelblue">Constructors</span>
+<span style="color:slategrey">Description:</span>  
+&ensp; &ensp; Create a 2D static body from a position and colliderType.  
+&ensp; &ensp; Be aware that you will need to manually assign your own collider or the static body will cause undefined behavior.
+  
+<span style="color:slategrey">Parameters:</span>
+
+* pos (Vec2D) - The centerpoint of the static body.
+* colliderType (StaticBodyCollider) - Enum value informing the engine which type of collider is attached to the static body.
+
+```c++
+StaticBody2D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType);
+```
+
+StaticBody2D also offers a default constructor that does nothing. If you use the default constructor, you must manually assign **every field** or the static body will cause undefined behavior.
 
 ___
 
 ## <span style="color:fuchsia">Enums</span>
 The primitives namespace has two enums. Both are used to specify the collider types for rigid and static bodies.
+
+### <span style="color:darkolivegreen">RigidBodyCollider</span>
+This enum is used to indicate the type of collider attached to a rigid body.
+
+| <span style="color:slategrey">Identifier</span> | <span style="color:slategrey">Description</span> |
+|:----------:|:-----------:|
+| <span style="color:hotpink">RIGID_CIRCLE_COLLIDER</span> | Indicates a circle collider is attached to the rigid body. |
+| <span style="color:hotpink">RIGID_AABB_COLLIDER</span> | Indicates an AABB collider is attached to the rigid body. |
+| <span style="color:hotpink">RIGID_BOX2D_COLLIDER</span> | Indicates a Box2D collider is attached to the rigid body. |
+| <span style="color:hotpink">RIGID_CUSTOM_COLLIDER</span> | Indicates a custom collider is attached to the rigid body. |
+| <span style="color:hotpink">RIGID_NONE</span> | Indicates no collider is attached to the rigid body. |
+
+
+### <span style="color:darkolivegreen">StaticBodyCollider</span>
+This enum is used to indicate the type of collider attached to a static body.
+
+| <span style="color:slategrey">Identifier</span> | <span style="color:slategrey">Description</span> |
+|:----------:|:-----------:|
+| <span style="color:hotpink">STATIC_CIRCLE_COLLIDER</span> | Indicates a circle collider is attached to the static body. |
+| <span style="color:hotpink">STATIC_AABB_COLLIDER</span> | Indicates an AABB collider is attached to the static body. |
+| <span style="color:hotpink">STATIC_BOX2D_COLLIDER</span> | Indicates a Box2D collider is attached to the static body. |
+| <span style="color:hotpink">STATIC_CUSTOM_COLLIDER</span> | Indicates a custom collider is attached to the static body. |
+| <span style="color:hotpink">STATIC_NONE</span> | Indicates no collider is attached to the static body. |
