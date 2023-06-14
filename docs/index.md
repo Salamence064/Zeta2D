@@ -7,7 +7,7 @@ ___
 ##<span style="color:fuchsia">Organization</span>
 The engine and documentation are split into sections by namespace with each namespace providing a select core functionality. There are 4 namespaces used throughout the engine:  
 
-1. **ZMath**: contains Zeta's custom math library, including many vital math utility functions.
+1. [**ZMath**](https://salamence064.github.io/Zeta2D/zmath/): contains Zeta's custom math library, including many vital math utility functions.
 2. **Primitives**: contains all of the primitive shapes supported by Zeta and rigid and static bodies.
 3. **Collisions**: contains intersection detection, collision manifolds, and collision manifold calculators.
 4. **Zeta**: contains the physics handler used to model physics in your program.
