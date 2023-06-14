@@ -133,6 +133,7 @@ static Mat2D rotationMat(float theta); // Get the rotation matrix for an angle. 
 ___
 
 ## <span style="color:fuchsia">Functions</span>
+This subsection highlights essential math functions used throughout the engine. Many of these are simple utility functions, making them convenient to use in your program. Below are all of the standalone functions provided in ZMath.
 
 ### <span style="color:darkolivegreen">SIGNOF</span>
 Macro function to get the sign of a number. This returns -1 for a negative number and 1 for a positive number. 0 is treated as positive. The parameter can be any numeric data type.
@@ -200,6 +201,7 @@ Vec2D clamp(Vec2D const &n, Vec2D const &min, Vec2D const &max);
 ___
 
 ## <span style="color:fuchsia">Constants</span>
+ZMath offers 2 constants defined through preprocessor directives for ease of use: &#960; and &#949;.
 
 ### <span style="color:darkolivegreen">PI</span>
 Constant representing &#960;. This is set to 3.1415926535897932.
