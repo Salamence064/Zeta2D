@@ -9,7 +9,7 @@ The engine and documentation are split into sections by namespace with each name
 
 1. **ZMath**: contains Zeta's custom math library, including many vital math utility functions.
 2. **Primitives**: contains all of the primitive shapes supported by Zeta and rigid and static bodies.
-3. **Collisions**: contains intersection detection, collision manifolds, and collision manifold calcuulators.
+3. **Collisions**: contains intersection detection, collision manifolds, and collision manifold calculators.
 4. **Zeta**: contains the physics handler used to model physics in your program.
   
 Zeta also makes use of preprocessor directives for certain constants and macros. If any of these are already defined, Zeta will fail to compile. Zeta defines the following keywords:

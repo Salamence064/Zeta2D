@@ -210,8 +210,11 @@ namespace ZMath {
             // Matrix columns.
             Vec2D c1, c2;
 
-            // Does nothing (for performance).
-            Mat2D() = default;
+            // Initialize as the identity matrix.
+            Mat2D() {
+                c1 = Vec2D(1, 0);
+                c2 = Vec2D(0, 1);
+            };
 
             // Create a 2D matrix from another 2D matrix.
             Mat2D (const Mat2D &mat) {
