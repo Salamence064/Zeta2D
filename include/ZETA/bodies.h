@@ -106,10 +106,12 @@ namespace Primitives {
         // * Handle and store the collider.
 
         StaticBodyCollider colliderType;
-        union {
+        union Collider {
+            Collider() {}; // default constructor to make the compiler happy
+
             Circle circle;
             AABB aabb;
             Box2D box;
-        };
+        } collider;
     };
 }
