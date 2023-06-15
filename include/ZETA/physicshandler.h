@@ -220,7 +220,7 @@ namespace Zeta {
             // 1 = rigid body was found and removed. 0 = It was not found.
             // rb will be deleted if the rigid body was found.
             inline bool removeRigidBody(Primitives::RigidBody2D* rb) {
-                for (int i = rbs.count; i >= 0; ++i) {
+                for (int i = rbs.count; i >= 0; --i) {
                     if (rbs.rigidBodies[i] == rb) {
                         delete rb;
                         for (int j = i; i < rbs.count - 1; ++j) { rbs.rigidBodies[j] = rbs.rigidBodies[j + 1]; }

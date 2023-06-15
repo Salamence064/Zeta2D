@@ -61,7 +61,7 @@ int main() {
     );
 
     Primitives::RigidBody2D rb2(
-        c2->pos,                           // centerpoint
+        c2->c,                           // centerpoint
         20.0f,                             // mass
         0.95f,                             // coefficient of restitution
         0.8f,                              // linear damping

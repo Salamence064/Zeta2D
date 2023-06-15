@@ -31,6 +31,7 @@ namespace Primitives {
          * @param mass Mass of the rigidbody.
          * @param cor The coefficient of restituion of the rigidbody. This represents a loss of kinetic energy due to heat and should be
          *              between 0 and 1 inclusive with 1 being perfectly elastic.
+         * @param linearDamping The linear damping of the rigid body. This should fall on (0, 1].
          * @param colliderType The type of collider attached to the rigidbody. This should be set to RIGID_NONE if there will not be one attached.
          * @param collider A pointer to the collider of the rigid body. If this does not match the colliderType specified, it will
          *                   cause undefined behvior to occur. If you specify RIGID_NONE, this should be set to nullptr. 
