@@ -33,7 +33,8 @@ bool PointAndLine(ZMath::Vec2D const &point, Primitives::Line2D const &line);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies on a line.
+
+* Return a bool representing if a point lies on a line.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -50,7 +51,8 @@ bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle)
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+
+* Return a bool representing if a point lies in a circle.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -67,7 +69,8 @@ bool PointAndAABB(ZMath::Vec2D const &point, Primitives::AABB const &aabb);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in an AABB.
+
+* Return a bool representing if a point lies in an AABB.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -84,7 +87,8 @@ bool PointAndBox2D(ZMath::Vec2D const &point, Primitives::Box2D const &box);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a Box2D.
+
+* Return a bool representing if a point lies in a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -101,7 +105,8 @@ bool LineAndPoint(Primitives::Line2D const &line, ZMath::Vec2D const &point);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies on a line.
+
+* Return a bool representing if a point lies on a line.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -118,7 +123,8 @@ bool LineAndLine(Primitives::Line2D const &line1, Primitives::Line2D const &line
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if two line segments intersect.
+
+* Return a bool representing if two line segments intersect.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -135,7 +141,8 @@ bool LineAndCircle(Primitives::Line2D const &line, Primitives::Circle const &cir
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a line intersects a circle.
+
+* Return a bool representing if a line intersects a circle.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -152,7 +159,8 @@ bool LineAndAABB(Primitives::Line2D const &line, Primitives::AABB const &aabb);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a line intersects an AABB.
+
+* Return a bool representing if a line intersects an AABB.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -169,7 +177,8 @@ bool LineAndBox2D(Primitives::Line2D const &line, Primitives::Box2D const &box);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a line intersects a Box2D.
+
+* Return a bool representing if a line intersects a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -186,7 +195,8 @@ bool raycast(Primitives::Ray2D const &ray, Primitives::Circle const &circle, flo
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a ray intersects a circle and determine the distance to the point of intersection.
+
+* Return a bool representing if a ray intersects a circle and determine the distance to the point of intersection.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -202,7 +212,8 @@ bool raycast(Primitives::Ray2D const &ray, Primitives::AABB const &aabb, float &
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a ray intersects an AABB and determine the distance to the point of intersection..
+
+* Return a bool representing if a ray intersects an AABB and determine the distance to the point of intersection..
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -218,7 +229,8 @@ bool raycast(Primitives::Ray2D const &ray, Primitives::Box2D const &box, float &
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a ray intersects a Box2D and determine the distance to the point of intersection.
+
+* Return a bool representing if a ray intersects a Box2D and determine the distance to the point of intersection.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -236,7 +248,8 @@ bool CircleAndPoint(Primitives::Circle const &circle, ZMath::Vec2D const &point)
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+
+* Return a bool representing if a point lies in a circle.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -253,7 +266,8 @@ bool CircleAndLine(Primitives::Circle const &circle, Primitives::Line2D const &l
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a line intersects a circle.
+
+* Return a bool representing if a line intersects a circle.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -270,7 +284,8 @@ bool CircleAndCircle(Primitives::Circle const &circle1, Primitives::Circle const
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if two circles intersect.
+
+* Return a bool representing if two circles intersect.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -284,7 +299,8 @@ bool CircleAndCircle(Primitives::Circle const &circle1, Primitives::Circle const
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if two circles intersect and calculate the collision normal.
+
+* Return a bool representing if two circles intersect and calculate the collision normal.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -302,7 +318,8 @@ bool CircleAndAABB(Primitives::Circle const &circle, Primitives::AABB const &aab
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a circle intersects an AABB.
+
+* Return a bool representing if a circle intersects an AABB.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -317,7 +334,8 @@ bool CircleAndAABB(Primitives::Circle const &circle, Primitives::AABB const &aab
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a circle intersects an AABB and calculate the collision normal.
+
+* Return a bool representing if a circle intersects an AABB and calculate the collision normal.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -335,7 +353,8 @@ bool CircleAndBox2D(Primitives::Circle const &circle, Primitives::Box2D const &b
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a circle intersects a Box2D.
+
+* Return a bool representing if a circle intersects a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -350,7 +369,8 @@ bool CircleAndBox2D(Primitives::Circle const &circle, Primitives::Box2D const &b
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a circle intersects a Box2D and calculate the collision normal.
+
+* Return a bool representing if a circle intersects a Box2D and calculate the collision normal.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -368,7 +388,8 @@ bool AABBAndPoint(Primitives::AABB const &aabb, ZMath::Vec2D const &point);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in an AABB.
+
+* Return a bool representing if a point lies in an AABB.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -385,7 +406,8 @@ bool AABBAndLine(Primitives::AABB const &aabb, Primitives::Line2D const &line);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a line intersects an AABB.
+
+* Return a bool representing if a line intersects an AABB.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -402,7 +424,8 @@ bool AABBAndCircle(Primitives::AABB const &aabb, Primitives::Circle const &circl
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a circle intersects an AABB.
+
+* Return a bool representing if a circle intersects an AABB.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -417,7 +440,8 @@ bool AABBAndCircle(Primitives::AABB const &aabb, Primitives::Circle const &circl
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a circle intersects an AABB and calculate the collision normal.
+
+* Return a bool representing if a circle intersects an AABB and calculate the collision normal.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -435,7 +459,8 @@ bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if two AABBs intersect.
+
+* Return a bool representing if two AABBs intersect.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -450,7 +475,8 @@ bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2, Z
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if two AABBs intersect and calculate the collision normal.
+
+* Return a bool representing if two AABBs intersect and calculate the collision normal.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -468,7 +494,8 @@ bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if an AABB and Box2D intersect.
+
+* Return a bool representing if an AABB and Box2D intersect.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -483,7 +510,8 @@ bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box, ZM
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if an AABB and Box2D intersect and calculate the collision normal.
+
+* Return a bool representing if an AABB and Box2D intersect and calculate the collision normal.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -501,7 +529,8 @@ bool Box2DAndPoint(Primitives::Box2D const &box, ZMath::Vec2D const &point);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a Box2D.
+
+* Return a bool representing if a point lies in a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -518,7 +547,8 @@ bool Box2DAndLine(Primitives::Box2D const &box, Primitives::Line2D const &line);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a line intersects a Box2D.
+
+* Return a bool representing if a line intersects a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -535,7 +565,8 @@ bool Box2DAndCircle(Primitives::Box2D const &box, Primitives::Circle const &circ
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a circle intersects a Box2D.
+
+* Return a bool representing if a circle intersects a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -550,7 +581,8 @@ bool Box2DAndCircle(Primitives::Box2D const &box, Primitives::Circle const &circ
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a circle intersects a Box2D and calculate the collision normal.
+
+* Return a bool representing if a circle intersects a Box2D and calculate the collision normal.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -568,7 +600,8 @@ bool Box2DAndAABB(Primitives::Box2D const &box, Primitives::AABB const &aabb);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if an AABB intersects a Box2D.
+
+* Return a bool representing if an AABB intersects a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -583,7 +616,8 @@ bool Box2DAndAABB(Primitives::Box2D const &box, Primitives::AABB const &aabb, ZM
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if an AABB intersects a Box2D and calculate the collision normal.
+
+* Return a bool representing if an AABB intersects a Box2D and calculate the collision normal.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -601,7 +635,8 @@ bool Box2DAndBox2D(Primitives::Box2D const &box1, Primitives::Box2D const &box2)
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if two Box2Ds intersect.
+
+* Return a bool representing if two Box2Ds intersect.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -615,8 +650,9 @@ bool Box2DAndBox2D(Primitives::Box2D const &box1, Primitives::Box2D const &box2)
 bool Box2DAndBox2D(Primitives::Box2D const &box1, Primitives::Box2D const &box2, ZMath::Vec2D &normal);
 ```
 
-<span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if two Box2Ds intersect and calculate the collision normal.
+<span style="color:slategrey">Description:</span> 
+
+* Return a bool representing if two Box2Ds intersect and calculate the collision normal.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -634,8 +670,8 @@ CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb1, Primitives
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a CollisionManifold with data about the collision between two rigid bodies.  
-&ensp; &ensp; The physics handler calls this automatically. It is not recommended for you to call this function.
+
+* Return a [CollisionManifold](https://salamence064.github.io/Zeta2D/collisions/#collision-manifold) with data about the collision between two rigid bodies. The physics handler calls this automatically. It is not recommended for you to call this function.
 
 <span style="color:slategrey">Parameters:</span>
 

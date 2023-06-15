@@ -216,11 +216,20 @@ namespace Zeta {
                 rbs.rigidBodies[rbs.count++] = rb;
             };
 
-            // Remove a rigid body at the given index.
-            inline void removeRigidBody(int index) {
-                delete rbs.rigidBodies[index];
-                for (int i = index; i < rbs.count; ++i) { rbs.rigidBodies[i] = rbs.rigidBodies[i + 1]; }
-                rbs.count--;
+            // Remove a rigid body from the handler.
+            // 1 = rigid body was found and removed. 0 = It was not found.
+            // rb will be deleted if the rigid body was found.
+            inline bool removeRigidBody(Primitives::RigidBody2D* rb) {
+                for (int i = rbs.count; i >= 0; ++i) {
+                    if (rbs.rigidBodies[i] == rb) {
+                        delete rb;
+                        for (int j = i; i < rbs.count - 1; ++j) { rbs.rigidBodies[j] = rbs.rigidBodies[j + 1]; }
+                        rbs.count--;
+                        return 1;
+                    }
+                }
+
+                return 0;
             };
 
 

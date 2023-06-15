@@ -18,7 +18,8 @@ This class models a 2D ray. Rays are most notably used to simulate light, but ca
 
 #### <span style="color:steelblue">Constructor</span>
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Create a 2D ray from an origin point and normalized direction vector.  
+
+* Create a 2D ray from an origin point and normalized direction vector.  
   
 <span style="color:slategrey">Parameters:</span>
 
@@ -40,7 +41,8 @@ This class models a 2D line segment, which will be referred to as a "line" for c
 
 #### <span style="color:steelblue">Constructor</span>
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Create a 2D line from a starting and ending point.  
+
+* Create a 2D line from a starting and ending point.  
   
 <span style="color:slategrey">Parameters:</span>
 
@@ -68,7 +70,8 @@ This class models a circle. Circles are a common choice for colliders, especiall
 
 #### <span style="color:steelblue">Constructor</span>
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Create a circle from a centerpoint and a radius.  
+
+* Create a circle from a centerpoint and a radius.  
   
 <span style="color:slategrey">Parameters:</span>
 
@@ -90,7 +93,8 @@ This class models an unrotated rectangle. This is used over a Box2D for the unro
 
 #### <span style="color:steelblue">Constructor</span>
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Create an AABB from a min vertex and a max vertex.  
+
+* Create an AABB from a min vertex and a max vertex.  
   
 <span style="color:slategrey">Parameters:</span>
 
@@ -122,7 +126,8 @@ This class models a rotated rectangle. This should only be used for non-zero cas
 
 #### <span style="color:steelblue">Constructor</span>
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Create a Box2D from a min vertex, a max vertex, and an angle in degrees.  
+
+* Create a Box2D from a min vertex, a max vertex, and an angle in degrees.  
   
 <span style="color:slategrey">Parameters:</span>
 
@@ -159,18 +164,18 @@ This struct models a 2D rigid body. A rigid body is an object that's affected by
 | <span style="color:hotpink">float</span> | <span style="color:seagreen">mass</span> | The mass of the rigid body in grams. |
 | <span style="color:hotpink">float</span> | <span style="color:seagreen">invMass</span> | 1 over the mass of the rigid body in grams. |
 | <span style="color:hotpink">float</span> | <span style="color:seagreen">cor</span> | The coefficient of restitution of the rigid body.This represents a loss of kinetic energy due<br>to heat and should be between 0 and 1. 1 is perfectly elastic and 0 is perfectly inelastic. |
-| <span style="color:hotpink">float</span> | <span style="color:seagreen">linearDamping</span> | Controls how much the rigid body resists translation and should be included in the interval (0, 1].<br>1 = no resistance to translation. |
+| <span style="color:hotpink">float</span> | <span style="color:seagreen">linearDamping</span> | Controls how much the rigid body resists translation and should be on the interval (0, 1].<br>1 = no resistance to translation. |
 | <span style="color:hotpink">RigidBodyCollider</span> | <span style="color:seagreen">colliderType</span> | The collider type attached to the rigid body. |
 | <span style="color:hotpink"><br>Union</span> | <span style="color:seagreen"><br>collider</span> | A union containing a circle, AABB, and Box2D referenced by .circle, .aabb, and .box respectively.<br>Only use the collider associated with the collider type attached. You **must manually assign this**<br>and assigning the wrong collider will break the physics engine. |
 
 #### <span style="color:steelblue">Constructors</span>
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Create a 2D rigid body from a position, mass, coefficient of restitution, linear damping value, and colliderType.  
-&ensp; &ensp; Be aware that you will need to manually assign your own collider or the rigid body will cause undefined behavior.
+
+* Create a 2D rigid body from a position, mass, coefficient of restitution, linear damping value, and colliderType. Be aware that you will need to manually assign your own collider or the rigid body will cause undefined behavior.
   
 <span style="color:slategrey">Parameters:</span>
 
-* pos (Vec2D) - The centerpoint of the rigid body.
+* pos (Vec2D) - The centerpoint of the rigid body. This should be equal to the centerpoint of the collider.
 * mass (float) - The mass of the rigid body in grams.
 * cor (float) - The coefficient of restitution of the rigid body. Should be between 0 and 1 inclusive.
 * linearDamping (float) - The linear damping of the rigid body. Should be on the interval (0, 1].
@@ -199,8 +204,8 @@ void update(ZMath::Vec2D const &g, float dt);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Updates the rigid body based on its current physics attributes.  
-&ensp; &ensp; The physics handler will run this for it so it is **not recommended** to call this.
+
+* Updates the rigid body based on its current physics attributes. The physics handler will run this for it so it is **not recommended** to call this.
 
 <span style="color:slategrey">Parameters:</span>
 
@@ -220,12 +225,12 @@ This struct models a 2D static body. A static body is an object unaffected by ph
 
 #### <span style="color:steelblue">Constructors</span>
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Create a 2D static body from a position and colliderType.  
-&ensp; &ensp; Be aware that you will need to manually assign your own collider or the static body will cause undefined behavior.
+
+* Create a 2D static body from a position and colliderType. Be aware that you will need to manually assign your own collider or the static body will cause undefined behavior.
   
 <span style="color:slategrey">Parameters:</span>
 
-* pos (Vec2D) - The centerpoint of the static body.
+* pos (Vec2D) - The centerpoint of the static body. This should be equal to the centerpoint of the collider.
 * colliderType (StaticBodyCollider) - Enum value informing the engine which type of collider is attached to the static body.
 * collider (void*) - Pointer to the collider of the static body. If this does not match the collider type specified, undefined behavior will occur. If you specify the STATIC_NONE collider type, you should set this to nullptr. This constructor will call delete on it so do not try to use the collider pointer after creating the static body.
 
