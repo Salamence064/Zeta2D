@@ -398,16 +398,32 @@ bool AABBAndLine(Primitives::AABB const &aabb, Primitives::Line2D const &line);
 <span style="color:slategrey">Function Signature:</span>
 
 ```c++
-bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle);
+bool AABBAndCircle(Primitives::AABB const &aabb, Primitives::Circle const &circle);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+&ensp; &ensp; Return a bool representing if a circle intersects an AABB.
 
 <span style="color:slategrey">Parameters:</span>
 
-* point (Vec2D) - A point in 2D space.
-* Circle (Circle) - A circle.
+* aabb (AABB) - An unrotated rectangle.
+* circle (Circle) - A circle.
+
+
+<span style="color:slategrey">Function Signature:</span>
+
+```c++
+bool AABBAndCircle(Primitives::AABB const &aabb, Primitives::Circle const &circle, ZMath::Vec2D &normal);
+```
+
+<span style="color:slategrey">Description:</span>  
+&ensp; &ensp; Return a bool representing if a circle intersects an AABB and calculate the collision normal.
+
+<span style="color:slategrey">Parameters:</span>
+
+* aabb (AABB) - An unrotated rectangle.
+* circle (Circle) - A circle.
+* normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.
 
 
 ### <span style="color:darkolivegreen">AABBAndAABB</span>
@@ -415,16 +431,32 @@ bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle)
 <span style="color:slategrey">Function Signature:</span>
 
 ```c++
-bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle);
+bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+&ensp; &ensp; Return a bool representing if two AABBs intersect.
 
 <span style="color:slategrey">Parameters:</span>
 
-* point (Vec2D) - A point in 2D space.
-* Circle (Circle) - A circle.
+* aabb1 (AABB) - An unrotated rectangle.
+* aabb2 (AABB) - A second unrotated rectangle.
+
+
+<span style="color:slategrey">Function Signature:</span>
+
+```c++
+bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2, ZMath::Vec2D &normal);
+```
+
+<span style="color:slategrey">Description:</span>  
+&ensp; &ensp; Return a bool representing if two AABBs intersect and calculate the collision normal.
+
+<span style="color:slategrey">Parameters:</span>
+
+* aabb1 (AABB) - An unrotated rectangle.
+* aabb2 (AABB) - A second unrotated rectangle.
+* normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.
 
 
 ### <span style="color:darkolivegreen">AABBAndBox2D</span>
@@ -432,16 +464,32 @@ bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle)
 <span style="color:slategrey">Function Signature:</span>
 
 ```c++
-bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle);
+bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+&ensp; &ensp; Return a bool representing if an AABB and Box2D intersect.
 
 <span style="color:slategrey">Parameters:</span>
 
-* point (Vec2D) - A point in 2D space.
-* Circle (Circle) - A circle.
+* aabb (AABB) - An unrotated rectangle.
+* box (Box2D) - A rotated rectangle.
+
+
+<span style="color:slategrey">Function Signature:</span>
+
+```c++
+bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box, ZMath::Vec2D &normal);
+```
+
+<span style="color:slategrey">Description:</span>  
+&ensp; &ensp; Return a bool representing if an AABB and Box2D intersect and calculate the collision normal.
+
+<span style="color:slategrey">Parameters:</span>
+
+* aabb (AABB) - An unrotated rectangle.
+* box (Box2D) - A rotated rectangle.
+* normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.
 
 
 ### <span style="color:darkolivegreen">Box2DAndPoint</span>
@@ -449,16 +497,16 @@ bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle)
 <span style="color:slategrey">Function Signature:</span>
 
 ```c++
-bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle);
+bool Box2DAndPoint(Primitives::Box2D const &box, ZMath::Vec2D const &point);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+&ensp; &ensp; Return a bool representing if a point lies in a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
+* box (Box2D) - A rotated rectangle.
 * point (Vec2D) - A point in 2D space.
-* Circle (Circle) - A circle.
 
 
 ### <span style="color:darkolivegreen">Box2DAndLine</span>
@@ -466,16 +514,16 @@ bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle)
 <span style="color:slategrey">Function Signature:</span>
 
 ```c++
-bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle);
+bool Box2DAndLine(Primitives::Box2D const &box, Primitives::Line2D const &line);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+&ensp; &ensp; Return a bool representing if a line intersects a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
-* point (Vec2D) - A point in 2D space.
-* Circle (Circle) - A circle.
+* box (Box2D) - A rotated rectangle.
+* line (Line2D) - A line in 2D space.
 
 
 ### <span style="color:darkolivegreen">Box2DAndCircle</span>
@@ -483,16 +531,32 @@ bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle)
 <span style="color:slategrey">Function Signature:</span>
 
 ```c++
-bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle);
+bool Box2DAndCircle(Primitives::Box2D const &box, Primitives::Circle const &circle);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+&ensp; &ensp; Return a bool representing if a circle intersects a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
-* point (Vec2D) - A point in 2D space.
-* Circle (Circle) - A circle.
+* box (Box2D) - A rotated rectangle.
+* circle (Circle) - A circle.
+
+
+<span style="color:slategrey">Function Signature:</span>
+
+```c++
+bool Box2DAndCircle(Primitives::Box2D const &box, Primitives::Circle const &circle, ZMath::Vec2D &normal);
+```
+
+<span style="color:slategrey">Description:</span>  
+&ensp; &ensp; Return a bool representing if a circle intersects a Box2D and calculate the collision normal.
+
+<span style="color:slategrey">Parameters:</span>
+
+* box (Box2D) - A rotated rectangle.
+* circle (Circle) - A circle.
+* normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.
 
 
 ### <span style="color:darkolivegreen">Box2DAndAABB</span>
@@ -500,16 +564,32 @@ bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle)
 <span style="color:slategrey">Function Signature:</span>
 
 ```c++
-bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle);
+bool Box2DAndAABB(Primitives::Box2D const &box, Primitives::AABB const &aabb);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+&ensp; &ensp; Return a bool representing if an AABB intersects a Box2D.
 
 <span style="color:slategrey">Parameters:</span>
 
-* point (Vec2D) - A point in 2D space.
-* Circle (Circle) - A circle.
+* box (Box2D) - A rotated rectangle.
+* aabb (AABB) - An unrotated rectangle.
+
+
+<span style="color:slategrey">Function Signature:</span>
+
+```c++
+bool Box2DAndAABB(Primitives::Box2D const &box, Primitives::AABB const &aabb, ZMath::Vec2D &normal);
+```
+
+<span style="color:slategrey">Description:</span>  
+&ensp; &ensp; Return a bool representing if an AABB intersects a Box2D and calculate the collision normal.
+
+<span style="color:slategrey">Parameters:</span>
+
+* box (Box2D) - A rotated rectangle.
+* aabb (AABB) - An unrotated rectangle.
+* normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.
 
 
 ### <span style="color:darkolivegreen">Box2DAndBox2D</span>
@@ -517,16 +597,32 @@ bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle)
 <span style="color:slategrey">Function Signature:</span>
 
 ```c++
-bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle);
+bool Box2DAndBox2D(Primitives::Box2D const &box1, Primitives::Box2D const &box2);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+&ensp; &ensp; Return a bool representing if two Box2Ds intersect.
 
 <span style="color:slategrey">Parameters:</span>
 
-* point (Vec2D) - A point in 2D space.
-* Circle (Circle) - A circle.
+* box1 (Box2D) - A rotated rectangle.
+* box2 (Box2D) - A second rotated rectangle.
+
+
+<span style="color:slategrey">Function Signature:</span>
+
+```c++
+bool Box2DAndBox2D(Primitives::Box2D const &box1, Primitives::Box2D const &box2, ZMath::Vec2D &normal);
+```
+
+<span style="color:slategrey">Description:</span>  
+&ensp; &ensp; Return a bool representing if two Box2Ds intersect and calculate the collision normal.
+
+<span style="color:slategrey">Parameters:</span>
+
+* box1 (Box2D) - A rotated rectangle.
+* box2 (Box2D) - A second rotated rectangle.
+* normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.
 
 
 ### <span style="color:darkolivegreen">findCollisionFeatures</span>
@@ -534,13 +630,14 @@ bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle)
 <span style="color:slategrey">Function Signature:</span>
 
 ```c++
-bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle);
+CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2);
 ```
 
 <span style="color:slategrey">Description:</span>  
-&ensp; &ensp; Return a bool representing if a point lies in a circle.
+&ensp; &ensp; Return a CollisionManifold with data about the collision between two rigid bodies.  
+&ensp; &ensp; The physics handler calls this automatically. It is not recommended for you to call this function.
 
 <span style="color:slategrey">Parameters:</span>
 
-* point (Vec2D) - A point in 2D space.
-* Circle (Circle) - A circle.
+* rb1 (RigidBody2D*) - A pointer to a rigid body.
+* rb2 (RigidBody2D*) - A pointer to a different rigid body.

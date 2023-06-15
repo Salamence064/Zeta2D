@@ -46,28 +46,28 @@ int main() {
     // Create your physics handler with the default settings.
     Zeta::handler handler = Zeta::handler();
 
+    // Create the colliders.
+    Primitives::Circle* c1 = new Primitives::Circle(ZMath::Vec2D(100.0f, 120.0f), 25.0f);
+    Primitives::Circle* c2 = new Primitives::Circle(ZMath::Vec2D(200.0f, 240.0f), 12.0f);
+
     // Create some rigid bodies to pass to the handler.
     Primitives::RigidBody2D rb1(
-        ZMath::Vec2D(100.0f, 120.0f),     // centerpoint
-        50.0f,                            // mass
-        0.9f,                             // coefficient of restitution
-        0.975f,                           // linear damping
-        Primitives::RIGID_CIRCLE_COLLIDER // collider type
+        c1->c,                             // centerpoint
+        50.0f,                             // mass
+        0.9f,                              // coefficient of restitution
+        0.975f,                            // linear damping
+        Primitives::RIGID_CIRCLE_COLLIDER, // collider type
+        c1                                 // collider (gets deleted by the constructor)
     );
 
     Primitives::RigidBody2D rb2(
-        ZMath::Vec2D(200.0f, 240.0f),     // centerpoint
-        20.0f,                            // mass
-        0.95f,                            // coefficient of restitution
-        0.8f,                             // linear damping
-        Primitives::RIGID_CIRCLE_COLLIDER // collider type
+        c2->pos,                           // centerpoint
+        20.0f,                             // mass
+        0.95f,                             // coefficient of restitution
+        0.8f,                              // linear damping
+        Primitives::RIGID_CIRCLE_COLLIDER, // collider type
+        c2                                 // collider (gets deleted by the constructor)
     );
-
-    // Assign the rigid body colliders.
-    // We chose RIGID_CIRCLE_COLLIDER so we must make circle colliders.
-    //                              centerpoint   radius
-    rb1.circle = Primitives::Circle(rb1.pos,      25.0f);
-    rb2.circle = Primitives::Circle(rb2.pos,      12.0f);
 
     // Add the rigid bodies to the handler.
     handler.addRigidBody(&rb1);
