@@ -148,7 +148,7 @@ ZMath::Vec2D* getVertices() const; // Returns a pointer array of size 4 with the
 ```
 
 ### <span style="color:darkolivegreen">RigidBody2D</span>
-This struct models a 2D rigid body. A rigid body is an object that's affected by physics. It has various fields storing information to use for physics updates. Below are the core fields and functions.
+This class models a 2D rigid body. A rigid body is an object that's affected by physics. It has various fields storing information to use for physics updates. Below are the core fields and functions.
 
 #### <span style="color:steelblue">Fields</span>
 | <span style="color:slategrey">Type</span> | <span style="color:slategrey">Identifier</span> | <span style="color:slategrey">Description</span> |
@@ -209,7 +209,7 @@ void update(ZMath::Vec2D const &g, float dt);
 
 
 ### <span style="color:darkolivegreen">StaticBody2D</span>
-This struct models a 2D static body. A static body is an object unaffected by physics. Static bodies are commonly used to model walls, goals, death zones, etc. as those objects should be unaffected by physics. Static bodies still contain a collider, allowing you to check and resolve static body collisions how you see fit. Below are the core fields.
+This class models a 2D static body. A static body is an object unaffected by physics. Static bodies are commonly used to model walls, goals, death zones, etc. as those objects should be unaffected by physics. Static bodies still contain a collider, allowing you to check and resolve static body collisions how you see fit. Below are the core fields.
 
 #### <span style="color:steelblue">Fields</span>
 | <span style="color:slategrey">Type</span> | <span style="color:slategrey">Identifier</span> | <span style="color:slategrey">Description</span> |
