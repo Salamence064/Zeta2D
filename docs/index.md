@@ -80,7 +80,7 @@ int main() {
     while (windowShouldNotClose) {
         /* Rendering/Drawing code should go here */
 
-        handler.update(&dt); // The handler will subtract from dt for you.
+        handler.update(dt); // The handler will subtract from dt for you.
         // Note: getEllapsedTime() should be replaced with the equivalent function in your graphics library.
         dt += getEllapsedTime(); 
     }

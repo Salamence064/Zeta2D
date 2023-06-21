@@ -147,11 +147,6 @@ ZMath::Vec2D getHalfsize() const;  // Returns the Box2D's halfsize.
 ZMath::Vec2D* getVertices() const; // Returns a pointer array of size 4 with the vertices of the Box2D in global space.
 ```
 
-___
-
-## <span style="color:fuchsia">Structs</span>
-This subsection talks about the structs contained in the Primitives namespace. Both of these structs &#8212; RigidBody2D and StaticBody2D &#8212; store vital information about a rigid or static body respectively. 
-
 ### <span style="color:darkolivegreen">RigidBody2D</span>
 This struct models a 2D rigid body. A rigid body is an object that's affected by physics. It has various fields storing information to use for physics updates. Below are the core fields and functions.
 
@@ -171,7 +166,7 @@ This struct models a 2D rigid body. A rigid body is an object that's affected by
 #### <span style="color:steelblue">Constructors</span>
 <span style="color:slategrey">Description:</span>  
 
-* Create a 2D rigid body from a position, mass, coefficient of restitution, linear damping value, and colliderType. Be aware that you will need to manually assign your own collider or the rigid body will cause undefined behavior.
+* Create a 2D rigid body from a position, mass, coefficient of restitution, linear damping value, colliderType, and a collider.
   
 <span style="color:slategrey">Parameters:</span>
 
@@ -180,7 +175,7 @@ This struct models a 2D rigid body. A rigid body is an object that's affected by
 * cor (float) - The coefficient of restitution of the rigid body. Should be between 0 and 1 inclusive.
 * linearDamping (float) - The linear damping of the rigid body. Should be on the interval (0, 1].
 * colliderType (RigidBodyCollider) - Enum value informing the engine which type of collider is attached to the rigid body.
-* collider (void*) - Pointer to the collider of the rigid body. If this does not match the collider type specified, undefined behavior will occur. If you specify the RIGID_NONE collider type, you should set this to nullptr. This constructor will call delete on it so do not try to use the collider pointer after creating the rigid body.
+* collider (void*) - Pointer to the collider of the rigid body. If this does not match the collider type specified, undefined behavior will occur. If you specify the RIGID_NONE collider type, you should set this to nullptr. Delete will not be called on this pointer.
 
 ```c++
 RigidBody2D(
@@ -212,6 +207,7 @@ void update(ZMath::Vec2D const &g, float dt);
 * g (Vec2D) - The acceleration due to gravity.
 * dt (float) - Amount of time passed since the last update.
 
+
 ### <span style="color:darkolivegreen">StaticBody2D</span>
 This struct models a 2D static body. A static body is an object unaffected by physics. Static bodies are commonly used to model walls, goals, death zones, etc. as those objects should be unaffected by physics. Static bodies still contain a collider, allowing you to check and resolve static body collisions how you see fit. Below are the core fields.
 
@@ -226,13 +222,13 @@ This struct models a 2D static body. A static body is an object unaffected by ph
 #### <span style="color:steelblue">Constructors</span>
 <span style="color:slategrey">Description:</span>  
 
-* Create a 2D static body from a position and colliderType. Be aware that you will need to manually assign your own collider or the static body will cause undefined behavior.
+* Create a 2D static body from a position, colliderType, and collider.
   
 <span style="color:slategrey">Parameters:</span>
 
 * pos (Vec2D) - The centerpoint of the static body. This should be equal to the centerpoint of the collider.
 * colliderType (StaticBodyCollider) - Enum value informing the engine which type of collider is attached to the static body.
-* collider (void*) - Pointer to the collider of the static body. If this does not match the collider type specified, undefined behavior will occur. If you specify the STATIC_NONE collider type, you should set this to nullptr. This constructor will call delete on it so do not try to use the collider pointer after creating the static body.
+* collider (void*) - Pointer to the collider of the static body. If this does not match the collider type specified, undefined behavior will occur. If you specify the STATIC_NONE collider type, you should set this to nullptr. Delete will not be called on this pointer.
 
 ```c++
 StaticBody2D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType, void* collider);
