@@ -285,8 +285,6 @@ namespace Zeta {
             };
 
 
-            // todo add functions to allow for the addition and removal of a list of rigid bodies and a list of static bodies
-
             // * ============================
             // * RigidBody List Functions
             // * ============================
@@ -304,6 +302,22 @@ namespace Zeta {
                 }
 
                 rbs.rigidBodies[rbs.count++] = rb;
+            };
+
+            // Add a list of rigid bodies to the handler.
+            inline void addRigidBodies(Primitives::RigidBody2D** rbs, int size) {
+                if (this->rbs.count + size > this->rbs.capacity) {
+                    do { this->rbs.capacity *= 2; } while (this->rbs.count + size > this->rbs.capacity);
+                    Primitives::RigidBody2D** temp = new Primitives::RigidBody2D*[this->rbs.capacity];
+                
+                    for (int i = 0; i < this->rbs.count; ++i) { temp[i] = this->rbs.rigidBodies[i]; }
+
+                    delete[] this->rbs.rigidBodies;
+                    this->rbs.rigidBodies = temp;
+                }
+
+
+                for (int i = 0; i < size; ++i) { this->rbs.rigidBodies[this->rbs.count++] = rbs[i]; }
             };
 
             // Remove a rigid body from the handler.
@@ -340,6 +354,21 @@ namespace Zeta {
                 }
 
                 sbs.staticBodies[sbs.count++] = sb;
+            };
+
+            // Add a list of static bodies to the handler.
+            inline void addStaticBodies(Primitives::StaticBody2D** sbs, int size) {
+                if (this->sbs.count + size > this->sbs.capacity) {
+                    do { this->sbs.capacity *= 2; } while(this->sbs.count + size > this->sbs.capacity);
+                    Primitives::StaticBody2D** temp = new Primitives::StaticBody2D*[this->sbs.capacity];
+
+                    for (int i = 0; i < this->sbs.count; ++i) { temp[i] = this->sbs.staticBodies[i]; }
+
+                    delete[] this->sbs.staticBodies;
+                    this->sbs.staticBodies = temp;
+                }
+
+                for (int i = 0; i < size; ++i) { this->sbs.staticBodies[this->sbs.count++] = sbs[i]; }
             };
 
             // Remove a static body from the handler.
