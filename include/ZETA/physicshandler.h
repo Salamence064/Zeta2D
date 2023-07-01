@@ -415,14 +415,25 @@ namespace Zeta {
                     // todo use spacial partitioning
                     // Narrow phase: Impulse resolution
                     for (int k = 0; k < IMPULSE_ITERATIONS; ++k) {
-                        // todo use the ZMath MIN and MAX functions to reduce the number of iterations
+                        if (colWrapper.count > staticColWrapper.count) { // staticColWrapper is the shorter of the two.
+                            for (int i = 0; i < staticColWrapper.count; ++i) {
+                                applyImpulse(colWrapper.bodies1[i], colWrapper.bodies2[i], colWrapper.manifolds[i]);
+                                applyImpulse(staticColWrapper.rbs[i], staticColWrapper.sbs[i], staticColWrapper.manifolds[i]);
+                            }
 
-                        for (int i = 0; i < colWrapper.count; ++i) {
-                            applyImpulse(colWrapper.bodies1[i], colWrapper.bodies2[i], colWrapper.manifolds[i]);
-                        }
+                            for (int i = staticColWrapper.count; i < colWrapper.count; ++i) {
+                                applyImpulse(colWrapper.bodies1[i], colWrapper.bodies2[i], colWrapper.manifolds[i]);
+                            }
 
-                        for (int i = 0; i < staticColWrapper.count; ++i) {
-                            applyImpulse(staticColWrapper.rbs[i], staticColWrapper.sbs[i], staticColWrapper.manifolds[i]);
+                        } else { // colWrapper is the shorter or the two or they are equal.
+                            for (int i = 0; i < colWrapper.count; ++i) {
+                                applyImpulse(colWrapper.bodies1[i], colWrapper.bodies2[i], colWrapper.manifolds[i]);
+                                applyImpulse(staticColWrapper.rbs[i], staticColWrapper.sbs[i], staticColWrapper.manifolds[i]);
+                            }
+
+                            for (int i = colWrapper.count; i < staticColWrapper.count; ++i) {
+                                applyImpulse(staticColWrapper.rbs[i], staticColWrapper.sbs[i], staticColWrapper.manifolds[i]);
+                            }
                         }
                     }
 
