@@ -96,9 +96,9 @@ namespace Primitives {
             };
     };
 
-    class StaticBody3D {
+    class StaticBody2D {
         public:
-            StaticBody3D() {}; // Default constructor to make the compiler happy (for efficiency).
+            StaticBody2D() {}; // Default constructor to make the compiler happy (for efficiency).
 
             /**
              * @brief Create a 2D staticbody.
@@ -108,7 +108,7 @@ namespace Primitives {
              * @param collider A pointer to the collider of the static body. If this does not match the colliderType specified, it will
              *                   cause undefined behvior to occur. If you specify STATIC_NONE, this should be set to nullptr. 
              */
-            StaticBody3D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType, void* collider) : pos(pos), colliderType(colliderType) {
+            StaticBody2D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType, void* collider) : pos(pos), colliderType(colliderType) {
                 switch(colliderType) {
                     case STATIC_CIRCLE_COLLIDER: { this->collider.circle = *((Circle*) collider); }
                     case STATIC_AABB_COLLIDER: { this->collider.aabb = *((AABB*) collider); }

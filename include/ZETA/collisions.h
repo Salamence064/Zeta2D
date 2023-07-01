@@ -769,7 +769,61 @@ namespace Collisions {
                 break;
             }
 
-            default: {
+            case Primitives::STATIC_CUSTOM_COLLIDER: {
+                // * User defined types go here.
+                break;
+            }
+        }
+
+        return {ZMath::Vec2D(), nullptr, -1.0f, 0, 0};
+    };
+
+    // Find the collision features between a rigid and static body.
+    // The normal will point away from the static body and towards the rigid body.
+    CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb) {
+        // ? The normal points towards B and away from A so we want to pass the rigid body's colliders second.
+
+        switch(sb->colliderType) {
+            case Primitives::STATIC_CIRCLE_COLLIDER: {
+                switch(rb->colliderType) {
+                    case Primitives::RIGID_CIRCLE_COLLIDER: { return findCollisionFeatures(sb->collider.circle, rb->collider.circle); }
+                    case Primitives::RIGID_AABB_COLLIDER: { return findCollisionFeatures(sb->collider.circle, rb->collider.aabb); }
+                    case Primitives::RIGID_BOX2D_COLLIDER: { return findCollisionFeatures(sb->collider.circle, rb->collider.box); }
+                }
+            }
+
+            case Primitives::STATIC_AABB_COLLIDER: {
+                switch(rb->colliderType) {
+                    case Primitives::RIGID_CIRCLE_COLLIDER: {
+                        CollisionManifold manifold = findCollisionFeatures(rb->collider.circle, sb->collider.aabb);
+                        manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
+                        return manifold;
+                    }
+
+                    case Primitives::RIGID_AABB_COLLIDER: { return findCollisionFeatures(sb->collider.aabb, rb->collider.aabb); }
+                    case Primitives::RIGID_BOX2D_COLLIDER: { return findCollisionFeatures(sb->collider.aabb, rb->collider.box); }
+                }
+            }
+
+            case Primitives::STATIC_BOX2D_COLLIDER: {
+                switch(rb->colliderType) {
+                    case Primitives::RIGID_CIRCLE_COLLIDER: {
+                        CollisionManifold manifold = findCollisionFeatures(rb->collider.circle, sb->collider.box);
+                        manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
+                        return manifold;
+                    }
+
+                    case Primitives::RIGID_AABB_COLLIDER: {
+                        CollisionManifold manifold = findCollisionFeatures(rb->collider.aabb, sb->collider.box);
+                        manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
+                        return manifold;
+                    }
+
+                    case Primitives::RIGID_BOX2D_COLLIDER: { return findCollisionFeatures(sb->collider.box, rb->collider.box); }
+                }
+            }
+
+            case Primitives::STATIC_CUSTOM_COLLIDER: {
                 // * User defined types go here.
                 break;
             }
