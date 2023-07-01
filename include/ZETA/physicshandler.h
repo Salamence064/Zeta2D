@@ -35,6 +35,13 @@ namespace Zeta {
         rb2->vel += manifold.normal * (rb2->invMass * J);
     };
 
+    // todo test to ensure this is sufficient for impulse resolution
+    // Resolve a collision between a rigid and static body.
+    void applyImpulse(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb, Collisions::CollisionManifold const &manifold) {
+        float J = ((ZMath::abs(rb->vel) * -(1 + rb->cor)) * manifold.normal)/rb->invMass;
+        rb->vel -= manifold.normal * (rb->invMass * J);
+    };
+
 
     // * ==============
     // * Wrappers
