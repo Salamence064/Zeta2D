@@ -133,8 +133,35 @@ namespace Zeta {
 
                 colWrapper.bodies1[colWrapper.count] = rb1;
                 colWrapper.bodies2[colWrapper.count] = rb2;
-                colWrapper.manifolds[colWrapper.count] = manifold;
-                colWrapper.count++;
+                colWrapper.manifolds[colWrapper.count++] = manifold;
+            };
+
+            inline void addCollision(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb, Collisions::CollisionManifold const &manifold) {
+                if (staticColWrapper.count == staticColWrapper.capacity) {
+                    staticColWrapper.capacity *= 2;
+
+                    Primitives::StaticBody2D** temp1 = new Primitives::StaticBody2D*[staticColWrapper.capacity];
+                    Primitives::RigidBody2D** temp2 = new Primitives::RigidBody2D*[staticColWrapper.capacity];
+                    Collisions::CollisionManifold* temp3 = new Collisions::CollisionManifold[staticColWrapper.capacity];
+
+                    for (int i = 0; i < staticColWrapper.count; ++i) {
+                        temp1[i] = staticColWrapper.sbs[i];
+                        temp2[i] = staticColWrapper.rbs[i];
+                        temp3[i] = staticColWrapper.manifolds[i];
+                    }
+
+                    delete[] staticColWrapper.sbs;
+                    delete[] staticColWrapper.rbs;
+                    delete[] staticColWrapper.manifolds;
+
+                    staticColWrapper.sbs = temp1;
+                    staticColWrapper.rbs = temp2;
+                    staticColWrapper.manifolds = temp3;
+                }
+
+                staticColWrapper.sbs[staticColWrapper.count] = sb;
+                staticColWrapper.rbs[staticColWrapper.count] = rb;
+                staticColWrapper.manifolds[staticColWrapper.count++] = manifold;
             };
 
             inline void clearCollisions() {
@@ -343,19 +370,30 @@ namespace Zeta {
 
                 while (dt >= updateStep) {
                     // Broad phase: collision detection
-                    for (int i = 0; i < rbs.count - 1; i++) {
-                        for (int j = i + 1; j < rbs.count; j++) {
+                    for (int i = 0; i < rbs.count - 1; ++i) {
+                        for (int j = i + 1; j < rbs.count; ++j) {
                             Collisions::CollisionManifold result = Collisions::findCollisionFeatures(rbs.rigidBodies[i], rbs.rigidBodies[j]);
                             if (result.hit) { addCollision(rbs.rigidBodies[i], rbs.rigidBodies[j], result); }
+                        }
+
+                        for (int j = 0; j < sbs.count; ++j) {
+                            Collisions::CollisionManifold result = Collisions::findCollisionFeatures(rbs.rigidBodies[i], sbs.staticBodies[j]);
+                            if (result.hit) { addCollision(rbs.rigidBodies[i], sbs.staticBodies[j], result); }
                         }
                     }
 
                     // todo update to not be through iterative deepening -- look into this in the future
                     // todo use spacial partitioning
                     // Narrow phase: Impulse resolution
-                    for (int k = 0; k < IMPULSE_ITERATIONS; k++) {
-                        for (int i = 0; i < colWrapper.count; i++) {
+                    for (int k = 0; k < IMPULSE_ITERATIONS; ++k) {
+                        // todo use the ZMath MIN and MAX functions to reduce the number of iterations
+
+                        for (int i = 0; i < colWrapper.count; ++i) {
                             applyImpulse(colWrapper.bodies1[i], colWrapper.bodies2[i], colWrapper.manifolds[i]);
+                        }
+
+                        for (int i = 0; i < staticColWrapper.count; ++i) {
+                            applyImpulse(staticColWrapper.rbs[i], staticColWrapper.sbs[i], staticColWrapper.manifolds[i]);
                         }
                     }
 
