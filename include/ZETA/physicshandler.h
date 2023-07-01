@@ -53,9 +53,24 @@ namespace Zeta {
             int count; // number of rigid bodies 
         };
 
+        struct StaticBodies {
+            Primitives::StaticBody2D** staticBodies = nullptr; // list of active static bodies
+            int capacity; // current max capacity
+            int count;  // number of static bodies
+        };
+
         struct CollisionWrapper {
             Primitives::RigidBody2D** bodies1 = nullptr; // list of colliding bodies (Object A)
             Primitives::RigidBody2D** bodies2 = nullptr; // list of colliding bodies (Object B)
+            Collisions::CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
+
+            int capacity; // current max capacity
+            int count; // number of collisions
+        };
+
+        struct StaticCollisionWrapper {
+            Primitives::StaticBody2D** sbs = nullptr; // list of colliding static bodies (Object A)
+            Primitives::RigidBody2D** rbs = nullptr; // list of colliding rigid bodies (Object B)
             Collisions::CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
 
             int capacity; // current max capacity
@@ -75,7 +90,9 @@ namespace Zeta {
             // * =================
 
             RigidBodies rbs; // rigid bodies to update
+            StaticBodies sbs; // static bodies to update
             CollisionWrapper colWrapper; // collision information
+            StaticCollisionWrapper staticColWrapper; // collision information involving static body collisions
             float updateStep; // amount of dt to update after
             static const int IMPULSE_ITERATIONS = 6; // number of times to apply the impulse update.
 
@@ -116,8 +133,10 @@ namespace Zeta {
             inline void clearCollisions() {
                 // ? We do not need to check for nullptrs because if this function is reached it is guarenteed none of the pointers inside of here will be NULL
 
-                int halfRbs = rbs.count/2;
+                int halfRbs = rbs.capacity/2;
 
+
+                // * standard collision wrapper
                 delete[] colWrapper.bodies1;
                 delete[] colWrapper.bodies2;
 
@@ -130,6 +149,21 @@ namespace Zeta {
 
                 colWrapper.capacity = halfRbs;
                 colWrapper.count = 0;
+
+
+                // * Static collision wrapper
+                delete[] staticColWrapper.sbs;
+                delete[] staticColWrapper.rbs;
+
+                for (int i = 0; i < staticColWrapper.count; ++i) { delete[] staticColWrapper.manifolds[i].contactPoints; }
+                delete[] staticColWrapper.manifolds;
+
+                staticColWrapper.sbs = new Primitives::StaticBody2D*[halfRbs];
+                staticColWrapper.rbs = new Primitives::RigidBody2D*[halfRbs];
+                staticColWrapper.manifolds = new Collisions::CollisionManifold[halfRbs];
+
+                staticColWrapper.capacity = halfRbs;
+                staticColWrapper.count = 0;
             };
 
         public:
@@ -159,11 +193,21 @@ namespace Zeta {
                 rbs.capacity = startingSlots;
                 rbs.count = 0;
 
+                sbs.staticBodies = new Primitives::StaticBody2D*[startingSlots];
+                sbs.capacity = startingSlots;
+                sbs.count = 0;
+
                 colWrapper.bodies1 = new Primitives::RigidBody2D*[halfStartingSlots];
                 colWrapper.bodies2 = new Primitives::RigidBody2D*[halfStartingSlots];
                 colWrapper.manifolds = new Collisions::CollisionManifold[halfStartingSlots];
                 colWrapper.capacity = halfStartingSlots;
                 colWrapper.count = 0;
+
+                staticColWrapper.sbs = new Primitives::StaticBody2D*[halfStartingSlots];
+                staticColWrapper.rbs = new Primitives::RigidBody2D*[halfStartingSlots];
+                staticColWrapper.manifolds = new Collisions::CollisionManifold[halfStartingSlots];
+                staticColWrapper.capacity = halfStartingSlots;
+                staticColWrapper.count = 0;
             };
 
             // Do not allow for construction from an existing physics handler.
@@ -180,6 +224,9 @@ namespace Zeta {
                     for (int i = 0; i < rbs.count; ++i) { delete rbs.rigidBodies[i]; }
                     delete[] rbs.rigidBodies;
 
+                    for (int i = 0; i < sbs.count; ++i) { delete sbs.staticBodies[i]; }
+                    delete[] sbs.staticBodies;
+
                     for (int i = 0; i < colWrapper.count; ++i) {
                         delete colWrapper.bodies1[i];
                         delete colWrapper.bodies2[i];
@@ -193,9 +240,18 @@ namespace Zeta {
                     // ? We do not need to check for nullptr for contactPoints as if colWrapper.count > 0, it is guarenteed manifolds[i].contactPoints != nullptr.
                     for (int i = 0; i < colWrapper.count; ++i) { delete[] colWrapper.manifolds[i].contactPoints; }
                     delete[] colWrapper.manifolds;
+
+                    // * Same thing but for the static collisions
+                    delete[] staticColWrapper.sbs;
+                    delete[] staticColWrapper.rbs;
+
+                    for (int i = 0; i < staticColWrapper.count; ++i) { delete[] staticColWrapper.manifolds[i].contactPoints; }
+                    delete[] colWrapper.manifolds;
                 }
             };
 
+
+            // todo add functions to allow for the addition and removal of a list of rigid bodies and a list of static bodies
 
             // * ============================
             // * RigidBody List Functions
@@ -220,11 +276,47 @@ namespace Zeta {
             // 1 = rigid body was found and removed. 0 = It was not found.
             // rb will be deleted if the rigid body was found.
             inline bool removeRigidBody(Primitives::RigidBody2D* rb) {
-                for (int i = rbs.count; i >= 0; --i) {
+                for (int i = rbs.count - 1; i >= 0; --i) {
                     if (rbs.rigidBodies[i] == rb) {
                         delete rb;
                         for (int j = i; i < rbs.count - 1; ++j) { rbs.rigidBodies[j] = rbs.rigidBodies[j + 1]; }
                         rbs.count--;
+                        return 1;
+                    }
+                }
+
+                return 0;
+            };
+
+
+            // * ============================
+            // * StaticBody List Functions
+            // * ============================
+
+            // Add a static body to the handler.
+            inline void addStaticBody(Primitives::StaticBody2D* sb) {
+                if (sbs.count == sbs.capacity) {
+                    sbs.capacity *= 2;
+                    Primitives::StaticBody2D** temp = new Primitives::StaticBody2D*[sbs.capacity];
+
+                    for (int i = 0; i < sbs.count; ++i) { temp[i] = sbs.staticBodies[i]; }
+
+                    delete[] sbs.staticBodies;
+                    sbs.staticBodies = temp;
+                }
+
+                sbs.staticBodies[sbs.count++] = sb;
+            };
+
+            // Remove a static body from the handler.
+            // 1 = static body was found and removed. 0 = It was not found.
+            // sb will be deleted if the static body was found.
+            inline bool removeStaticBody(Primitives::StaticBody2D* sb) {
+                for (int i = sbs.count - 1; i >= 0; --i) {
+                    if (sbs.staticBodies[i] == sb) {
+                        delete sb;
+                        for (int j = i; j < sbs.count - 1; ++j) { sbs.staticBodies[j] = sbs.staticBodies[j + 1]; }
+                        sbs.count--;
                         return 1;
                     }
                 }
