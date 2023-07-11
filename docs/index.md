@@ -44,11 +44,14 @@ Here is a quick snippet to get Zeta2D up and running in your project. There are 
 
 int main() {
     // Create your physics handler with the default settings.
+    // Note: for this example, it is assumed the bottom left corner of the screen is the origin.
+    //       However, Zeta will work regardless of coordinate system as long as you adjust the gravity.
     Zeta::handler handler = Zeta::handler();
 
     // Create the colliders.
     Primitives::Circle* c1 = new Primitives::Circle(ZMath::Vec2D(100.0f, 120.0f), 25.0f);
     Primitives::Circle* c2 = new Primitives::Circle(ZMath::Vec2D(200.0f, 240.0f), 12.0f);
+    Primitives::AABB* aabb = new Primitives::AABB(ZMath::Vec2D(100.0f, 0.0f), ZMath::Vec2D(400.0f, 50.0f));
 
     // Create some rigid bodies to pass to the handler.
     Primitives::RigidBody2D rb1(
@@ -57,7 +60,7 @@ int main() {
         0.9f,                              // coefficient of restitution
         0.975f,                            // linear damping
         Primitives::RIGID_CIRCLE_COLLIDER, // collider type
-        c1                                 // collider (gets deleted by the constructor)
+        c1                                 // collider
     );
 
     Primitives::RigidBody2D rb2(
@@ -66,12 +69,22 @@ int main() {
         0.95f,                             // coefficient of restitution
         0.8f,                              // linear damping
         Primitives::RIGID_CIRCLE_COLLIDER, // collider type
-        c2                                 // collider (gets deleted by the constructor)
+        c2                                 // collider
+    );
+
+    // Create a static body to pass to the handler.
+    Primitives::StaticBody2D sb(
+        aabb->pos,                        // centerpoint
+        Primitives::STATIC_AABB_COLLIDER, // collider type
+        aabb                              // collider
     );
 
     // Add the rigid bodies to the handler.
     handler.addRigidBody(&rb1);
     handler.addRigidBody(&rb2);
+
+    // Add the static body to the handler.
+    handler.addStaticBody(&sb);
 
     // Program's dt loop.
     float dt = 0.0f;
