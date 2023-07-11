@@ -677,3 +677,21 @@ CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb1, Primitives
 
 * rb1 (RigidBody2D*) - A pointer to a rigid body.
 * rb2 (RigidBody2D*) - A pointer to a different rigid body.
+
+
+### <span style="color:darkolivegreen">findCollisionFeatures</span>
+
+<span style="color:slategrey">Function Signature:</span>
+
+```c++
+CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb);
+```
+
+<span style="color:slategrey">Description:</span>  
+
+* Return a [CollisionManifold](https://salamence064.github.io/Zeta2D/collisions/#collision-manifold) with data about the collision between a rigid and static body. The physics handler calls this automatically. It is not recommended for you to call this function.
+
+<span style="color:slategrey">Parameters:</span>
+
+* rb (RigidBody2D*) - A pointer to a rigid body.
+* sb (StaticBody2D*) - A pointer to a static body.

@@ -21,8 +21,8 @@ ___
 
 ## Planned Additions
 * Addition of an examples directory
-* Rotational Kinematics
-* Kinematic Bodies
+* Rotational kinematics
+* Kinematic bodies
 ___
 
 ## Contributors
