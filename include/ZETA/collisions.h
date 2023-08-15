@@ -728,6 +728,7 @@ namespace Collisions {
     }
 
     // Find the collision features and resolve the impulse between two arbitrary primitives.
+    // The normal will point towards B and away from A.
     inline CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2) {
         switch (rb1->colliderType) {
             case Primitives::RIGID_CIRCLE_COLLIDER: {
@@ -769,7 +770,7 @@ namespace Collisions {
                 break;
             }
 
-            case Primitives::STATIC_CUSTOM_COLLIDER: {
+            case Primitives::RIGID_CUSTOM_COLLIDER: {
                 // * User defined types go here.
                 break;
             }
@@ -940,5 +941,55 @@ namespace Collisions {
         return {ZMath::Vec2D(), nullptr, -1.0f, 0, 0};
     };
 
-    
+    // Find the collision features between two kinematic bodies.
+    // The normal points towards B and away from A.
+    inline CollisionManifold findCollisionFeatures(Primitives::KinematicBody2D* kb1, Primitives::KinematicBody2D* kb2) {
+        switch (kb1->colliderType) {
+            case Primitives::KINEMATIC_CIRCLE_COLLIDER: {
+                if (kb2->colliderType == Primitives::KINEMATIC_CIRCLE_COLLIDER) { return findCollisionFeatures(kb1->collider.circle, kb2->collider.circle); }
+                if (kb2->colliderType == Primitives::KINEMATIC_AABB_COLLIDER) { return findCollisionFeatures(kb1->collider.circle, kb2->collider.aabb); }
+                if (kb2->colliderType == Primitives::KINEMATIC_BOX2D_COLLIDER) { return findCollisionFeatures(kb1->collider.circle, kb2->collider.box); }
+
+                break;
+            }
+
+            case Primitives::KINEMATIC_AABB_COLLIDER: {
+                if (kb2->colliderType == Primitives::KINEMATIC_CIRCLE_COLLIDER) {
+                    CollisionManifold manifold = findCollisionFeatures(kb2->collider.circle, kb1->collider.aabb);
+                    manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
+                    return manifold;
+                }
+
+                if (kb2->colliderType == Primitives::KINEMATIC_AABB_COLLIDER) { return findCollisionFeatures(kb1->collider.aabb, kb2->collider.aabb); }
+                if (kb2->colliderType == Primitives::KINEMATIC_BOX2D_COLLIDER) { return findCollisionFeatures(kb1->collider.aabb, kb2->collider.box); }
+
+                break;
+            }
+
+            case Primitives::KINEMATIC_BOX2D_COLLIDER: {
+                if (kb2->colliderType == Primitives::KINEMATIC_CIRCLE_COLLIDER) {
+                    CollisionManifold manifold = findCollisionFeatures(kb2->collider.circle, kb1->collider.box);
+                    manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
+                    return manifold;
+                }
+
+                if (kb2->colliderType == Primitives::KINEMATIC_AABB_COLLIDER) {
+                    CollisionManifold manifold = findCollisionFeatures(kb2->collider.aabb, kb1->collider.box);
+                    manifold.normal = -manifold.normal; // flip the direction as the original order passed in was reversed
+                    return manifold;
+                }
+
+                if (kb2->colliderType == Primitives::KINEMATIC_BOX2D_COLLIDER) { return findCollisionFeatures(kb1->collider.box, kb2->collider.box); }
+
+                break;
+            }
+
+            case Primitives::KINEMATIC_CUSTOM_COLLIDER: {
+                // * User defined types go here.
+                break;
+            }
+        }
+
+        return {ZMath::Vec2D(), nullptr, -1.0f, 0, 0};
+    };
 }
