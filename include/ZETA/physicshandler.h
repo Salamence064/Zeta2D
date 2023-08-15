@@ -37,12 +37,33 @@ namespace Zeta {
         rb2->vel += manifold.normal * (rb2->invMass * J);
     };
 
-    // todo test to ensure this is sufficient for impulse resolution
+    // todo technically could pass just purely the rigid and kinematic bodies for their impulse resolution vs static bodies
+    // todo test to ensure these are sufficient for impulse resolution ------------------------------------------------------------------
     // Resolve a collision between a rigid and static body.
     inline void applyImpulse(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb, Collisions::CollisionManifold const &manifold) {
-        float J = ((ZMath::abs(rb->vel) * -(1 + rb->cor)) * manifold.normal)/rb->invMass;
-        rb->vel -= manifold.normal * (rb->invMass * J);
+        float J = ((ZMath::abs(rb->vel) * -(1 + rb->cor)) * manifold.normal) * rb->mass;
+        rb->vel += manifold.normal * (rb->invMass * J);
     };
+
+    // Resolve a collision between a rigid and kinematic body.
+    inline void applyImpulse(Primitives::RigidBody2D* rb, Primitives::KinematicBody2D* kb, Collisions::CollisionManifold const &manifold) {
+        float J = ((ZMath::abs(rb->vel) * -(1 + rb->cor)) * manifold.normal) * rb->mass;
+        rb->vel += manifold.normal * (rb->invMass * J);
+        kb->pos -= manifold.normal * manifold.pDist;
+    };
+
+    // Resolve a collision between a static and kinematic body.
+    inline void applyImpulse(Primitives::KinematicBody2D* kb, Primitives::StaticBody2D* sb, Collisions::CollisionManifold const &manifold) {
+        kb->pos += manifold.normal * (2 * manifold.pDist);
+    };
+
+    // Resolve a collision between two kinematic bodies.
+    inline void applyImpulse(Primitives::KinematicBody2D* kb1, Primitives::KinematicBody2D* kb2, Collisions::CollisionManifold const &manifold) {
+        kb1->pos -= manifold.normal * manifold.pDist;
+        kb2->pos += manifold.normal * manifold.pDist;
+    };
+
+    // todo -----------------------------------------------------------------------------------------------------------------------------
 
 
     // * ==============
