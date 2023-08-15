@@ -699,6 +699,7 @@ namespace Zeta {
             int update(float &dt) {
                 int count = 0;
 
+                // todo figure out what to do to combine all of the loops together as much as possible
                 while (dt >= updateStep) {
                     // Broad phase: collision detection
                     for (int i = 0; i < rbs.count - 1; ++i) {
@@ -711,10 +712,28 @@ namespace Zeta {
                             Collisions::CollisionManifold result = Collisions::findCollisionFeatures(rbs.rigidBodies[i], sbs.staticBodies[j]);
                             if (result.hit) { addCollision(rbs.rigidBodies[i], sbs.staticBodies[j], result); }
                         }
+
+                        for (int j = 0; j < kbs.count; ++j) {
+                            Collisions::CollisionManifold result = Collisions::findCollisionFeatures(rbs.rigidBodies[i], kbs.kinematicBodies[j]);
+                            if (result.hit) { addCollision(rbs.rigidBodies[i], kbs.kinematicBodies[j], result); }
+                        }
+                    }
+
+                    // check for kinematic body collisions
+                    for (int i = 0; i < kbs.count; ++i) {
+                        for (int j = i + 1; j < kbs.count; ++j) {
+                            Collisions::CollisionManifold result = Collisions::findCollisionFeatures(kbs.kinematicBodies[i], kbs.kinematicBodies[j]);
+                            if (result.hit) { addCollision(kbs.kinematicBodies[i], kbs.kinematicBodies[j], result); }
+                        }
+
+                        for (int j = 0; j < sbs.count; ++j) {
+                            Collisions::CollisionManifold result = Collisions::findCollisionFeatures(kbs.kinematicBodies[i], sbs.staticBodies[j]);
+                            if (result.hit) { addCollision(sbs.staticBodies[j], kbs.kinematicBodies[i], result); }
+                        }
                     }
 
                     // todo update to not be through iterative deepening -- look into this in the future
-                    // todo use spacial partitioning
+                    // todo use spatial partitioning
                     // Narrow phase: Impulse resolution
                     for (int k = 0; k < IMPULSE_ITERATIONS; ++k) {
                         if (colWrapper.count > staticColWrapper.count) { // staticColWrapper is the shorter of the two.
@@ -736,6 +755,19 @@ namespace Zeta {
                             for (int i = colWrapper.count; i < staticColWrapper.count; ++i) {
                                 applyImpulse(staticColWrapper.rbs[i], staticColWrapper.sbs[i], staticColWrapper.manifolds[i]);
                             }
+                        }
+
+                        // resolve kinematic body collisions // todo combine these together similar to how I did with the other checks to add fewer iterations
+                        for (int i = 0; i < rkColWrapper.count; ++i) {
+                            applyImpulse(rkColWrapper.rbs[i], rkColWrapper.kbs[i], rkColWrapper.manifolds[i]);
+                        }
+
+                        for (int i = 0; i < skColWrapper.count; ++i) {
+                            applyImpulse(skColWrapper.kbs[i], skColWrapper.sbs[i], skColWrapper.manifolds[i]);
+                        }
+
+                        for (int i = 0; i < kColWrapper.count; ++i) {
+                            applyImpulse(kColWrapper.kb1s[i], kColWrapper.kb2s[i], kColWrapper.manifolds[i]);
                         }
                     }
 
