@@ -74,8 +74,8 @@ namespace Zeta {
         // these are also likely just placeholders until we can find a good value
         static const int startingSlots = 64;
         static const int halfStartingSlots = 32;
-        static const int kStartingSlots = 2;
-        static const int kHalfStartingSlots = 1;
+        static const int kStartingSlots = 4;
+        static const int kHalfStartingSlots = 2;
 
         // ? For now, default to allocating 64 slots for Objects. Adjust once we start implementing more stuff.
 
@@ -118,6 +118,36 @@ namespace Zeta {
 
             int capacity; // current max capacity
             int count; // number of collisions
+        };
+
+        // Store data about collisions between rigid and kinematic bodies
+        struct RkCollisionWrapper {
+            Primitives::RigidBody2D** rbs = nullptr;
+            Primitives::KinematicBody2D** kbs = nullptr;
+            Collisions::CollisionManifold* manifolds = nullptr;
+
+            int capacity;
+            int count;
+        };
+
+        // Store data about collisions between kinematic and static bodies
+        struct SkCollisionWrapper {
+            Primitives::KinematicBody2D** kbs = nullptr;
+            Primitives::StaticBody2D** sbs = nullptr;
+            Collisions::CollisionManifold* manifolds = nullptr;
+
+            int capacity;
+            int count;
+        };
+
+        // Store data about collisions between two kinematic bodies
+        struct KinematicCollisionWrapper {
+            Primitives::KinematicBody2D** kb1s = nullptr;
+            Primitives::KinematicBody2D** kb2s = nullptr;
+            Collisions::CollisionManifold* manifolds = nullptr;
+
+            int capacity;
+            int count;
         };
     }
 
