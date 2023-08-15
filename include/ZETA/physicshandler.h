@@ -167,6 +167,9 @@ namespace Zeta {
             KinematicBodies kbs; // kinematic bodies to update
             CollisionWrapper colWrapper; // collision information
             StaticCollisionWrapper staticColWrapper; // collision information involving static body collisions
+            RkCollisionWrapper rkColWrapper; // collision information involving rigid and kinematic body collisions
+            SkCollisionWrapper skColWrapper; // collision information involving static and kinematic body collisions
+            KinematicCollisionWrapper kColWrapper; // collision information involving kinematic body collisions
             float updateStep; // amount of dt to update after
             static const int IMPULSE_ITERATIONS = 6; // number of times to apply the impulse update.
 
@@ -231,6 +234,90 @@ namespace Zeta {
                 staticColWrapper.manifolds[staticColWrapper.count++] = manifold;
             };
 
+            inline void addCollision(Primitives::RigidBody2D* rb, Primitives::KinematicBody2D* kb, Collisions::CollisionManifold const &manifold) {
+                if (rkColWrapper.count == rkColWrapper.capacity) {
+                    rkColWrapper.capacity *= 2;
+
+                    Primitives::RigidBody2D** temp1 = new Primitives::RigidBody2D*[rkColWrapper.capacity];
+                    Primitives::KinematicBody2D** temp2 = new Primitives::KinematicBody2D*[rkColWrapper.capacity];
+                    Collisions::CollisionManifold* temp3 = new Collisions::CollisionManifold[rkColWrapper.capacity];
+
+                    for (int i = 0; i < rkColWrapper.count; ++i) {
+                        temp1[i] = rkColWrapper.rbs[i];
+                        temp2[i] = rkColWrapper.kbs[i];
+                        temp3[i] = rkColWrapper.manifolds[i];
+                    }
+
+                    delete[] rkColWrapper.rbs;
+                    delete[] rkColWrapper.kbs;
+                    delete[] rkColWrapper.manifolds;
+
+                    rkColWrapper.rbs = temp1;
+                    rkColWrapper.kbs = temp2;
+                    rkColWrapper.manifolds = temp3;
+                }
+
+                rkColWrapper.rbs[rkColWrapper.count] = rb;
+                rkColWrapper.kbs[rkColWrapper.count] = kb;
+                rkColWrapper.manifolds[rkColWrapper.count++] = manifold;
+            };
+
+            inline void addCollision(Primitives::StaticBody2D* sb, Primitives::KinematicBody2D* kb, Collisions::CollisionManifold const &manifold) {
+                if (skColWrapper.count == skColWrapper.capacity) {
+                    skColWrapper.capacity *= 2;
+
+                    Primitives::StaticBody2D** temp1 = new Primitives::StaticBody2D*[skColWrapper.capacity];
+                    Primitives::KinematicBody2D** temp2 = new Primitives::KinematicBody2D*[skColWrapper.capacity];
+                    Collisions::CollisionManifold* temp3 = new Collisions::CollisionManifold[skColWrapper.capacity];
+
+                    for (int i = 0; i < skColWrapper.count; ++i) {
+                        temp1[i] = skColWrapper.sbs[i];
+                        temp2[i] = skColWrapper.kbs[i];
+                        temp3[i] = skColWrapper.manifolds[i];
+                    }
+
+                    delete[] skColWrapper.sbs;
+                    delete[] skColWrapper.kbs;
+                    delete[] skColWrapper.manifolds;
+
+                    skColWrapper.sbs = temp1;
+                    skColWrapper.kbs = temp2;
+                    skColWrapper.manifolds = temp3;
+                }
+
+                skColWrapper.sbs[skColWrapper.count] = sb;
+                skColWrapper.kbs[skColWrapper.count] = kb;
+                skColWrapper.manifolds[skColWrapper.count++] = manifold;
+            };
+
+            inline void addCollision(Primitives::KinematicBody2D* kb1, Primitives::KinematicBody2D* kb2, Collisions::CollisionManifold const &manifold) {
+                if (kColWrapper.count == kColWrapper.capacity) {
+                    kColWrapper.capacity *= 2;
+
+                    Primitives::KinematicBody2D** temp1 = new Primitives::KinematicBody2D*[kColWrapper.capacity];
+                    Primitives::KinematicBody2D** temp2 = new Primitives::KinematicBody2D*[kColWrapper.capacity];
+                    Collisions::CollisionManifold* temp3 = new Collisions::CollisionManifold[kColWrapper.capacity];
+
+                    for (int i = 0; i < kColWrapper.count; ++i) {
+                        temp1[i] = kColWrapper.kb1s[i];
+                        temp2[i] = kColWrapper.kb2s[i];
+                        temp3[i] = kColWrapper.manifolds[i];
+                    }
+
+                    delete[] kColWrapper.kb1s;
+                    delete[] kColWrapper.kb2s;
+                    delete[] kColWrapper.manifolds;
+
+                    kColWrapper.kb1s = temp1;
+                    kColWrapper.kb2s = temp2;
+                    kColWrapper.manifolds = temp3;
+                }
+
+                kColWrapper.kb1s[kColWrapper.count] = kb1;
+                kColWrapper.kb2s[kColWrapper.count] = kb2;
+                kColWrapper.manifolds[kColWrapper.count++] = manifold;
+            };
+
             inline void clearCollisions() {
                 // ? We do not need to check for nullptrs because if this function is reached it is guarenteed none of the pointers inside of here will be NULL
 
@@ -291,6 +378,7 @@ namespace Zeta {
             Handler(ZMath::Vec2D const &g = ZMath::Vec2D(0, -9.8f), float timeStep = FPS_60) : g(g), updateStep(timeStep) {
                 if (updateStep < FPS_60) { updateStep = FPS_60; } // hard cap at 60 FPS
 
+                // * Bodies
                 rbs.rigidBodies = new Primitives::RigidBody2D*[startingSlots];
                 rbs.capacity = startingSlots;
                 rbs.count = 0;
@@ -303,6 +391,8 @@ namespace Zeta {
                 kbs.capacity = kStartingSlots;
                 kbs.count = 0;
 
+
+                // * Collisions
                 colWrapper.bodies1 = new Primitives::RigidBody2D*[halfStartingSlots];
                 colWrapper.bodies2 = new Primitives::RigidBody2D*[halfStartingSlots];
                 colWrapper.manifolds = new Collisions::CollisionManifold[halfStartingSlots];
@@ -314,6 +404,24 @@ namespace Zeta {
                 staticColWrapper.manifolds = new Collisions::CollisionManifold[halfStartingSlots];
                 staticColWrapper.capacity = halfStartingSlots;
                 staticColWrapper.count = 0;
+
+                rkColWrapper.rbs = new Primitives::RigidBody2D*[kHalfStartingSlots];
+                rkColWrapper.kbs = new Primitives::KinematicBody2D*[kHalfStartingSlots];
+                rkColWrapper.manifolds = new Collisions::CollisionManifold[kHalfStartingSlots];
+                rkColWrapper.capacity = kHalfStartingSlots;
+                rkColWrapper.count = 0;
+
+                skColWrapper.sbs = new Primitives::StaticBody2D*[kHalfStartingSlots];
+                skColWrapper.kbs = new Primitives::KinematicBody2D*[kHalfStartingSlots];
+                skColWrapper.manifolds = new Collisions::CollisionManifold[kHalfStartingSlots];
+                skColWrapper.capacity = kHalfStartingSlots;
+                skColWrapper.count = 0;
+
+                kColWrapper.kb1s = new Primitives::KinematicBody2D*[kHalfStartingSlots];
+                kColWrapper.kb2s = new Primitives::KinematicBody2D*[kHalfStartingSlots];
+                kColWrapper.manifolds = new Collisions::CollisionManifold[kHalfStartingSlots];
+                kColWrapper.capacity = kHalfStartingSlots;
+                kColWrapper.count = 0;
             };
 
             // Do not allow for construction from an existing physics handler.
@@ -361,6 +469,25 @@ namespace Zeta {
 
                     for (int i = 0; i < staticColWrapper.count; ++i) { delete[] staticColWrapper.manifolds[i].contactPoints; }
                     delete[] colWrapper.manifolds;
+
+                    // * Same stuff but for kinematic body collisions
+                    delete[] rkColWrapper.kbs;
+                    delete[] rkColWrapper.rbs;
+
+                    for (int i = 0; i < rkColWrapper.count; ++i) { delete[] rkColWrapper.manifolds[i].contactPoints; }
+                    delete[] rkColWrapper.manifolds;
+
+                    delete[] skColWrapper.kbs;
+                    delete[] skColWrapper.sbs;
+
+                    for (int i = 0; i < skColWrapper.count; ++i) { delete[] skColWrapper.manifolds[i].contactPoints; }
+                    delete[] skColWrapper.manifolds;
+
+                    delete[] kColWrapper.kb1s;
+                    delete[] kColWrapper.kb2s;
+
+                    for (int i = 0; i < kColWrapper.count; ++i) { delete[] kColWrapper.manifolds[i].contactPoints; }
+                    delete[] kColWrapper.manifolds;
                 }
             };
 

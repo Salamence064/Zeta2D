@@ -22,7 +22,7 @@ ___
 ## Planned Additions
 * Addition of an examples directory
 * Rotational kinematics
-* Kinematic bodies
+* Optimize Physics Handler code (especially code relating to impulse resolution)
 ___
 
 ## Contributors
