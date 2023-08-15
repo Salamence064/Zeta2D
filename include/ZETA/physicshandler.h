@@ -322,6 +322,7 @@ namespace Zeta {
                 // ? We do not need to check for nullptrs because if this function is reached it is guarenteed none of the pointers inside of here will be NULL
 
                 int halfRbs = rbs.capacity/2;
+                int halfKbs = kbs.capacity/2;
 
 
                 // * standard collision wrapper
@@ -352,6 +353,49 @@ namespace Zeta {
 
                 staticColWrapper.capacity = halfRbs;
                 staticColWrapper.count = 0;
+
+
+                // * Kinematic body collision wrappers
+                delete[] rkColWrapper.rbs;
+                delete[] rkColWrapper.kbs;
+                
+                for (int i = 0; i < rkColWrapper.count; ++i) { delete[] rkColWrapper.manifolds[i].contactPoints; }
+                delete[] rkColWrapper.manifolds;
+
+                rkColWrapper.rbs = new Primitives::RigidBody2D*[halfKbs];
+                rkColWrapper.kbs = new Primitives::KinematicBody2D*[halfKbs];
+                rkColWrapper.manifolds = new Collisions::CollisionManifold[halfKbs];
+
+                rkColWrapper.capacity = halfKbs;
+                rkColWrapper.count = 0;
+
+
+                delete[] skColWrapper.sbs;
+                delete[] skColWrapper.kbs;
+                
+                for (int i = 0; i < skColWrapper.count; ++i) { delete[] skColWrapper.manifolds[i].contactPoints; }
+                delete[] skColWrapper.manifolds;
+
+                skColWrapper.sbs = new Primitives::StaticBody2D*[halfKbs];
+                skColWrapper.kbs = new Primitives::KinematicBody2D*[halfKbs];
+                skColWrapper.manifolds = new Collisions::CollisionManifold[halfKbs];
+
+                skColWrapper.capacity = halfKbs;
+                skColWrapper.count = 0;
+
+
+                delete[] kColWrapper.kb1s;
+                delete[] kColWrapper.kb2s;
+                
+                for (int i = 0; i < kColWrapper.count; ++i) { delete[] kColWrapper.manifolds[i].contactPoints; }
+                delete[] kColWrapper.manifolds;
+
+                kColWrapper.kb1s = new Primitives::KinematicBody2D*[halfKbs];
+                kColWrapper.kb2s = new Primitives::KinematicBody2D*[halfKbs];
+                kColWrapper.manifolds = new Collisions::CollisionManifold[halfKbs];
+
+                kColWrapper.capacity = halfKbs;
+                kColWrapper.count = 0;
             };
 
         public:
