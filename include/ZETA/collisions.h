@@ -22,7 +22,7 @@ namespace Collisions {
         // * Collision Manifold Calculators
         // * ===================================
 
-        CollisionManifold findCollisionFeatures(Primitives::Circle const &circle1, Primitives::Circle const &circle2) {
+        inline CollisionManifold findCollisionFeatures(Primitives::Circle const &circle1, Primitives::Circle const &circle2) {
             CollisionManifold result;
 
             float r = circle1.r + circle2.r;
@@ -45,7 +45,7 @@ namespace Collisions {
             return result;
         };
 
-        CollisionManifold findCollisionFeatures(Primitives::Circle const &circle, Primitives::AABB const &aabb) {
+        inline CollisionManifold findCollisionFeatures(Primitives::Circle const &circle, Primitives::AABB const &aabb) {
             CollisionManifold result;
 
             // ? We know a circle and AABB would intersect if the distance from the closest point to the center on the AABB
@@ -78,7 +78,7 @@ namespace Collisions {
             return result;
         };
 
-        CollisionManifold findCollisionFeatures(Primitives::Circle const &circle, Primitives::Box2D const &box) {
+        inline CollisionManifold findCollisionFeatures(Primitives::Circle const &circle, Primitives::Box2D const &box) {
             CollisionManifold result;
 
             ZMath::Vec2D closest = circle.c - box.pos;
@@ -132,7 +132,7 @@ namespace Collisions {
          * @param pos The position of the incident AABB.
          * @param normal The normal vector of the collision (points towards B away from A).
          */
-        static void computeIncidentFaceAABB(ZMath::Vec2D v[2], const ZMath::Vec2D& h, const ZMath::Vec2D& pos, const ZMath::Vec2D& normal) {
+        inline static void computeIncidentFaceAABB(ZMath::Vec2D v[2], const ZMath::Vec2D& h, const ZMath::Vec2D& pos, const ZMath::Vec2D& normal) {
             // Take the absolute value of the normal for comparisons.
             ZMath::Vec2D nAbs = ZMath::abs(normal);
 
@@ -169,7 +169,7 @@ namespace Collisions {
          * @param rot The rotation matrix of the incident Box2D.
          * @param normal The normal vector of the collision.
          */
-        static void computeIncidentFace(ZMath::Vec2D v[2], const ZMath::Vec2D& h, const ZMath::Vec2D& pos, 
+        inline static void computeIncidentFace(ZMath::Vec2D v[2], const ZMath::Vec2D& h, const ZMath::Vec2D& pos, 
                                         const ZMath::Mat2D& rot, const ZMath::Vec2D& normal) {
 
             // Rotate the normal to the incident Box2D's local space.
@@ -213,7 +213,7 @@ namespace Collisions {
          * @param offset Distance to the side corresponding with side normal.
          * @return (int) The number of clipping points. If this does not return 2, there is not an intersection on this axis.
          */
-        int clipSegmentToLine(ZMath::Vec2D vOut[2], ZMath::Vec2D vIn[2], const ZMath::Vec2D &n, float offset) {
+        inline int clipSegmentToLine(ZMath::Vec2D vOut[2], ZMath::Vec2D vIn[2], const ZMath::Vec2D &n, float offset) {
             // begin with 0 output points
             int np = 0;
 
@@ -234,7 +234,7 @@ namespace Collisions {
 
         // ? Normal points towards B and away from A
 
-        CollisionManifold findCollisionFeatures(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2) {
+        inline CollisionManifold findCollisionFeatures(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2) {
             CollisionManifold result;
 
             // half size of AABB a and b respectively
@@ -363,7 +363,7 @@ namespace Collisions {
 
         // ? Normal points towards B and away from A
 
-        CollisionManifold findCollisionFeatures(Primitives::AABB const &aabb, Primitives::Box2D const &box) {
+        inline CollisionManifold findCollisionFeatures(Primitives::AABB const &aabb, Primitives::Box2D const &box) {
             CollisionManifold result;
 
             // half size of a and b respectively
@@ -538,7 +538,7 @@ namespace Collisions {
 
         // ? Normal points towards B and away from A
 
-        CollisionManifold findCollisionFeatures(Primitives::Box2D const &box1, Primitives::Box2D const &box2) {
+        inline CollisionManifold findCollisionFeatures(Primitives::Box2D const &box1, Primitives::Box2D const &box2) {
             CollisionManifold result;
 
             // half size of Box2D a and b respectively
@@ -728,7 +728,7 @@ namespace Collisions {
     }
 
     // Find the collision features and resolve the impulse between two arbitrary primitives.
-    CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2) {
+    inline CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2) {
         switch (rb1->colliderType) {
             case Primitives::RIGID_CIRCLE_COLLIDER: {
                 if (rb2->colliderType == Primitives::RIGID_CIRCLE_COLLIDER) { return findCollisionFeatures(rb1->collider.circle, rb2->collider.circle); }
@@ -780,7 +780,7 @@ namespace Collisions {
 
     // Find the collision features between a rigid and static body.
     // The normal will point away from the static body and towards the rigid body.
-    CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb) {
+    inline CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb) {
         // ? The normal points towards B and away from A so we want to pass the rigid body's colliders second.
 
         switch(sb->colliderType) {
@@ -825,6 +825,60 @@ namespace Collisions {
 
             case Primitives::STATIC_CUSTOM_COLLIDER: {
                 // * User defined types go here.
+                break;
+            }
+        }
+
+        return {ZMath::Vec2D(), nullptr, -1.0f, 0, 0};
+    };
+
+    // Find the collision features between a rigid and kinematic body.
+    // The normal will point away from the kinematic body and towards the rigid body.
+    inline CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb, Primitives::KinematicBody2D* kb) {
+        // ? The normal points towards B and away from A so we want to pass the rb's collider second.
+
+        switch(kb->colliderType) {
+            case Primitives::KINEMATIC_CIRCLE_COLLIDER: {
+                switch(rb->colliderType) {
+                    case Primitives::RIGID_CIRCLE_COLLIDER: { return findCollisionFeatures(kb->collider.circle, rb->collider.circle); }
+                    case Primitives::RIGID_AABB_COLLIDER: { return findCollisionFeatures(kb->collider.circle, rb->collider.aabb); }
+                    case Primitives::RIGID_BOX2D_COLLIDER: { return findCollisionFeatures(kb->collider.circle, rb->collider.box); }
+                }
+            }
+
+            case Primitives::KINEMATIC_AABB_COLLIDER: {
+                switch(rb->colliderType) {
+                    case Primitives::RIGID_CIRCLE_COLLIDER: {
+                        CollisionManifold result = findCollisionFeatures(rb->collider.circle, kb->collider.aabb);
+                        result.normal = -result.normal;
+                        return result;
+                    }
+
+                    case Primitives::RIGID_AABB_COLLIDER: { return findCollisionFeatures(kb->collider.aabb, rb->collider.aabb); }
+                    case Primitives::RIGID_BOX2D_COLLIDER: { return findCollisionFeatures(kb->collider.aabb, rb->collider.box); }
+                }
+            }
+
+            case Primitives::KINEMATIC_BOX2D_COLLIDER: {
+                switch(rb->colliderType) {
+                    case Primitives::RIGID_CIRCLE_COLLIDER: {
+                        CollisionManifold result = findCollisionFeatures(rb->collider.circle, kb->collider.box);
+                        result.normal = -result.normal;
+                        return result;
+                    }
+
+                    case Primitives::RIGID_AABB_COLLIDER: {
+                        CollisionManifold result = findCollisionFeatures(rb->collider.aabb, kb->collider.box);
+                        result.normal = -result.normal;
+                        return result;
+                    }
+
+                    case Primitives::RIGID_BOX2D_COLLIDER: { return findCollisionFeatures(kb->collider.box, rb->collider.box); }
+                }
+            }
+
+            case Primitives::KINEMATIC_CUSTOM_COLLIDER: {
+                // * User defined colliders go here.
                 break;
             }
         }

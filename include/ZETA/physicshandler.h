@@ -3,6 +3,8 @@
 #include "collisions.h"
 #include <stdexcept>
 
+// todo add Kinematic body handling to here
+
 namespace Zeta {
     // * ====================================
     // * Common Framerates for Handler
@@ -19,7 +21,7 @@ namespace Zeta {
     // * =========================
 
     // Resolve a collision between two rigidbodies.
-    void applyImpulse(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2, Collisions::CollisionManifold const &manifold) {
+    inline void applyImpulse(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2, Collisions::CollisionManifold const &manifold) {
         // delta v = J/m
         // For this calculation we need to acocunt for the relative velocity between the two objects
         // v_r = v_1 - v_2
@@ -37,7 +39,7 @@ namespace Zeta {
 
     // todo test to ensure this is sufficient for impulse resolution
     // Resolve a collision between a rigid and static body.
-    void applyImpulse(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb, Collisions::CollisionManifold const &manifold) {
+    inline void applyImpulse(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb, Collisions::CollisionManifold const &manifold) {
         float J = ((ZMath::abs(rb->vel) * -(1 + rb->cor)) * manifold.normal)/rb->invMass;
         rb->vel -= manifold.normal * (rb->invMass * J);
     };
