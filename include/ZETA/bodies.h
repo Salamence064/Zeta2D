@@ -19,11 +19,20 @@ namespace Primitives {
         STATIC_NONE
     };
 
+    enum KinematicBodyCollider {
+        KINEMATIC_CIRCLE_COLLIDER,
+        KINEMATIC_AABB_COLLIDER,
+        KINEMATIC_BOX2D_COLLIDER,
+        KINEMATIC_CUSTOM_COLLIDER,
+        KINEMATIC_NONE
+    };
+
+
     class RigidBody2D {
         public:
             // Remember to specify the necessary fields before using the RigidBody2D if using the default constructor.
             // Consult documentation for those fields if needed.
-            RigidBody2D() {}; // Default constructor to make the compiler happy (for efficiency).
+            inline RigidBody2D() {}; // Default constructor to make the compiler happy (for efficiency).
 
             /**
              * @brief Create a 2D RigidBody.
@@ -37,7 +46,7 @@ namespace Primitives {
              * @param collider A pointer to the collider of the rigid body. If this does not match the colliderType specified, it will
              *                   cause undefined behvior to occur. If you specify RIGID_NONE, this should be set to nullptr. 
              */
-            RigidBody2D(ZMath::Vec2D const &pos, float mass, float cor, float linearDamping, RigidBodyCollider colliderType, void* collider) 
+            inline RigidBody2D(ZMath::Vec2D const &pos, float mass, float cor, float linearDamping, RigidBodyCollider colliderType, void* collider) 
                     : pos(pos), mass(mass), invMass(1.0f/mass), cor(cor), linearDamping(linearDamping), colliderType(colliderType)
             {
                 switch(colliderType) {
@@ -76,17 +85,17 @@ namespace Primitives {
             float linearDamping;
 
             ZMath::Vec2D pos; // centerpoint of the rigidbody.
-            ZMath::Vec2D vel = ZMath::Vec2D(); // velocity of the rigidbody.
-            ZMath::Vec2D netForce = ZMath::Vec2D(); // sum of all forces acting on the rigidbody.
+            ZMath::Vec2D vel; // velocity of the rigidbody.
+            ZMath::Vec2D netForce; // sum of all forces acting on the rigidbody.
 
-            void update(ZMath::Vec2D const &g, float dt) {
+            inline void update(ZMath::Vec2D const &g, float dt) {
                 // ? assuming g is gravity, and it is already negative
                 netForce += g * mass;
                 vel += (netForce * invMass) * dt;
                 pos += vel * dt;
 
                 vel *= linearDamping;
-                netForce = ZMath::Vec2D();
+                netForce.zero();
 
                 // Update the pos of the collider.
                 // If statements are more readable than a switch here.
@@ -96,9 +105,10 @@ namespace Primitives {
             };
     };
 
+
     class StaticBody2D {
         public:
-            StaticBody2D() {}; // Default constructor to make the compiler happy (for efficiency).
+            inline StaticBody2D() {}; // Default constructor to make the compiler happy (for efficiency).
 
             /**
              * @brief Create a 2D staticbody.
@@ -108,7 +118,7 @@ namespace Primitives {
              * @param collider A pointer to the collider of the static body. If this does not match the colliderType specified, it will
              *                   cause undefined behvior to occur. If you specify STATIC_NONE, this should be set to nullptr. 
              */
-            StaticBody2D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType, void* collider) : pos(pos), colliderType(colliderType) {
+            inline StaticBody2D(ZMath::Vec2D const &pos, StaticBodyCollider colliderType, void* collider) : pos(pos), colliderType(colliderType) {
                 switch(colliderType) {
                     case STATIC_CIRCLE_COLLIDER: { this->collider.circle = *((Circle*) collider); }
                     case STATIC_AABB_COLLIDER: { this->collider.aabb = *((AABB*) collider); }
@@ -125,11 +135,44 @@ namespace Primitives {
 
             StaticBodyCollider colliderType;
             union Collider {
-                Collider() {}; // default constructor to make the compiler happy
+                inline Collider() {}; // default constructor to make the compiler happy
 
                 Circle circle;
                 AABB aabb;
                 Box2D box;
             } collider;
-        };
+    };
+
+
+    class KinematicBody2D {
+        public:
+            // Remember to specify necessary fields when using the default constructor.
+            inline KinematicBody2D() {}; // Default constructor to make the compiler happy (for efficiency).
+
+            inline KinematicBody2D(ZMath::Vec2D const &pos, KinematicBodyCollider colliderType, void* collider) : pos(pos), colliderType(colliderType) {
+                switch(colliderType) {
+                    case KINEMATIC_CIRCLE_COLLIDER: { this->collider.circle = *((Circle*) collider); }
+                    case KINEMATIC_AABB_COLLIDER: { this->collider.aabb = *((AABB*) collider); }
+                    case KINEMATIC_BOX2D_COLLIDER: { this->collider.box = *((Box2D*) collider); }
+                    // * User defined colliders go here.
+                }
+            };
+
+            // * Information related to the kinematic body.
+
+            ZMath::Vec2D pos; // centerpoint of the kinematicbody.
+            ZMath::Vec2D vel; // velocity of the kinematicbody.
+            ZMath::Vec2D netForce; // sum of all forces acting upon the kinematicbody.
+
+            // * Handle and store the collider.
+
+            KinematicBodyCollider colliderType;
+            union Collider {
+                inline Collider() {};
+
+                Circle circle;
+                AABB aabb;
+                Box2D box;
+            } collider;
+    };
 }
