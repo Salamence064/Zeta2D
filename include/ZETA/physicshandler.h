@@ -70,12 +70,16 @@ namespace Zeta {
     // * Wrappers
     // * ==============
 
-    namespace { // make this struct private to this file
+    namespace { // make these structs private to this file
         // these are also likely just placeholders until we can find a good value
         static const int startingSlots = 64;
         static const int halfStartingSlots = 32;
+        static const int kStartingSlots = 2;
+        static const int kHalfStartingSlots = 1;
 
-        // ? For now, default to allocating 64 slots for Objects. Probably up once we start implementing more stuff.
+        // ? For now, default to allocating 64 slots for Objects. Adjust once we start implementing more stuff.
+
+        // * Body structs.
 
         struct RigidBodies {
             Primitives::RigidBody2D** rigidBodies = nullptr; // list of active rigid bodies
@@ -88,6 +92,15 @@ namespace Zeta {
             int capacity; // current max capacity
             int count;  // number of static bodies
         };
+
+        struct KinematicBodies {
+            Primitives::KinematicBody2D** kinematicBodies = nullptr; // list of active kinematic bodies
+            int capacity; // current max capacity
+            int count; // number of kinematic bodies
+        };
+
+
+        // * CollisionWrapper Structs.
 
         struct CollisionWrapper {
             Primitives::RigidBody2D** bodies1 = nullptr; // list of colliding bodies (Object A)
@@ -121,6 +134,7 @@ namespace Zeta {
 
             RigidBodies rbs; // rigid bodies to update
             StaticBodies sbs; // static bodies to update
+            KinematicBodies kbs; // kinematic bodies to update
             CollisionWrapper colWrapper; // collision information
             StaticCollisionWrapper staticColWrapper; // collision information involving static body collisions
             float updateStep; // amount of dt to update after
@@ -230,6 +244,7 @@ namespace Zeta {
 
             ZMath::Vec2D g; // gravity
 
+
             // * ===================================
             // * Constructors, Destructors, Etc.
             // * ===================================
@@ -253,6 +268,10 @@ namespace Zeta {
                 sbs.staticBodies = new Primitives::StaticBody2D*[startingSlots];
                 sbs.capacity = startingSlots;
                 sbs.count = 0;
+
+                kbs.kinematicBodies = new Primitives::KinematicBody2D*[kStartingSlots];
+                kbs.capacity = kStartingSlots;
+                kbs.count = 0;
 
                 colWrapper.bodies1 = new Primitives::RigidBody2D*[halfStartingSlots];
                 colWrapper.bodies2 = new Primitives::RigidBody2D*[halfStartingSlots];
@@ -278,11 +297,19 @@ namespace Zeta {
             ~Handler() {
                 // If one of the pointers is not NULL, none of them are.
                 if (rbs.rigidBodies) {
+                    // * Bodies
+
                     for (int i = 0; i < rbs.count; ++i) { delete rbs.rigidBodies[i]; }
                     delete[] rbs.rigidBodies;
 
                     for (int i = 0; i < sbs.count; ++i) { delete sbs.staticBodies[i]; }
                     delete[] sbs.staticBodies;
+
+                    for (int i = 0; i < kbs.count; ++i) { delete kbs.kinematicBodies[i]; }
+                    delete[] kbs.kinematicBodies;
+
+
+                    // * Collisions
 
                     for (int i = 0; i < colWrapper.count; ++i) {
                         delete colWrapper.bodies1[i];
@@ -403,6 +430,57 @@ namespace Zeta {
                         delete sb;
                         for (int j = i; j < sbs.count - 1; ++j) { sbs.staticBodies[j] = sbs.staticBodies[j + 1]; }
                         sbs.count--;
+                        return 1;
+                    }
+                }
+
+                return 0;
+            };
+
+
+            // * ============================
+            // * KinematicBody List Functions
+            // * ============================
+
+            // Add a kinematic body to the handler.
+            inline void addStaticBody(Primitives::KinematicBody2D* kb) {
+                if (kbs.count == kbs.capacity) {
+                    kbs.capacity *= 2;
+                    Primitives::KinematicBody2D** temp = new Primitives::KinematicBody2D*[kbs.capacity];
+
+                    for (int i = 0; i < kbs.count; ++i) { temp[i] = kbs.kinematicBodies[i]; }
+
+                    delete[] kbs.kinematicBodies;
+                    kbs.kinematicBodies = temp;
+                }
+
+                kbs.kinematicBodies[sbs.count++] = kb;
+            };
+
+            // Add a list of kinematic bodies to the handler.
+            inline void addStaticBodies(Primitives::KinematicBody2D** kbs, int size) {
+                if (this->kbs.count + size > this->kbs.capacity) {
+                    do { this->kbs.capacity *= 2; } while(this->kbs.count + size > this->kbs.capacity);
+                    Primitives::KinematicBody2D** temp = new Primitives::KinematicBody2D*[this->kbs.capacity];
+
+                    for (int i = 0; i < this->kbs.count; ++i) { temp[i] = this->kbs.kinematicBodies[i]; }
+
+                    delete[] this->kbs.kinematicBodies;
+                    this->kbs.kinematicBodies = temp;
+                }
+
+                for (int i = 0; i < size; ++i) { this->kbs.kinematicBodies[this->kbs.count++] = kbs[i]; }
+            };
+
+            // Remove a kinematic body from the handler.
+            // 1 = kinematic body was found and removed. 0 = It was not found.
+            // kb will be deleted if the kinematic body was found.
+            inline bool removeStaticBody(Primitives::KinematicBody2D* kb) {
+                for (int i = kbs.count - 1; i >= 0; --i) {
+                    if (kbs.kinematicBodies[i] == kb) {
+                        delete kb;
+                        for (int j = i; j < kbs.count - 1; ++j) { kbs.kinematicBodies[j] = kbs.kinematicBodies[j + 1]; }
+                        kbs.count--;
                         return 1;
                     }
                 }
