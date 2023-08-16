@@ -699,9 +699,9 @@ namespace Zeta {
             int update(float &dt) {
                 int count = 0;
 
-                // todo figure out what to do to combine all of the loops together as much as possible
                 while (dt >= updateStep) {
                     // Broad phase: collision detection
+                    // There will, on average, be too few kinematic bodies for it to be worth combining the loops
                     for (int i = 0; i < rbs.count - 1; ++i) {
                         for (int j = i + 1; j < rbs.count; ++j) {
                             Collisions::CollisionManifold result = Collisions::findCollisionFeatures(rbs.rigidBodies[i], rbs.rigidBodies[j]);
@@ -757,7 +757,8 @@ namespace Zeta {
                             }
                         }
 
-                        // resolve kinematic body collisions // todo combine these together similar to how I did with the other checks to add fewer iterations
+                        // resolve kinematic body collisions
+                        // There will, on average, be too few kinematic bodies for it to be worth combining the loops
                         for (int i = 0; i < rkColWrapper.count; ++i) {
                             applyImpulse(rkColWrapper.rbs[i], rkColWrapper.kbs[i], rkColWrapper.manifolds[i]);
                         }
