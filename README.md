@@ -17,13 +17,13 @@ ___
 Zeta documentation can be found [here](https://salamence064.github.io/Zeta2D/).
 ___
 
+## Header Only Version
+If you would like to use a header-only version of this library, check out the [Header-Only branch](https://github.com/Salamence064/Zeta2D/tree/Header-Only).
+___
+
 ## The Original
 * The original [Zeta Physics Engine](https://github.com/aggie-coding-club/Zeta-Physics-Engine) is a 3D header-only mechanics physics engine.
 * Check it out if you're working on a 3D project.
-___
-
-## Header Only Version
-If you would like to use a header-only version of this library, check out the [Header-Only branch](https://github.com/Salamence064/Zeta2D/tree/Header-Only).
 ___
 
 ## Planned Additions
