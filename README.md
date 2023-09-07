@@ -19,6 +19,10 @@ ___
 * Check it out if you're working on a 3D project.
 ___
 
+## Header Only Version
+If you would like to use a header-only version of this library, check out the [Header-Only branch](https://github.com/Salamence064/Zeta2D/tree/Header-Only).
+___
+
 ## Planned Additions
 * Addition of an examples directory
 * Rotational kinematics
