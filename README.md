@@ -1,6 +1,6 @@
 # **Zeta2D**
 
-2D header-only mechanics physics engine.  
+2D mechanics physics engine.
 The 2D counterpart to the Zeta Physics Engine.  
 It is intended to be used by a 2D graphics system for physics.
 ___
