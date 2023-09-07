@@ -1,4 +1,4 @@
-#include "../include/ZETA/zmath2D.h"
+#include <ZETA/zmath2D.h>
 
 namespace ZMath {
     // * ===============
@@ -134,11 +134,11 @@ namespace ZMath {
 
     // * Handle tolerance for floating point numbers.
     // * If no epsilon is specified, the default of 5 * 10^-4 will be used.
-    bool compare(float a, float b, float epsilon = EPSILON) { return std::fabs(a - b) <= epsilon; };
+    bool compare(float a, float b, float epsilon) { return std::fabs(a - b) <= epsilon; };
 
     // * Handle tolerance for 2D vectors of floatinf point numbers.
     // * If no epsilon is specified, the defauly of 5 * 10^-4 will be used.
-    bool compare(Vec2D const &u, Vec2D const &v, float epsilon = EPSILON) { return std::fabs(u.x - v.x) <= epsilon && std::fabs(u.y - v.y) <= epsilon; };
+    bool compare(Vec2D const &u, Vec2D const &v, float epsilon) { return std::fabs(u.x - v.x) <= epsilon && std::fabs(u.y - v.y) <= epsilon; };
 
     // * Clamp a float between a min and max.
     float clamp(float n, float min, float max) { return MAX(MIN(n, max), min); };

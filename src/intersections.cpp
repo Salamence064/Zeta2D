@@ -1,4 +1,4 @@
-#include "../include/ZETA/intersections.h"
+#include <ZETA/intersections.h>
 
 namespace Collisions {
     // * ===================================

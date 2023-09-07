@@ -1,4 +1,4 @@
-#include "../include/ZETA/bodies.h"
+#include <ZETA/bodies.h>
 
 namespace Primitives {
     // * ===============

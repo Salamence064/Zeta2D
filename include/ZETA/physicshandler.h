@@ -48,86 +48,84 @@ namespace Zeta {
     // * ==============
 
     // todo typedef the wrappers instead
-    namespace { // make these structs private to this file
-        // these are also likely just placeholders until we can find a good value
-        static const int startingSlots = 64;
-        static const int halfStartingSlots = 32;
-        static const int kStartingSlots = 4;
-        static const int kHalfStartingSlots = 2;
+    // these are also likely just placeholders until we can find a good value
+    static const int startingSlots = 64;
+    static const int halfStartingSlots = 32;
+    static const int kStartingSlots = 4;
+    static const int kHalfStartingSlots = 2;
 
-        // ? For now, default to allocating 64 slots for Objects. Adjust once we start implementing more stuff.
+    // ? For now, default to allocating 64 slots for Objects. Adjust once we start implementing more stuff.
 
-        // * Body structs.
+    // * Body structs.
 
-        struct RigidBodies {
-            Primitives::RigidBody2D** rigidBodies = nullptr; // list of active rigid bodies
-            int capacity; // current max capacity
-            int count; // number of rigid bodies 
-        };
+    struct RigidBodies {
+        Primitives::RigidBody2D** rigidBodies = nullptr; // list of active rigid bodies
+        int capacity; // current max capacity
+        int count; // number of rigid bodies 
+    };
 
-        struct StaticBodies {
-            Primitives::StaticBody2D** staticBodies = nullptr; // list of active static bodies
-            int capacity; // current max capacity
-            int count;  // number of static bodies
-        };
+    struct StaticBodies {
+        Primitives::StaticBody2D** staticBodies = nullptr; // list of active static bodies
+        int capacity; // current max capacity
+        int count;  // number of static bodies
+    };
 
-        struct KinematicBodies {
-            Primitives::KinematicBody2D** kinematicBodies = nullptr; // list of active kinematic bodies
-            int capacity; // current max capacity
-            int count; // number of kinematic bodies
-        };
+    struct KinematicBodies {
+        Primitives::KinematicBody2D** kinematicBodies = nullptr; // list of active kinematic bodies
+        int capacity; // current max capacity
+        int count; // number of kinematic bodies
+    };
 
 
-        // * CollisionWrapper Structs.
+    // * CollisionWrapper Structs.
 
-        struct CollisionWrapper {
-            Primitives::RigidBody2D** bodies1 = nullptr; // list of colliding bodies (Object A)
-            Primitives::RigidBody2D** bodies2 = nullptr; // list of colliding bodies (Object B)
-            Collisions::CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
+    struct CollisionWrapper {
+        Primitives::RigidBody2D** bodies1 = nullptr; // list of colliding bodies (Object A)
+        Primitives::RigidBody2D** bodies2 = nullptr; // list of colliding bodies (Object B)
+        Collisions::CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
 
-            int capacity; // current max capacity
-            int count; // number of collisions
-        };
+        int capacity; // current max capacity
+        int count; // number of collisions
+    };
 
-        struct StaticCollisionWrapper {
-            Primitives::StaticBody2D** sbs = nullptr; // list of colliding static bodies (Object A)
-            Primitives::RigidBody2D** rbs = nullptr; // list of colliding rigid bodies (Object B)
-            Collisions::CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
+    struct StaticCollisionWrapper {
+        Primitives::StaticBody2D** sbs = nullptr; // list of colliding static bodies (Object A)
+        Primitives::RigidBody2D** rbs = nullptr; // list of colliding rigid bodies (Object B)
+        Collisions::CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
 
-            int capacity; // current max capacity
-            int count; // number of collisions
-        };
+        int capacity; // current max capacity
+        int count; // number of collisions
+    };
 
-        // Store data about collisions between rigid and kinematic bodies
-        struct RkCollisionWrapper {
-            Primitives::RigidBody2D** rbs = nullptr;
-            Primitives::KinematicBody2D** kbs = nullptr;
-            Collisions::CollisionManifold* manifolds = nullptr;
+    // Store data about collisions between rigid and kinematic bodies
+    struct RkCollisionWrapper {
+        Primitives::RigidBody2D** rbs = nullptr;
+        Primitives::KinematicBody2D** kbs = nullptr;
+        Collisions::CollisionManifold* manifolds = nullptr;
 
-            int capacity;
-            int count;
-        };
+        int capacity;
+        int count;
+    };
 
-        // Store data about collisions between kinematic and static bodies
-        struct SkCollisionWrapper {
-            Primitives::KinematicBody2D** kbs = nullptr;
-            Primitives::StaticBody2D** sbs = nullptr;
-            Collisions::CollisionManifold* manifolds = nullptr;
+    // Store data about collisions between kinematic and static bodies
+    struct SkCollisionWrapper {
+        Primitives::KinematicBody2D** kbs = nullptr;
+        Primitives::StaticBody2D** sbs = nullptr;
+        Collisions::CollisionManifold* manifolds = nullptr;
 
-            int capacity;
-            int count;
-        };
+        int capacity;
+        int count;
+    };
 
-        // Store data about collisions between two kinematic bodies
-        struct KinematicCollisionWrapper {
-            Primitives::KinematicBody2D** kb1s = nullptr;
-            Primitives::KinematicBody2D** kb2s = nullptr;
-            Collisions::CollisionManifold* manifolds = nullptr;
+    // Store data about collisions between two kinematic bodies
+    struct KinematicCollisionWrapper {
+        Primitives::KinematicBody2D** kb1s = nullptr;
+        Primitives::KinematicBody2D** kb2s = nullptr;
+        Collisions::CollisionManifold* manifolds = nullptr;
 
-            int capacity;
-            int count;
-        };
-    }
+        int capacity;
+        int count;
+    };
 
 
     // * ========================

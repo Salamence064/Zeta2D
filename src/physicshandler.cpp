@@ -1,4 +1,4 @@
-#include "../include/ZETA/physicshandler.h"
+#include <ZETA/physicshandler.h>
 
 namespace Zeta {
     // * =========================
