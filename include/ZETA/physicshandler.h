@@ -3,7 +3,10 @@
 #include "collisions.h"
 #include <stdexcept>
 
-// todo add Kinematic body handling to here
+// todo maybe refactor so that everything is in a Zeta namespace (except for the ZMath stuff)
+// todo or at least make the collisions stuff in there, too
+
+// todo definitely refactor the namespace system. Currently it is kinda annoying and makes for verbose code
 
 namespace Zeta {
     // * ====================================
