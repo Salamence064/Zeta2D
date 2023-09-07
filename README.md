@@ -1,12 +1,15 @@
 # **Zeta2D**
 
-2D header-only mechanics physics engine.  
+2D mechanics physics engine.
 The 2D counterpart to the Zeta Physics Engine.  
 It is intended to be used by a 2D graphics system for physics.
 ___
 
 ## To Use
-* Copy the ZETA directory in include into your project's include directory.
+* Clone the Zeta2D repository.
+* Run the build.bat script contained in the repo.
+* Copy the ZETA folder into your include directory.
+* Copy libzeta2d.a and zeta2d.dll into their respective spots in your main program.
 * `#include <ZETA/physicshandler.h>` in the file you want to use it in.
 ___
 

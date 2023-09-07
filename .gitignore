@@ -1,3 +1,8 @@
 .vscode/
 venv/
 LaTeX_Code_Docs_Template.zip
+
+*.o
+*.exe
+*.a
+*.dll
