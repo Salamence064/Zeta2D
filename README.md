@@ -9,7 +9,7 @@ ___
 * Clone the Zeta2D repository.
 * Run the build.bat script contained in the repo.
 * Copy the ZETA folder into your include directory.
-* Copy libzeta2d.a and zeta2d.dll into their respective spots in your main program.
+* Copy libzeta2d.a and zeta2d.dll into their respective spots in your main project.
 * `#include <ZETA/physicshandler.h>` in the file you want to use it in.
 ___
 
