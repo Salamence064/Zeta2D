@@ -14,7 +14,7 @@ namespace Primitives {
              * @param origin The origin of the ray.
              * @param dir The direction of the ray as a normalized vector.
              */
-            Ray2D(ZMath::Vec2D const &origin, ZMath::Vec2D const &dir) : origin(origin), dir(dir) {};
+            inline Ray2D(ZMath::Vec2D const &origin, ZMath::Vec2D const &dir) : origin(origin), dir(dir) {};
     };
 
     class Line2D {
@@ -27,13 +27,13 @@ namespace Primitives {
              * @param start Starting point of the line.
              * @param end Ending point of the line.
              */
-            Line2D(ZMath::Vec2D const &start, ZMath::Vec2D const &end) : start(start), end(end) {};
+            inline Line2D(ZMath::Vec2D const &start, ZMath::Vec2D const &end) : start(start), end(end) {};
 
             // A vector with the lowest value of x and y the line segment reaches.
-            inline ZMath::Vec2D getMin() const { return ZMath::Vec2D(MIN(start.x, end.x), MIN(start.y, end.y)); };
+            ZMath::Vec2D getMin() const;
 
             // A vector with the greatest value of x and y the line segment reaches.
-            inline ZMath::Vec2D getMax() const { return ZMath::Vec2D(MAX(start.x, end.x), MAX(start.y, end.y)); };
+            ZMath::Vec2D getMax() const;
     };
 
     class Circle {
@@ -47,7 +47,7 @@ namespace Primitives {
              * @param c Centerpoint of the circle.
              * @param r Radius of the circle.
              */
-            Circle(ZMath::Vec2D const &c, float r) : c(c), r(r) {};
+            inline Circle(ZMath::Vec2D const &c, float r) : c(c), r(r) {};
     };
 
     class AABB {
@@ -63,10 +63,7 @@ namespace Primitives {
              * @param min Min vertex of the AABB.
              * @param max Max vertex of the AABB.
              */
-            AABB(ZMath::Vec2D const &min, ZMath::Vec2D const &max) {
-                halfsize = (max - min) * 0.5f;
-                pos = min + halfsize;
-            };
+            AABB(ZMath::Vec2D const &min, ZMath::Vec2D const &max);
 
             inline ZMath::Vec2D getMin() const { return pos - halfsize; };
             inline ZMath::Vec2D getMax() const { return pos + halfsize; };
@@ -76,18 +73,7 @@ namespace Primitives {
 
             // Get the vertices of the AABB.
             // Remember to call delete[] on what you assign this to afterwards to free the memory.
-            ZMath::Vec2D* getVertices() const {
-                ZMath::Vec2D* v = new ZMath::Vec2D[4];
-
-                // todo ensure the order is the same as the order OpenGL likes
-
-                v[0] = pos - halfsize;
-                v[1] = ZMath::Vec2D(pos.x - halfsize.x, pos.y + halfsize.y);
-                v[2] = ZMath::Vec2D(pos.x + halfsize.x, pos.y - halfsize.y);
-                v[3] = pos + halfsize;
-
-                return v;
-            };
+            ZMath::Vec2D* getVertices() const;
     };
 
     class Box2D {
@@ -106,12 +92,7 @@ namespace Primitives {
              * @param max Max vertex of the Box2D as if it was not rotated.
              * @param theta Angle the Box2D is rotated by in degrees.
              */
-            Box2D(ZMath::Vec2D const &min, ZMath::Vec2D const &max, float theta) {
-                halfsize = (max - min) * 0.5f;
-                pos = min + halfsize;
-                this->theta = theta;
-                rot = ZMath::Mat2D::rotationMat(theta);
-            };
+            Box2D(ZMath::Vec2D const &min, ZMath::Vec2D const &max, float theta);
 
              // Get the min vertex in the Box2D's UV coordinates.
             inline ZMath::Vec2D getLocalMin() const { return pos - halfsize; };
@@ -124,20 +105,6 @@ namespace Primitives {
 
             // Get the vertices of the Box2D in terms of global coordinates.
             // Remeber to use delete[] on the variable you assign this after use to free the memory.
-            ZMath::Vec2D* getVertices() const {
-                ZMath::Vec2D* v = new ZMath::Vec2D[4];
-
-                // todo reorder to match OpenGL bindings
-
-                v[0] = -halfsize;
-                v[1] = ZMath::Vec2D(-halfsize.x, halfsize.y);
-                v[2] = ZMath::Vec2D(halfsize.x, -halfsize.y);
-                v[3] = halfsize;
-
-                // rotate the vertices
-                for (int i = 0; i < 4; ++i) { v[i] = rot * v[i] + pos; }
-                
-                return v;
-            };
+            ZMath::Vec2D* getVertices() const;
     };
 }
