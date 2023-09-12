@@ -1,5 +1,7 @@
 #include <ZETA/physicshandler.h>
 
+// todo add in move semantics
+
 namespace Zeta {
     // * =========================
     // * Impulse Resolution
@@ -70,7 +72,7 @@ namespace Zeta {
             for (int i = 0; i < colWrapper.count; i++) {
                 temp1[i] = colWrapper.bodies1[i];
                 temp2[i] = colWrapper.bodies2[i];
-                temp3[i] = colWrapper.manifolds[i];
+                temp3[i] = std::move(colWrapper.manifolds[i]);
             }
 
             delete[] colWrapper.bodies1;
@@ -98,7 +100,7 @@ namespace Zeta {
             for (int i = 0; i < staticColWrapper.count; ++i) {
                 temp1[i] = staticColWrapper.sbs[i];
                 temp2[i] = staticColWrapper.rbs[i];
-                temp3[i] = staticColWrapper.manifolds[i];
+                temp3[i] = std::move(staticColWrapper.manifolds[i]);
             }
 
             delete[] staticColWrapper.sbs;
@@ -126,7 +128,7 @@ namespace Zeta {
             for (int i = 0; i < rkColWrapper.count; ++i) {
                 temp1[i] = rkColWrapper.rbs[i];
                 temp2[i] = rkColWrapper.kbs[i];
-                temp3[i] = rkColWrapper.manifolds[i];
+                temp3[i] = std::move(rkColWrapper.manifolds[i]);
             }
 
             delete[] rkColWrapper.rbs;
@@ -154,7 +156,7 @@ namespace Zeta {
             for (int i = 0; i < skColWrapper.count; ++i) {
                 temp1[i] = skColWrapper.sbs[i];
                 temp2[i] = skColWrapper.kbs[i];
-                temp3[i] = skColWrapper.manifolds[i];
+                temp3[i] = std::move(skColWrapper.manifolds[i]);
             }
 
             delete[] skColWrapper.sbs;
@@ -182,7 +184,7 @@ namespace Zeta {
             for (int i = 0; i < kColWrapper.count; ++i) {
                 temp1[i] = kColWrapper.kb1s[i];
                 temp2[i] = kColWrapper.kb2s[i];
-                temp3[i] = kColWrapper.manifolds[i];
+                temp3[i] = std::move(kColWrapper.manifolds[i]);
             }
 
             delete[] kColWrapper.kb1s;
