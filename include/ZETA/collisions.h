@@ -2,7 +2,7 @@
 
 #include "intersections.h"
 
-namespace Collisions {
+namespace Zeta {
     // * =========================
     // * Collision Manifolds
     // * =========================
@@ -34,9 +34,9 @@ namespace Collisions {
     // * Collision Manifold Calculators
     // * ===================================
 
-    extern CollisionManifold findCollisionFeatures(Primitives::Circle const &circle1, Primitives::Circle const &circle2);
-    extern CollisionManifold findCollisionFeatures(Primitives::Circle const &circle, Primitives::AABB const &aabb);
-    extern CollisionManifold findCollisionFeatures(Primitives::Circle const &circle, Primitives::Box2D const &box);
+    extern CollisionManifold findCollisionFeatures(Circle const &circle1, Circle const &circle2);
+    extern CollisionManifold findCollisionFeatures(Circle const &circle, AABB const &aabb);
+    extern CollisionManifold findCollisionFeatures(Circle const &circle, Box2D const &box);
 
 
     // * ====================================================
@@ -78,33 +78,33 @@ namespace Collisions {
 
     // ? Normal points towards B and away from A
 
-    extern CollisionManifold findCollisionFeatures(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2);
+    extern CollisionManifold findCollisionFeatures(AABB const &aabb1, AABB const &aabb2);
 
     // ? Normal points towards B and away from A
 
-    extern CollisionManifold findCollisionFeatures(Primitives::AABB const &aabb, Primitives::Box2D const &box);
+    extern CollisionManifold findCollisionFeatures(AABB const &aabb, Box2D const &box);
 
     // ? Normal points towards B and away from A
 
-    extern CollisionManifold findCollisionFeatures(Primitives::Box2D const &box1, Primitives::Box2D const &box2);
+    extern CollisionManifold findCollisionFeatures(Box2D const &box1, Box2D const &box2);
 
     // Find the collision features and resolve the impulse between two arbitrary primitives.
     // The normal will point towards B and away from A.
-    extern CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2);
+    extern CollisionManifold findCollisionFeatures(RigidBody2D* rb1, RigidBody2D* rb2);
 
     // Find the collision features between a rigid and static body.
     // The normal will point away from the static body and towards the rigid body.
-    extern CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb);
+    extern CollisionManifold findCollisionFeatures(RigidBody2D* rb, StaticBody2D* sb);
 
     // Find the collision features between a rigid and kinematic body.
     // The normal will point away from the kinematic body and towards the rigid body.
-    extern CollisionManifold findCollisionFeatures(Primitives::RigidBody2D* rb, Primitives::KinematicBody2D* kb);
+    extern CollisionManifold findCollisionFeatures(RigidBody2D* rb, KinematicBody2D* kb);
 
     // Find the collision features between a kinematic and static body.
     // The normal will point away from the static body and towards the kinematic body.
-    extern CollisionManifold findCollisionFeatures(Primitives::KinematicBody2D* kb, Primitives::StaticBody2D* sb);
+    extern CollisionManifold findCollisionFeatures(KinematicBody2D* kb, StaticBody2D* sb);
 
     // Find the collision features between two kinematic bodies.
     // The normal points towards B and away from A.
-    extern CollisionManifold findCollisionFeatures(Primitives::KinematicBody2D* kb1, Primitives::KinematicBody2D* kb2);
+    extern CollisionManifold findCollisionFeatures(KinematicBody2D* kb1, KinematicBody2D* kb2);
 }

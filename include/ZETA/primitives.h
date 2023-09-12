@@ -2,7 +2,7 @@
 
 #include "zmath2D.h"
 
-namespace Primitives {
+namespace Zeta {
     class Ray2D {
         public:
             ZMath::Vec2D origin;

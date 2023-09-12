@@ -1,6 +1,6 @@
 #include <ZETA/bodies.h>
 
-namespace Primitives {
+namespace Zeta {
     // * ===============
     // * RigidBody2D
     // * ===============

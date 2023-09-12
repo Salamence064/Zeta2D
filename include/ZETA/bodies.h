@@ -2,7 +2,7 @@
 
 #include "primitives.h"
 
-namespace Primitives {
+namespace Zeta {
     enum RigidBodyCollider {
         RIGID_CIRCLE_COLLIDER,
         RIGID_AABB_COLLIDER,

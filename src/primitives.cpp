@@ -1,6 +1,6 @@
 #include <ZETA/primitives.h>
 
-namespace Primitives {
+namespace Zeta {
     // * ==========
     // * Line2D
     // * ==========

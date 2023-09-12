@@ -24,21 +24,21 @@ namespace Zeta {
     // * =========================
 
     // Resolve a collision between two rigidbodies.
-    extern void applyImpulse(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2, Collisions::CollisionManifold const &manifold);
+    extern void applyImpulse(RigidBody2D* rb1, RigidBody2D* rb2, CollisionManifold const &manifold);
 
     // todo technically could pass just purely the rigid and kinematic bodies for their impulse resolution vs static bodies
     // todo test to ensure these are sufficient for impulse resolution ------------------------------------------------------------------
     // Resolve a collision between a rigid and static body.
-    extern void applyImpulse(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb, Collisions::CollisionManifold const &manifold);
+    extern void applyImpulse(RigidBody2D* rb, StaticBody2D* sb, CollisionManifold const &manifold);
 
     // Resolve a collision between a rigid and kinematic body.
-    extern void applyImpulse(Primitives::RigidBody2D* rb, Primitives::KinematicBody2D* kb, Collisions::CollisionManifold const &manifold);
+    extern void applyImpulse(RigidBody2D* rb, KinematicBody2D* kb, CollisionManifold const &manifold);
 
     // Resolve a collision between a static and kinematic body.
-    extern void applyImpulse(Primitives::KinematicBody2D* kb, Primitives::StaticBody2D* sb, Collisions::CollisionManifold const &manifold);
+    extern void applyImpulse(KinematicBody2D* kb, StaticBody2D* sb, CollisionManifold const &manifold);
 
     // Resolve a collision between two kinematic bodies.
-    extern void applyImpulse(Primitives::KinematicBody2D* kb1, Primitives::KinematicBody2D* kb2, Collisions::CollisionManifold const &manifold);
+    extern void applyImpulse(KinematicBody2D* kb1, KinematicBody2D* kb2, CollisionManifold const &manifold);
 
     // todo -----------------------------------------------------------------------------------------------------------------------------
 
@@ -59,19 +59,19 @@ namespace Zeta {
     // * Body structs.
 
     struct RigidBodies {
-        Primitives::RigidBody2D** rigidBodies = nullptr; // list of active rigid bodies
+        RigidBody2D** rigidBodies = nullptr; // list of active rigid bodies
         int capacity; // current max capacity
         int count; // number of rigid bodies 
     };
 
     struct StaticBodies {
-        Primitives::StaticBody2D** staticBodies = nullptr; // list of active static bodies
+        StaticBody2D** staticBodies = nullptr; // list of active static bodies
         int capacity; // current max capacity
         int count;  // number of static bodies
     };
 
     struct KinematicBodies {
-        Primitives::KinematicBody2D** kinematicBodies = nullptr; // list of active kinematic bodies
+        KinematicBody2D** kinematicBodies = nullptr; // list of active kinematic bodies
         int capacity; // current max capacity
         int count; // number of kinematic bodies
     };
@@ -80,18 +80,18 @@ namespace Zeta {
     // * CollisionWrapper Structs.
 
     struct CollisionWrapper {
-        Primitives::RigidBody2D** bodies1 = nullptr; // list of colliding bodies (Object A)
-        Primitives::RigidBody2D** bodies2 = nullptr; // list of colliding bodies (Object B)
-        Collisions::CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
+        RigidBody2D** bodies1 = nullptr; // list of colliding bodies (Object A)
+        RigidBody2D** bodies2 = nullptr; // list of colliding bodies (Object B)
+        CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
 
         int capacity; // current max capacity
         int count; // number of collisions
     };
 
     struct StaticCollisionWrapper {
-        Primitives::StaticBody2D** sbs = nullptr; // list of colliding static bodies (Object A)
-        Primitives::RigidBody2D** rbs = nullptr; // list of colliding rigid bodies (Object B)
-        Collisions::CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
+        StaticBody2D** sbs = nullptr; // list of colliding static bodies (Object A)
+        RigidBody2D** rbs = nullptr; // list of colliding rigid bodies (Object B)
+        CollisionManifold* manifolds = nullptr; // list of the collision manifolds between the objects
 
         int capacity; // current max capacity
         int count; // number of collisions
@@ -99,9 +99,9 @@ namespace Zeta {
 
     // Store data about collisions between rigid and kinematic bodies
     struct RkCollisionWrapper {
-        Primitives::RigidBody2D** rbs = nullptr;
-        Primitives::KinematicBody2D** kbs = nullptr;
-        Collisions::CollisionManifold* manifolds = nullptr;
+        RigidBody2D** rbs = nullptr;
+        KinematicBody2D** kbs = nullptr;
+        CollisionManifold* manifolds = nullptr;
 
         int capacity;
         int count;
@@ -109,9 +109,9 @@ namespace Zeta {
 
     // Store data about collisions between kinematic and static bodies
     struct SkCollisionWrapper {
-        Primitives::KinematicBody2D** kbs = nullptr;
-        Primitives::StaticBody2D** sbs = nullptr;
-        Collisions::CollisionManifold* manifolds = nullptr;
+        KinematicBody2D** kbs = nullptr;
+        StaticBody2D** sbs = nullptr;
+        CollisionManifold* manifolds = nullptr;
 
         int capacity;
         int count;
@@ -119,9 +119,9 @@ namespace Zeta {
 
     // Store data about collisions between two kinematic bodies
     struct KinematicCollisionWrapper {
-        Primitives::KinematicBody2D** kb1s = nullptr;
-        Primitives::KinematicBody2D** kb2s = nullptr;
-        Collisions::CollisionManifold* manifolds = nullptr;
+        KinematicBody2D** kb1s = nullptr;
+        KinematicBody2D** kb2s = nullptr;
+        CollisionManifold* manifolds = nullptr;
 
         int capacity;
         int count;
@@ -154,11 +154,11 @@ namespace Zeta {
             // * Functions for Ease of Use
             // * ==============================
 
-            void addCollision(Primitives::RigidBody2D* rb1, Primitives::RigidBody2D* rb2, Collisions::CollisionManifold const &manifold);
-            void addCollision(Primitives::RigidBody2D* rb, Primitives::StaticBody2D* sb, Collisions::CollisionManifold const &manifold);
-            void addCollision(Primitives::RigidBody2D* rb, Primitives::KinematicBody2D* kb, Collisions::CollisionManifold const &manifold);
-            void addCollision(Primitives::StaticBody2D* sb, Primitives::KinematicBody2D* kb, Collisions::CollisionManifold const &manifold);
-            void addCollision(Primitives::KinematicBody2D* kb1, Primitives::KinematicBody2D* kb2, Collisions::CollisionManifold const &manifold);
+            void addCollision(RigidBody2D* rb1, RigidBody2D* rb2, CollisionManifold const &manifold);
+            void addCollision(RigidBody2D* rb, StaticBody2D* sb, CollisionManifold const &manifold);
+            void addCollision(RigidBody2D* rb, KinematicBody2D* kb, CollisionManifold const &manifold);
+            void addCollision(StaticBody2D* sb, KinematicBody2D* kb, CollisionManifold const &manifold);
+            void addCollision(KinematicBody2D* kb1, KinematicBody2D* kb2, CollisionManifold const &manifold);
             void clearCollisions();
 
         public:
@@ -200,15 +200,15 @@ namespace Zeta {
             // * ============================
 
             // Add a rigid body to the list of rigid bodies to be updated.
-            void addRigidBody(Primitives::RigidBody2D* rb);
+            void addRigidBody(RigidBody2D* rb);
 
             // Add a list of rigid bodies to the handler.
-            void addRigidBodies(Primitives::RigidBody2D** rbs, int size);
+            void addRigidBodies(RigidBody2D** rbs, int size);
 
             // Remove a rigid body from the handler.
             // 1 = rigid body was found and removed. 0 = It was not found.
             // rb will be deleted if the rigid body was found.
-            bool removeRigidBody(Primitives::RigidBody2D* rb);
+            bool removeRigidBody(RigidBody2D* rb);
 
 
             // * ============================
@@ -216,15 +216,15 @@ namespace Zeta {
             // * ============================
 
             // Add a static body to the handler.
-            void addStaticBody(Primitives::StaticBody2D* sb);
+            void addStaticBody(StaticBody2D* sb);
 
             // Add a list of static bodies to the handler.
-            void addStaticBodies(Primitives::StaticBody2D** sbs, int size);
+            void addStaticBodies(StaticBody2D** sbs, int size);
 
             // Remove a static body from the handler.
             // 1 = static body was found and removed. 0 = It was not found.
             // sb will be deleted if the static body was found.
-            bool removeStaticBody(Primitives::StaticBody2D* sb);
+            bool removeStaticBody(StaticBody2D* sb);
 
 
             // * ================================
@@ -232,15 +232,15 @@ namespace Zeta {
             // * ================================
 
             // Add a kinematic body to the handler.
-            void addKinematicBody(Primitives::KinematicBody2D* kb);
+            void addKinematicBody(KinematicBody2D* kb);
 
             // Add a list of kinematic bodies to the handler.
-            void addKinematicBodies(Primitives::KinematicBody2D** kbs, int size);
+            void addKinematicBodies(KinematicBody2D** kbs, int size);
 
             // Remove a kinematic body from the handler.
             // 1 = kinematic body was found and removed. 0 = It was not found.
             // kb will be deleted if the kinematic body was found.
-            bool removeKinematicBody(Primitives::KinematicBody2D* kb);
+            bool removeKinematicBody(KinematicBody2D* kb);
 
 
             // * ============================

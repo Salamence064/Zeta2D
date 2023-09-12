@@ -101,7 +101,7 @@ namespace ZMath {
     // * Get the angle between the vectors in radians.
     // * Keep in mind range restrictions for arccos.
     // * This function is very expensive. Only call if absolutely needed.
-    float Vec2D::angle (Vec2D const &vec) const { return acos((x*vec.x + y*vec.y)/(sqrtf(x*x + y*y) * sqrtf(vec.x*vec.x + vec.y*vec.y))); };
+    float Vec2D::angle (Vec2D const &vec) const { return acos((x*vec.x + y*vec.y)/(sqrtf((x*x + y*y) * (vec.x*vec.x + vec.y*vec.y)))); };
 
     // * Get the sign of each entry.
     Vec2D Vec2D::getSigns() const { return Vec2D(SIGNOF(x), SIGNOF(y)); };

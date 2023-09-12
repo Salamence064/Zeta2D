@@ -1,12 +1,12 @@
 #include <ZETA/intersections.h>
 
-namespace Collisions {
+namespace Zeta {
     // * ===================================
     // * Point vs Primitives
     // * ===================================
 
     // Determine if a point lays on a line.
-    bool PointAndLine(ZMath::Vec2D const &point, Primitives::Line2D const &line) {
+    bool PointAndLine(ZMath::Vec2D const &point, Line2D const &line) {
         // ? Use the point slope form equation of a line to find if the point lies on the line.
 
         ZMath::Vec2D min = line.getMin(), max = line.getMax();
@@ -15,16 +15,16 @@ namespace Collisions {
     };
 
     // Determine if a point lays within a circle.
-    bool PointAndCircle(ZMath::Vec2D const &point, Primitives::Circle const &circle) { return circle.c.distSq(point) <= circle.r*circle.r; };
+    bool PointAndCircle(ZMath::Vec2D const &point, Circle const &circle) { return circle.c.distSq(point) <= circle.r*circle.r; };
 
     // Determine if a point lays within an AABB.
-    bool PointAndAABB(ZMath::Vec2D const &point, Primitives::AABB const &aabb) {
+    bool PointAndAABB(ZMath::Vec2D const &point, AABB const &aabb) {
         ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
         return min.x <= point.x && point.x <= max.x && min.y <= point.y && point.y <= max.y;
     };
 
     // Determine if a point lays within a Box2D.
-    bool PointAndBox2D(ZMath::Vec2D const &point, Primitives::Box2D const &box) {
+    bool PointAndBox2D(ZMath::Vec2D const &point, Box2D const &box) {
         // ? Rotate our point into the box2D's UV coords and perform the same check as against the AABB.
 
         ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
@@ -41,7 +41,7 @@ namespace Collisions {
     // * ===================================
 
     // Determine if a line intersects another line.
-    bool LineAndLine(Primitives::Line2D const &line1, Primitives::Line2D const &line2) {
+    bool LineAndLine(Line2D const &line1, Line2D const &line2) {
         // ? First check if the lines are parallel.
         // ? If the lines are parallel, if the line segments overlap we know we have a collision.
         // ? We can check for this by seeing if start1 lays on line2 if the lines were infinite and that there is overlap in the first place.
@@ -101,7 +101,7 @@ namespace Collisions {
     };
 
     // Determine if a line intersects a circle.
-    bool LineAndCircle(Primitives::Line2D const &line, Primitives::Circle const &circle) {
+    bool LineAndCircle(Line2D const &line, Circle const &circle) {
         // ? Find the closest point to the circle (using projection) and check if it's within radius distance from the circle's center.
 
         // check if either of the endpoint is inside the circle
@@ -119,7 +119,7 @@ namespace Collisions {
 
     // Determine if a line intersects an AABB.
     // todo test
-    bool LineAndAABB(Primitives::Line2D const &line, Primitives::AABB const &aabb) {
+    bool LineAndAABB(Line2D const &line, AABB const &aabb) {
         // ? Check if the line has any point within the AABB's bounds
 
         ZMath::Vec2D minL = line.getMin(), maxL = line.getMax();
@@ -130,10 +130,10 @@ namespace Collisions {
 
     // Determine if a line intersects a Box2D.
     // todo test
-    bool LineAndBox2D(Primitives::Line2D const &line, Primitives::Box2D const &box) {
+    bool LineAndBox2D(Line2D const &line, Box2D const &box) {
         // ? Rotate into the box's UV coords and perform the same check as with the AABB.
 
-        Primitives::Line2D l(line.start - box.pos, line.end - box.pos);
+        Line2D l(line.start - box.pos, line.end - box.pos);
 
         // Rotate into the box's UV coords.
         l.start = box.rot * l.start + box.pos;
@@ -155,7 +155,7 @@ namespace Collisions {
     // Determine if a ray intersects a circle.
     // dist will be modified to equal the distance from the ray it hits the circle.
     // dist is set to -1 if there is no intersection.
-    bool raycast(Primitives::Circle const &circle, Primitives::Ray2D const &ray, float &dist) {
+    bool raycast(Circle const &circle, Ray2D const &ray, float &dist) {
         // todo at some point we may want to get the hit point.
         // todo if we do, we simply do hit = ray.origin + dist*ray.dir;
 
@@ -204,7 +204,7 @@ namespace Collisions {
     // Determine if a ray intersects an AABB.
     // dist will be modified to equal the distance from the ray it hits the AABB.
     // dist is set to -1 if there is no intersection.
-    bool raycast(Primitives::AABB const &aabb, Primitives::Ray2D const &ray, float &dist) {
+    bool raycast(AABB const &aabb, Ray2D const &ray, float &dist) {
         // ? We can determine the distance from the ray to a certain edge by dividing a select min or max vector component
         // ?  by the corresponding component from the unit directional vector.
         // ? We know if tMin > tMax, then we have no intersection and if tMax is negative the AABB is behind us and we do not have a hit.
@@ -246,7 +246,7 @@ namespace Collisions {
     // Determine if a ray intersects a Box2D.
     // dist will be modified to equal the distance from the ray it hits the Box2D.
     // dist is set to -1 if there is no intersection.
-    bool raycast(Primitives::Box2D const &box, Primitives::Ray2D const &ray, float &dist) {
+    bool raycast(Box2D const &box, Ray2D const &ray, float &dist) {
         // ? Rotate and apply the AABB solution.
 
         ZMath::Vec2D Box2DMin = box.getLocalMin();
@@ -261,8 +261,8 @@ namespace Collisions {
         rayOrigin = box.rot * rayOrigin + box.pos;
         rayDir = box.rot * rayDir;
 
-        Primitives::AABB newBox2D(box.getLocalMin(), box.getLocalMax());
-        Primitives::Ray2D newRay(rayOrigin, rayDir);
+        AABB newBox2D(box.getLocalMin(), box.getLocalMax());
+        Ray2D newRay(rayOrigin, rayDir);
 
         float d2 = 0; // ! simply for making it pass the unit tests
 
@@ -274,7 +274,7 @@ namespace Collisions {
     // * ===================================
 
     // Determine if a circle intersects another circle.
-    bool CircleAndCircle(Primitives::Circle const &circle1, Primitives::Circle const &circle2) {
+    bool CircleAndCircle(Circle const &circle1, Circle const &circle2) {
         float r = circle1.r + circle2.r;
         return circle1.c.distSq(circle2.c) <= r*r;
     };
@@ -282,7 +282,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool CircleAndCircle(Primitives::Circle const &circle1, Primitives::Circle const &circle2, ZMath::Vec2D &normal) {
+    bool CircleAndCircle(Circle const &circle1, Circle const &circle2, ZMath::Vec2D &normal) {
         float r = circle1.r + circle2.r;
         ZMath::Vec2D circleDiff = circle2.c - circle1.c;
 
@@ -293,7 +293,7 @@ namespace Collisions {
     };
 
     // Determine if a circle intersects an AABB.
-    bool CircleAndAABB(Primitives::Circle const &circle, Primitives::AABB const &aabb) {
+    bool CircleAndAABB(Circle const &circle, AABB const &aabb) {
         // ? Determine the distance from the closest point on the AABB to the center of the circle.
         // ? If that distance is less than the radius of the circle, there is an intersection.
 
@@ -307,7 +307,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool CircleAndAABB(Primitives::Circle const &circle, Primitives::AABB const & aabb, ZMath::Vec2D &normal) {
+    bool CircleAndAABB(Circle const &circle, AABB const & aabb, ZMath::Vec2D &normal) {
         ZMath::Vec2D closest = circle.c;
         ZMath::Vec2D min = aabb.getMin(), max = aabb.getMax();
 
@@ -322,7 +322,7 @@ namespace Collisions {
     };
 
     // Determine if a circle intersects a Box2D.
-    bool CircleAndBox2D(Primitives::Circle const &circle, Primitives::Box2D const &box) {
+    bool CircleAndBox2D(Circle const &circle, Box2D const &box) {
         // ? Do the same thing as in the AABB check but first rotate the circle into the box's UV coords.
 
         ZMath::Vec2D closest = circle.c - box.pos;
@@ -336,7 +336,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool CircleAndBox2D(Primitives::Circle const &circle, Primitives::Box2D const &box, ZMath::Vec2D &normal) {
+    bool CircleAndBox2D(Circle const &circle, Box2D const &box, ZMath::Vec2D &normal) {
         ZMath::Vec2D closest = circle.c - box.pos;
         ZMath::Vec2D min = box.getLocalMin(), max = box.getLocalMax();
 
@@ -364,7 +364,7 @@ namespace Collisions {
     // * ===================================
 
     // Determine if an AABB intersects another AABB.
-    bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2) {
+    bool AABBAndAABB(AABB const &aabb1, AABB const &aabb2) {
         // ? Check if there is overlap on all three axes.
         // ? If so, the AABBs intersect.
 
@@ -377,7 +377,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool AABBAndAABB(Primitives::AABB const &aabb1, Primitives::AABB const &aabb2, ZMath::Vec2D &normal) {
+    bool AABBAndAABB(AABB const &aabb1, AABB const &aabb2, ZMath::Vec2D &normal) {
         // half size of AABB a and b respectively
         ZMath::Vec2D hA = aabb1.getHalfsize(), hB = aabb2.getHalfsize();
 
@@ -419,7 +419,7 @@ namespace Collisions {
     };
 
     // Determine if an AABB intersects a Box2D.
-    bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box) {
+    bool AABBAndBox2D(AABB const &aabb, Box2D const &box) {
         // ? Use the separating axis theorem to determine if there is an intersection bewteen the AABB and Box2D.
 
         // half the size of the AABB and Box2D (A = AABB, B = Box2D)
@@ -446,7 +446,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool AABBAndBox2D(Primitives::AABB const &aabb, Primitives::Box2D const &box, ZMath::Vec2D &normal) {
+    bool AABBAndBox2D(AABB const &aabb, Box2D const &box, ZMath::Vec2D &normal) {
         // ? Use the separating axis theorem to determine if there is an intersection between the AABB and Box2D.
 
         // half size of the aabb and box respectively (A = AABB, B = box)
@@ -508,7 +508,7 @@ namespace Collisions {
     // * ===================================
 
     // Determine if a Box2D intersects another Box2D.
-    bool Box2DAndBox2D(Primitives::Box2D const &box1, Primitives::Box2D const &box2) {
+    bool Box2DAndBox2D(Box2D const &box1, Box2D const &box2) {
         // ? Use the separating axis theorem to determine if there is an intersection between the Box2Ds.
 
         // half size of Box2D a and b respectively
@@ -546,7 +546,7 @@ namespace Collisions {
     // Check for intersection and return the collision normal.
     // If there is not an intersection, the normal will be a junk value.
     // The normal will point towards B away from A.
-    bool Box2DAndBox2D(Primitives::Box2D const &box1, Primitives::Box2D const &box2, ZMath::Vec2D &normal) {
+    bool Box2DAndBox2D(Box2D const &box1, Box2D const &box2, ZMath::Vec2D &normal) {
         // ? Use the separating axis theorem to determine if there is an intersection between the Box2Ds.
 
         // half size of Box2D a and b respectively
