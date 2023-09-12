@@ -1,0 +1,1220 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../collisions/">
+      
+      
+        <link rel="next" href="../zeta/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>Primitives - Zeta2D</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#primitives" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Zeta2D" class="md-header__button md-logo" aria-label="Zeta2D" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Zeta2D
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Primitives
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../collisions/" class="md-tabs__link">
+        
+  
+    
+  
+  Collisions
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  Primitives
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../zeta/" class="md-tabs__link">
+        
+  
+    
+  
+  Zeta
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../zmath/" class="md-tabs__link">
+        
+  
+    
+  
+  ZMath
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Zeta2D" class="md-nav__button md-logo" aria-label="Zeta2D" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Zeta2D
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../collisions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Collisions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Primitives
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Primitives
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    Classes
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ray2d" class="md-nav__link">
+    Ray2D
+  </a>
+  
+    <nav class="md-nav" aria-label="Ray2D">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+    Constructor
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#line2d" class="md-nav__link">
+    Line2D
+  </a>
+  
+    <nav class="md-nav" aria-label="Line2D">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields_1" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructor_1" class="md-nav__link">
+    Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circle" class="md-nav__link">
+    Circle
+  </a>
+  
+    <nav class="md-nav" aria-label="Circle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields_2" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructor_2" class="md-nav__link">
+    Constructor
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aabb" class="md-nav__link">
+    AABB
+  </a>
+  
+    <nav class="md-nav" aria-label="AABB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields_3" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructor_3" class="md-nav__link">
+    Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions_1" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#box2d" class="md-nav__link">
+    Box2D
+  </a>
+  
+    <nav class="md-nav" aria-label="Box2D">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields_4" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructor_4" class="md-nav__link">
+    Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions_2" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rigidbody2d" class="md-nav__link">
+    RigidBody2D
+  </a>
+  
+    <nav class="md-nav" aria-label="RigidBody2D">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields_5" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructors" class="md-nav__link">
+    Constructors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions_3" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staticbody2d" class="md-nav__link">
+    StaticBody2D
+  </a>
+  
+    <nav class="md-nav" aria-label="StaticBody2D">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields_6" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructors_1" class="md-nav__link">
+    Constructors
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enums" class="md-nav__link">
+    Enums
+  </a>
+  
+    <nav class="md-nav" aria-label="Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rigidbodycollider" class="md-nav__link">
+    RigidBodyCollider
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staticbodycollider" class="md-nav__link">
+    StaticBodyCollider
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zeta/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Zeta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zmath/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ZMath
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="primitives">Primitives</h1>
+<p>This section covers the Primitives namespace. Primitives contains all of the basic shapes defined in Zeta and rigid and static bodies. Both primitives.h and bodies.h contain code in the Primitives namespace.</p>
+<hr />
+<h2 id="classes"><span style="color:fuchsia">Classes</span></h2>
+<p>This subsection touches on the classes found in the Primitives namespace. Each of these classes represent a different simple shape that will be recognized for the engine. The ones that can be used as a collider will be marked as such.</p>
+<h3 id="ray2d"><span style="color:darkolivegreen">Ray2D</span></h3>
+<p>This class models a 2D ray. Rays are most notably used to simulate light, but can also be used to model the path an object is taking. Ray2D does not contain any functions or operators. Below are the fields and the constructor for Ray2D.</p>
+<h4 id="fields"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">origin</span></td>
+<td style="text-align: center;">The ray's origin point.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">dir</span></td>
+<td style="text-align: center;">The ray's direction as a normalized vector.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constructor"><span style="color:steelblue">Constructor</span></h4>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Create a 2D ray from an origin point and normalized direction vector.  </li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>origin (Vec2D) - the ray's origin point</li>
+<li>dir (Vec2D) - the ray's normalized direction vector  </li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">Ray2D</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dir</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="line2d"><span style="color:darkolivegreen">Line2D</span></h3>
+<p>This class models a 2D line segment, which will be referred to as a "line" for convenience. Lines are not commonly used for physics, but it is included in case you need one for a niche purpose. Below are the fields, constructor, and functions comprising the class.</p>
+<h4 id="fields_1"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">start</span></td>
+<td style="text-align: center;">The line's starting point.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">end</span></td>
+<td style="text-align: center;">The line's ending point.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constructor_1"><span style="color:steelblue">Constructor</span></h4>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Create a 2D line from a starting and ending point.  </li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>start (Vec2D) - the line's starting point</li>
+<li>end (Vec2D) - the line's ending point</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">Line2D</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">end</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="functions"><span style="color:steelblue">Functions</span></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="nf">getMin</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Returns the lowest value of x and y the line reaches.</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="nf">getMax</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Returns the greatest value of x and y the line reaches.</span>
+</code></pre></div>
+<h3 id="circle"><span style="color:darkolivegreen">Circle</span></h3>
+<p>This class models a circle. Circles are a common choice for colliders, especially to model balls, projectiles, and sometimes even players and enemies. This class does not contain any functions. Below are the fields and constructor.</p>
+<h4 id="fields_2"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">c</span></td>
+<td style="text-align: center;">The circle's centerpoint.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">float</span></td>
+<td style="text-align: center;"><span style="color:seagreen">r</span></td>
+<td style="text-align: center;">The circle's radius.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constructor_2"><span style="color:steelblue">Constructor</span></h4>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Create a circle from a centerpoint and a radius.  </li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>c (Vec2D) - the circle's centerpoint</li>
+<li>r (float) - the circle's radius</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">Circle</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">r</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="aabb"><span style="color:darkolivegreen">AABB</span></h3>
+<p>This class models an unrotated rectangle. This is used over a Box2D for the unrotated case as it allows for less computationally expensive functions to be ran. AABBs are a common choice for colliders, especially for walls and box-like entities. Below are the fields, constructor, and functions.</p>
+<h4 id="fields_3"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">pos</span></td>
+<td style="text-align: center;">The AABB's centerpoint.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:deeppink">private</span> <span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">halfsize</span></td>
+<td style="text-align: center;">Half the dimensions of the AABB.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constructor_3"><span style="color:steelblue">Constructor</span></h4>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Create an AABB from a min vertex and a max vertex.  </li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>min (Vec2D) - the AABB's vertex with the lowest values of x and y contained in the AABB (known as the min vertex)</li>
+<li>max (Vec2D) - the AABB's vertex with the greatest values of x and y contained in the AABB (known as the max vertex)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">AABB</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">max</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="functions_1"><span style="color:steelblue">Functions</span></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="nf">getMin</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">       </span><span class="c1">// Returns the AABB&#39;s min vertex.</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="nf">getMax</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">       </span><span class="c1">// Returns the AABB&#39;s max vertex.</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="nf">getHalfsize</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">  </span><span class="c1">// Returns the AABB&#39;s halfsize.</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="o">*</span><span class="w"> </span><span class="nf">getVertices</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Returns a pointer array of size 4 with the vertices of the AABB.</span>
+</code></pre></div>
+<h3 id="box2d"><span style="color:darkolivegreen">Box2D</span></h3>
+<p>This class models a rotated rectangle. This should only be used for non-zero cases of rotation as it is more computationally expensive to conduct Box2D collision checks than AABB checks. Box2Ds are a common choice for colliders, especially for non-aligned walls or box-like entities. Below are the fields, functions, and constructor.</p>
+<h4 id="fields_4"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">pos</span></td>
+<td style="text-align: center;">The Box2D's centerpoint.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Mat2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">rot</span></td>
+<td style="text-align: center;">The Box2D's rotation matrix. This will rotate anything from the Box2D's local space to global space.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">float</span></td>
+<td style="text-align: center;"><span style="color:seagreen">theta</span></td>
+<td style="text-align: center;">The angle the Box2D is rotated by in degrees.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:deeppink">private</span> <span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">halfsize</span></td>
+<td style="text-align: center;">Half the dimensions of the Box2D.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constructor_4"><span style="color:steelblue">Constructor</span></h4>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Create a Box2D from a min vertex, a max vertex, and an angle in degrees.  </li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>min (Vec2D) - the Box2D's vertex with the lowest values of x and y contained in the Box2D if it was not rotated (known as the min vertex)</li>
+<li>max (Vec2D) - the Box2D's vertex with the greatest values of x and y contained in the Box2D if it was not rotated (known as the max vertex)</li>
+<li>theta (float) - the angle the Box2D is rotated by in degrees.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">Box2D</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">max</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">theta</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="functions_2"><span style="color:steelblue">Functions</span></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="nf">getLocalMin</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">  </span><span class="c1">// Returns the Box2D&#39;s min vertex in the Box2D&#39;s local space.</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="nf">getLocalMax</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">  </span><span class="c1">// Returns the Box2D&#39;s max vertex in the Box2D&#39;s local space.</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="nf">getHalfsize</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">  </span><span class="c1">// Returns the Box2D&#39;s halfsize.</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="o">*</span><span class="w"> </span><span class="nf">getVertices</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Returns a pointer array of size 4 with the vertices of the Box2D in global space.</span>
+</code></pre></div>
+<h3 id="rigidbody2d"><span style="color:darkolivegreen">RigidBody2D</span></h3>
+<p>This class models a 2D rigid body. A rigid body is an object that's affected by physics. It has various fields storing information to use for physics updates. Below are the core fields and functions.</p>
+<h4 id="fields_5"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">pos</span></td>
+<td style="text-align: center;">The rigid body's centerpoint.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">vel</span></td>
+<td style="text-align: center;">The rigid body's velocity. It is initialized to the 0 vector by default.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">netForce</span></td>
+<td style="text-align: center;">The rigid body's net force. It is initialized to the 0 vector by default.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">float</span></td>
+<td style="text-align: center;"><span style="color:seagreen">mass</span></td>
+<td style="text-align: center;">The mass of the rigid body in grams.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">float</span></td>
+<td style="text-align: center;"><span style="color:seagreen">invMass</span></td>
+<td style="text-align: center;">1 over the mass of the rigid body in grams.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">float</span></td>
+<td style="text-align: center;"><span style="color:seagreen">cor</span></td>
+<td style="text-align: center;">The coefficient of restitution of the rigid body.This represents a loss of kinetic energy due<br>to heat and should be between 0 and 1. 1 is perfectly elastic and 0 is perfectly inelastic.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">float</span></td>
+<td style="text-align: center;"><span style="color:seagreen">linearDamping</span></td>
+<td style="text-align: center;">Controls how much the rigid body resists translation and should be on the interval (0, 1].<br>1 = no resistance to translation.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">RigidBodyCollider</span></td>
+<td style="text-align: center;"><span style="color:seagreen">colliderType</span></td>
+<td style="text-align: center;">The collider type attached to the rigid body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink"><br>Union</span></td>
+<td style="text-align: center;"><span style="color:seagreen"><br>collider</span></td>
+<td style="text-align: center;">A union containing a circle, AABB, and Box2D referenced by .circle, .aabb, and .box respectively.<br>Only use the collider associated with the collider type attached. You <strong>must manually assign this</strong><br>and assigning the wrong collider will break the physics engine.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constructors"><span style="color:steelblue">Constructors</span></h4>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Create a 2D rigid body from a position, mass, coefficient of restitution, linear damping value, colliderType, and a collider.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>pos (Vec2D) - The centerpoint of the rigid body. This should be equal to the centerpoint of the collider.</li>
+<li>mass (float) - The mass of the rigid body in grams.</li>
+<li>cor (float) - The coefficient of restitution of the rigid body. Should be between 0 and 1 inclusive.</li>
+<li>linearDamping (float) - The linear damping of the rigid body. Should be on the interval (0, 1].</li>
+<li>colliderType (RigidBodyCollider) - Enum value informing the engine which type of collider is attached to the rigid body.</li>
+<li>collider (void*) - Pointer to the collider of the rigid body. If this does not match the collider type specified, undefined behavior will occur. If you specify the RIGID_NONE collider type, you should set this to nullptr. Delete will not be called on this pointer.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">RigidBody2D</span><span class="p">(</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pos</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">mass</span><span class="p">,</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">cor</span><span class="p">,</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">linearDamping</span><span class="p">,</span><span class="w"> </span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="n">RigidBodyCollider</span><span class="w"> </span><span class="n">colliderType</span><span class="p">,</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">collider</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">);</span>
+</code></pre></div>
+<p>RigidBody2D also offers a default constructor that does nothing. If you use the default constructor, you must manually assign <strong>every field</strong> or the rigid body will cause undefined behavior.</p>
+<h4 id="functions_3"><span style="color:steelblue">Functions</span></h4>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">dt</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Updates the rigid body based on its current physics attributes. The physics handler will run this for it so it is <strong>not recommended</strong> to call this.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>g (Vec2D) - The acceleration due to gravity.</li>
+<li>dt (float) - Amount of time passed since the last update.</li>
+</ul>
+<h3 id="staticbody2d"><span style="color:darkolivegreen">StaticBody2D</span></h3>
+<p>This class models a 2D static body. A static body is an object unaffected by physics. Static bodies are commonly used to model walls, goals, death zones, etc. as those objects should be unaffected by physics. Static bodies still contain a collider, allowing you to check and resolve static body collisions how you see fit. Below are the core fields.</p>
+<h4 id="fields_6"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">pos</span></td>
+<td style="text-align: center;">The static body's centerpoint.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">StaticBodyCollider</span></td>
+<td style="text-align: center;"><span style="color:seagreen">colliderType</span></td>
+<td style="text-align: center;">The collider type attached to the static body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Union</span></td>
+<td style="text-align: center;"><span style="color:seagreen">collider</span></td>
+<td style="text-align: center;">A union containing a circle, AABB, and Box2D referenced by .circle, .aabb, and .box respectively.<br>Only use the collider associated with the collider type attached.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constructors_1"><span style="color:steelblue">Constructors</span></h4>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Create a 2D static body from a position, colliderType, and collider.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>pos (Vec2D) - The centerpoint of the static body. This should be equal to the centerpoint of the collider.</li>
+<li>colliderType (StaticBodyCollider) - Enum value informing the engine which type of collider is attached to the static body.</li>
+<li>collider (void*) - Pointer to the collider of the static body. If this does not match the collider type specified, undefined behavior will occur. If you specify the STATIC_NONE collider type, you should set this to nullptr. Delete will not be called on this pointer.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">StaticBody2D</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">StaticBodyCollider</span><span class="w"> </span><span class="n">colliderType</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">collider</span><span class="p">);</span>
+</code></pre></div>
+<p>StaticBody2D also offers a default constructor that does nothing. If you use the default constructor, you must manually assign <strong>every field</strong> or the static body will cause undefined behavior.</p>
+<hr />
+<h2 id="enums"><span style="color:fuchsia">Enums</span></h2>
+<p>The primitives namespace has two enums. Both are used to specify the collider types for rigid and static bodies.</p>
+<h3 id="rigidbodycollider"><span style="color:darkolivegreen">RigidBodyCollider</span></h3>
+<p>This enum is used to indicate the type of collider attached to a rigid body.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">RIGID_CIRCLE_COLLIDER</span></td>
+<td style="text-align: center;">Indicates a circle collider is attached to the rigid body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">RIGID_AABB_COLLIDER</span></td>
+<td style="text-align: center;">Indicates an AABB collider is attached to the rigid body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">RIGID_BOX2D_COLLIDER</span></td>
+<td style="text-align: center;">Indicates a Box2D collider is attached to the rigid body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">RIGID_CUSTOM_COLLIDER</span></td>
+<td style="text-align: center;">Indicates a custom collider is attached to the rigid body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">RIGID_NONE</span></td>
+<td style="text-align: center;">Indicates no collider is attached to the rigid body.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="staticbodycollider"><span style="color:darkolivegreen">StaticBodyCollider</span></h3>
+<p>This enum is used to indicate the type of collider attached to a static body.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">STATIC_CIRCLE_COLLIDER</span></td>
+<td style="text-align: center;">Indicates a circle collider is attached to the static body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">STATIC_AABB_COLLIDER</span></td>
+<td style="text-align: center;">Indicates an AABB collider is attached to the static body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">STATIC_BOX2D_COLLIDER</span></td>
+<td style="text-align: center;">Indicates a Box2D collider is attached to the static body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">STATIC_CUSTOM_COLLIDER</span></td>
+<td style="text-align: center;">Indicates a custom collider is attached to the static body.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">STATIC_NONE</span></td>
+<td style="text-align: center;">Indicates no collider is attached to the static body.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2023 <a href = "https://github.com/Salamence064" target="_blank" rel="noopener">Thomas Ducote</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Salamence064/Zeta2D" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>

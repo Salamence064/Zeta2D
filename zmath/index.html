@@ -1,0 +1,927 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../zeta/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>ZMath - Zeta2D</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#zmath" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Zeta2D" class="md-header__button md-logo" aria-label="Zeta2D" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Zeta2D
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ZMath
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../collisions/" class="md-tabs__link">
+        
+  
+    
+  
+  Collisions
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../primitives/" class="md-tabs__link">
+        
+  
+    
+  
+  Primitives
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../zeta/" class="md-tabs__link">
+        
+  
+    
+  
+  Zeta
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  ZMath
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Zeta2D" class="md-nav__button md-logo" aria-label="Zeta2D" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Zeta2D
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../collisions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Collisions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../primitives/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Primitives
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zeta/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Zeta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    ZMath
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    ZMath
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    Classes
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vec2d" class="md-nav__link">
+    Vec2D
+  </a>
+  
+    <nav class="md-nav" aria-label="Vec2D">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructors" class="md-nav__link">
+    Constructors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operators" class="md-nav__link">
+    Operators
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mat2d" class="md-nav__link">
+    Mat2D
+  </a>
+  
+    <nav class="md-nav" aria-label="Mat2D">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields_1" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructors_1" class="md-nav__link">
+    Constructors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operators_1" class="md-nav__link">
+    Operators
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions_1" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions_2" class="md-nav__link">
+    Functions
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signof" class="md-nav__link">
+    SIGNOF
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toradians" class="md-nav__link">
+    TORADIANS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#min" class="md-nav__link">
+    MIN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max" class="md-nav__link">
+    MAX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abs" class="md-nav__link">
+    abs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rotate" class="md-nav__link">
+    rotate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compare" class="md-nav__link">
+    compare
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clamp" class="md-nav__link">
+    clamp
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constants" class="md-nav__link">
+    Constants
+  </a>
+  
+    <nav class="md-nav" aria-label="Constants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pi" class="md-nav__link">
+    PI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epsilon" class="md-nav__link">
+    EPSILON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="zmath">ZMath</h1>
+<p>This section covers the ZMath namespace. ZMath contains all of Zeta's custom math library's code and many helpful math functions. zmath2D.h contains all the code contained in the ZMath namespace.</p>
+<hr />
+<h2 id="classes"><span style="color:fuchsia">Classes</span></h2>
+<p>This subsection touches on the classes found in the ZMath namespace. There are two classes used for Zeta's math library: Vec2D and Mat2D.</p>
+<h3 id="vec2d"><span style="color:darkolivegreen">Vec2D</span></h3>
+<p>This class models a 2D vector. It's used extensibly throughout Zeta and will be how you pass information about positions, velocities forces, etc. to the physics engine. Any function described as being "expensive" is expensive in the computational sense. Below are the core functions and operators.</p>
+<h4 id="fields"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">int</span></td>
+<td style="text-align: center;"><span style="color:seagreen">x</span></td>
+<td style="text-align: center;">The vector's x component.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">int</span></td>
+<td style="text-align: center;"><span style="color:seagreen">y</span></td>
+<td style="text-align: center;">The vector's y component.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constructors"><span style="color:steelblue">Constructors</span></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">Vec2D</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">      </span><span class="c1">// Set both components to the same value. Default of 0.</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">Vec2D</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">j</span><span class="p">);</span><span class="w"> </span><span class="c1">// X is initialized to i and y to j.</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">Vec2D</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">);</span><span class="w"> </span><span class="c1">// Initialize the components to those of another vector.</span>
+</code></pre></div>
+<h4 id="operators"><span style="color:steelblue">Operators</span></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">Vec2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Add the vectors component-wise.</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">Vec2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">          </span><span class="c1">// Add a float to both vector components.</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">Vec2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Subtract the vectors component-wise.</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">Vec2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">          </span><span class="c1">// Multiply both components by a float.</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="kt">float</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Calculate the dot product of the two vectors.</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">Vec2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                 </span><span class="c1">// Negate both components.</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Bool representing if the two vectors are equal.</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Bool representing if the two vectors are not equal.</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">Vec2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">vec</span><span class="p">);</span><span class="w">     </span><span class="c1">// Make this vector the sum of the vectors component-wise.</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">Vec2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w">              </span><span class="c1">// Modify this vector by adding a float to both components.</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">Vec2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">vec</span><span class="p">);</span><span class="w">     </span><span class="c1">// Make this vector the difference of the vectors component-wise.</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">Vec2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w">              </span><span class="c1">// Modify this vector by multiplying both components by a float.</span>
+</code></pre></div>
+<h4 id="functions"><span style="color:steelblue">Functions</span></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">zero</span><span class="p">();</span><span class="w">                            </span><span class="c1">// Set both components to 0.</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">d</span><span class="p">);</span><span class="w">                      </span><span class="c1">// Set both components to the same float.</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">j</span><span class="p">);</span><span class="w">             </span><span class="c1">// Set x to i and y to j.</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">);</span><span class="w">             </span><span class="c1">// Set the components to those of another vector.</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kt">float</span><span class="w"> </span><span class="nf">cross</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">    </span><span class="c1">// Take the cross product of the two vectors.</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="kt">float</span><span class="w"> </span><span class="nf">mag</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                      </span><span class="c1">// Get the magnitude of the vector. This requires a sqrt.</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="kt">float</span><span class="w"> </span><span class="nf">magSq</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                    </span><span class="c1">// Get the magnitude squared of the vector.</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="kt">float</span><span class="w"> </span><span class="nf">dist</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">     </span><span class="c1">// Get the distance between two vectors. This requires a sqrt.</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="kt">float</span><span class="w"> </span><span class="nf">distSq</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">   </span><span class="c1">// Get the distance between two vectors squared.</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="kt">float</span><span class="w"> </span><span class="nf">getAngle</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Get the angle between two vectors. This function is expensive.</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">Vec2D</span><span class="w"> </span><span class="nf">proj</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">     </span><span class="c1">// Take the vector projection of vec (parameter) onto this vector.</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">Vec2D</span><span class="w"> </span><span class="nf">normalize</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                </span><span class="c1">// Get the normalized vector in the same direction as this one.</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="n">Vec2D</span><span class="w"> </span><span class="nf">getSigns</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                 </span><span class="c1">// Get a vector with the signs of each component.</span>
+</code></pre></div>
+<h3 id="mat2d"><span style="color:darkolivegreen">Mat2D</span></h3>
+<p>This class models a 2x2 matrix. It's used primarily to store rotation matrices to rotate points in the physics engine. Any function described as being "expensive" is expensive in the computational sense. Below are the core functions and operators.</p>
+<h4 id="fields_1"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">c1</span></td>
+<td style="text-align: center;">The leftmost column vector of the matrix.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">c2</span></td>
+<td style="text-align: center;">The rightmost column vector of the matrix.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constructors_1"><span style="color:steelblue">Constructors</span></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// Initialize the matrix as follows:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// |a11, a12|</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">// |a21, a22|</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">Mat2D</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">a11</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">a12</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">a21</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">a22</span><span class="p">);</span><span class="w"> </span><span class="c1">// Check the above comment.</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">Mat2D</span><span class="p">();</span><span class="w">                                           </span><span class="c1">// Initialize this matrix as the identity matrix.</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">Mat2D</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">col1</span><span class="p">,</span><span class="w"> </span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">col2</span><span class="p">);</span><span class="w">       </span><span class="c1">// Initialize c1 to col1 and c2 to col2.</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">Mat2D</span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">);</span><span class="w">                           </span><span class="c1">// Initialize the column vectors to those of another matrix.</span>
+</code></pre></div>
+<h4 id="operators_1"><span style="color:steelblue">Operators</span></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">Mat2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Add the matrices element-wise.</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">Mat2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">          </span><span class="c1">// Add a float to each element of the matrix.</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">Mat2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Subtract the matrices element-wise.</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">Mat2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">          </span><span class="c1">// Subtract a float from each element.</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">Mat2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Matrix multiplication of the two matrices.</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">Mat2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Matrix multiplication with vec treated as a 2x1 column vector.</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">Mat2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">          </span><span class="c1">// Multiply each element by a float.</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">Mat2D</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                 </span><span class="c1">// Negate each element.</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Bool representing if the matrices are equal.</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// Bool representing if the matrices are not equal.</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="n">Mat2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">);</span><span class="w">     </span><span class="c1">// Make this matrix the sum of the matrices element-wise.</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="n">Mat2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w">              </span><span class="c1">// Modify this matrix by adding a float to each element.</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="n">Mat2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">);</span><span class="w">     </span><span class="c1">// Make this matrix the difference of the matrices element-wise.</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="n">Mat2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w">              </span><span class="c1">// Modify this matrix by subtracting a float from each element.</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="n">Mat2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">);</span><span class="w">     </span><span class="c1">// Make this matrix the product from matrix multiplication.</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="n">Mat2D</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w">              </span><span class="c1">// Modify this matrix by multiplying each element by a float.</span>
+</code></pre></div>
+<h4 id="functions_1"><span style="color:steelblue">Functions</span></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Set the matrix&#39;s elements as follows:</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">// |a11, a12|</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">// |a21, a22|</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">a11</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">a12</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">a21</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">a22</span><span class="p">);</span><span class="w"> </span><span class="c1">// Check the above comment.</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">col1</span><span class="p">,</span><span class="w"> </span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">col2</span><span class="p">);</span><span class="w">       </span><span class="c1">// Set c1 to col1 and c2 to col2.</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">);</span><span class="w">                           </span><span class="c1">// Set the elements to those of another matrix.</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="kt">void</span><span class="w"> </span><span class="nf">zero</span><span class="p">();</span><span class="w">                                          </span><span class="c1">// Set all elements to 0.</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">Mat2D</span><span class="w"> </span><span class="nf">inverse</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                                </span><span class="c1">// Get the inverse of this matrix.</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">Mat2D</span><span class="w"> </span><span class="nf">transpose</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                              </span><span class="c1">// Get the transpose of this matrix.</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">Mat2D</span><span class="w"> </span><span class="nf">getSigns</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">                               </span><span class="c1">// Get the signs of each element of this matrix.</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1">// =====================</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1">// Static functions</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1">// =====================</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="k">static</span><span class="w"> </span><span class="n">Mat2D</span><span class="w"> </span><span class="nf">identity</span><span class="p">();</span><span class="w">               </span><span class="c1">// Get the identity matrix.</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="k">static</span><span class="w"> </span><span class="n">Mat2D</span><span class="w"> </span><span class="nf">rotationMat</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">theta</span><span class="p">);</span><span class="w"> </span><span class="c1">// Get the rotation matrix for an angle. Theta should be in degrees.</span>
+</code></pre></div>
+<hr />
+<h2 id="functions_2"><span style="color:fuchsia">Functions</span></h2>
+<p>This subsection highlights essential math functions used throughout the engine. Many of these are simple utility functions, making them convenient to use in your program. Below are all of the standalone functions provided in ZMath.</p>
+<h3 id="signof"><span style="color:darkolivegreen">SIGNOF</span></h3>
+<p>Macro function to get the sign of a number. This returns -1 for a negative number and 1 for a positive number. 0 is treated as positive. The parameter can be any numeric data type.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">SIGNOF</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+</code></pre></div></p>
+<h3 id="toradians"><span style="color:darkolivegreen">TORADIANS</span></h3>
+<p>Macro function to convert an angle in degrees to radians. This allows for storage of angles in degrees while still using cmath trig functions. The parameter can be any numeric data type and should be an angle in degrees.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">TORADIANS</span><span class="p">(</span><span class="n">degrees</span><span class="p">);</span>
+</code></pre></div></p>
+<h3 id="min"><span style="color:darkolivegreen">MIN</span></h3>
+<p>Macro function that returns the minimum of two numbers. The parameters can be any numeric data types.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">MIN</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+</code></pre></div></p>
+<h3 id="max"><span style="color:darkolivegreen">MAX</span></h3>
+<p>Macro function that returns the maximum of two numbers. The parameters can be any numeric data types.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">MAX</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+</code></pre></div></p>
+<h3 id="abs"><span style="color:darkolivegreen">abs</span></h3>
+<p>Function returning the absolute value of a vector component-wise.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">Vec2D</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">vec</span><span class="p">);</span>
+</code></pre></div></p>
+<p>Function returning the absolute value of a matrix element-wise.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">Mat2D</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">Mat2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mat</span><span class="p">);</span>
+</code></pre></div></p>
+<h3 id="rotate"><span style="color:darkolivegreen">rotate</span></h3>
+<p>Function that rotates a point in 2D space about an origin. The point's components will be updated directly. The angle to rotate by should be in degrees.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rotate</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">point</span><span class="p">,</span><span class="w"> </span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">angle</span><span class="p">);</span>
+</code></pre></div></p>
+<h3 id="compare"><span style="color:darkolivegreen">compare</span></h3>
+<p>Function that returns if a float is close enough to another float to be considered approximately the same. This should be used to handle tolerance for floating point values. Epsilon is the tolerance value and is 5 * 10^-4 by default.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">epsilon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSILON</span><span class="p">);</span>
+</code></pre></div></p>
+<p>Function that returns if a Vec2D is close enough to another Vec2D to be considered approximately the same. This should be used to handle tolerance for vectors of floats. Epsilon is the tolerance value and is 5 * 10^-4 by default.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">epsilon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSILON</span><span class="p">);</span>
+</code></pre></div></p>
+<h3 id="clamp"><span style="color:darkolivegreen">clamp</span></h3>
+<p>Function that returns a float clamped between a min and max. If the float is greater than max, this will return max; if the float is less than min, this will return min; otherwise, the float will be returned.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">float</span><span class="w"> </span><span class="nf">clamp</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">max</span><span class="p">);</span>
+</code></pre></div></p>
+<p>Function that returns a Vec2D clamped component-wise between a min vector and a max vector. The process described for single float clamping is applied to each element of the Vec2D in this function.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">Vec2D</span><span class="w"> </span><span class="nf">clamp</span><span class="p">(</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">max</span><span class="p">);</span>
+</code></pre></div></p>
+<hr />
+<h2 id="constants"><span style="color:fuchsia">Constants</span></h2>
+<p>ZMath offers 2 constants defined through preprocessor directives for ease of use: &#960; and &#949;.</p>
+<h3 id="pi"><span style="color:darkolivegreen">PI</span></h3>
+<p>Constant representing &#960;. This is set to 3.1415926535897932.</p>
+<h3 id="epsilon"><span style="color:darkolivegreen">EPSILON</span></h3>
+<p>Constant representing the default tolerance value. This is set to 0.0005 (5 * 10^-4).</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2023 <a href = "https://github.com/Salamence064" target="_blank" rel="noopener">Thomas Ducote</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Salamence064/Zeta2D" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>

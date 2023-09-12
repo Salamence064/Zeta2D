@@ -1,0 +1,1323 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../primitives/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>Collisions - Zeta2D</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#collisions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Zeta2D" class="md-header__button md-logo" aria-label="Zeta2D" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Zeta2D
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Collisions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  Collisions
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../primitives/" class="md-tabs__link">
+        
+  
+    
+  
+  Primitives
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../zeta/" class="md-tabs__link">
+        
+  
+    
+  
+  Zeta
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../zmath/" class="md-tabs__link">
+        
+  
+    
+  
+  ZMath
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Zeta2D" class="md-nav__button md-logo" aria-label="Zeta2D" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Zeta2D
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Collisions
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Collisions
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#structs" class="md-nav__link">
+    Structs
+  </a>
+  
+    <nav class="md-nav" aria-label="Structs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#collision-manifold" class="md-nav__link">
+    Collision Manifold
+  </a>
+  
+    <nav class="md-nav" aria-label="Collision Manifold">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    Fields
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pointandline" class="md-nav__link">
+    PointAndLine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pointandcircle" class="md-nav__link">
+    PointAndCircle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pointandaabb" class="md-nav__link">
+    PointAndAABB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pointandbox2d" class="md-nav__link">
+    PointAndBox2D
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineandpoint" class="md-nav__link">
+    LineAndPoint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineandline" class="md-nav__link">
+    LineAndLine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineandcircle" class="md-nav__link">
+    LineAndCircle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineandaabb" class="md-nav__link">
+    LineAndAABB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineandbox2d" class="md-nav__link">
+    LineAndBox2D
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raycast" class="md-nav__link">
+    raycast
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circleandpoint" class="md-nav__link">
+    CircleAndPoint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circleandline" class="md-nav__link">
+    CircleAndLine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circleandcircle" class="md-nav__link">
+    CircleAndCircle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circleandaabb" class="md-nav__link">
+    CircleAndAABB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circleandbox2d" class="md-nav__link">
+    CircleAndBox2D
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aabbandpoint" class="md-nav__link">
+    AABBAndPoint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aabbandline" class="md-nav__link">
+    AABBAndLine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aabbandcircle" class="md-nav__link">
+    AABBAndCircle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aabbandaabb" class="md-nav__link">
+    AABBAndAABB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aabbandbox2d" class="md-nav__link">
+    AABBAndBox2D
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#box2dandpoint" class="md-nav__link">
+    Box2DAndPoint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#box2dandline" class="md-nav__link">
+    Box2DAndLine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#box2dandcircle" class="md-nav__link">
+    Box2DAndCircle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#box2dandaabb" class="md-nav__link">
+    Box2DAndAABB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#box2dandbox2d" class="md-nav__link">
+    Box2DAndBox2D
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#findcollisionfeatures" class="md-nav__link">
+    findCollisionFeatures
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#findcollisionfeatures_1" class="md-nav__link">
+    findCollisionFeatures
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../primitives/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Primitives
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zeta/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Zeta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zmath/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ZMath
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="collisions">Collisions</h1>
+<p>This section covers the Collisions namespace. Collisions contains functions relating to intersection detection and collision manifolds. Both intersections.h and collisions.h contain the code in the Collisions namespace.</p>
+<hr />
+<h2 id="structs"><span style="color:fuchsia">Structs</span></h2>
+<p>This subsection touches on the structs included in Collisions. There is only only one struct in this namespace and details about it can be found below.</p>
+<h3 id="collision-manifold"><span style="color:darkolivegreen">Collision Manifold</span></h3>
+<p>This struct stores data related to a collision. These are used by the physics handler for impulse resolution. It is not recommended for you to create and use your own collision manifolds; however, they are provided here on the offchance you need to. Note: this struct does not have any rule of 5 functions so the memory from the pointer in here must be managed by you if you do choose to make your own manifolds.</p>
+<h4 id="fields"><span style="color:steelblue">Fields</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span style="color:slategrey">Type</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Identifier</span></th>
+<th style="text-align: center;"><span style="color:slategrey">Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">bool</span></td>
+<td style="text-align: center;"><span style="color:seagreen">hit</span></td>
+<td style="text-align: center;">Bool representing if there's a collision. If this is false, all of the other fields will be junk values.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">float</span></td>
+<td style="text-align: center;"><span style="color:seagreen">pDist</span></td>
+<td style="text-align: center;">The penetration distance of the collision.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D</span></td>
+<td style="text-align: center;"><span style="color:seagreen">normal</span></td>
+<td style="text-align: center;">The collision normal.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">Vec2D*</span></td>
+<td style="text-align: center;"><span style="color:seagreen">contactPoints</span></td>
+<td style="text-align: center;">The point(s) at which the colliders overlap.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><span style="color:hotpink">int</span></td>
+<td style="text-align: center;"><span style="color:seagreen">numPoints</span></td>
+<td style="text-align: center;">The number of contact points.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="functions"><span style="color:fuchsia">Functions</span></h2>
+<p>This subsection showcases the many functions in this namespace. A majority of the Collisions namespace is comprised of intersection detection functions and details on those are provided here.</p>
+<h3 id="pointandline"><span style="color:darkolivegreen">PointAndLine</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">PointAndLine</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">point</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a point lies on a line.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>point (Vec2D) - A point in 2D space.</li>
+<li>line (Line2D) - A line in 2D space.</li>
+</ul>
+<h3 id="pointandcircle"><span style="color:darkolivegreen">PointAndCircle</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">PointAndCircle</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">point</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a point lies in a circle.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>point (Vec2D) - A point in 2D space.</li>
+<li>circle (Circle) - A circle.</li>
+</ul>
+<h3 id="pointandaabb"><span style="color:darkolivegreen">PointAndAABB</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">PointAndAABB</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">point</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a point lies in an AABB.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>point (Vec2D) - A point in 2D space.</li>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+</ul>
+<h3 id="pointandbox2d"><span style="color:darkolivegreen">PointAndBox2D</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">PointAndBox2D</span><span class="p">(</span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">point</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a point lies in a Box2D.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>point (Vec2D) - A point in 2D space.</li>
+<li>box (Box2D) - A rotated rectangle.</li>
+</ul>
+<h3 id="lineandpoint"><span style="color:darkolivegreen">LineAndPoint</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">LineAndPoint</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">point</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a point lies on a line.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>line (Line2D) - A line in 2D space.</li>
+<li>point (Vec2D) - A point in 2D space.</li>
+</ul>
+<h3 id="lineandline"><span style="color:darkolivegreen">LineAndLine</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">LineAndLine</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line1</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line2</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if two line segments intersect.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>line1 (Line2D) - A line in 2D space.</li>
+<li>line2 (Line2D) - A second line in 2D space.</li>
+</ul>
+<h3 id="lineandcircle"><span style="color:darkolivegreen">LineAndCircle</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">LineAndCircle</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a line intersects a circle.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>line (Line2D) - A line in 2D space.</li>
+<li>circle (Circle) - A circle.</li>
+</ul>
+<h3 id="lineandaabb"><span style="color:darkolivegreen">LineAndAABB</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">LineAndAABB</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a line intersects an AABB.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>line (Line2D) - A line in 2D space.</li>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+</ul>
+<h3 id="lineandbox2d"><span style="color:darkolivegreen">LineAndBox2D</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">LineAndBox2D</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a line intersects a Box2D.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>point (Line2D) - A line in 2D space.</li>
+<li>box (Box2D) - A rotated rectangle.</li>
+</ul>
+<h3 id="raycast"><span style="color:darkolivegreen">raycast</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">raycast</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Ray2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ray</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dist</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a ray intersects a circle and determine the distance to the point of intersection.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>ray (Ray2D) - A ray in 2D space.</li>
+<li>circle (Circle) - A circle.</li>
+<li>dist (float) - A float updated to be the distance to the point of intersection. If this returns false, this will be a junk value.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">raycast</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Ray2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ray</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dist</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a ray intersects an AABB and determine the distance to the point of intersection..</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>ray (Ray2D) - A ray in 2D space.</li>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+<li>dist (float) - A float updated to be the distance to the point of intersection. If this returns false, this will be a junk value.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">raycast</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Ray2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ray</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dist</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a ray intersects a Box2D and determine the distance to the point of intersection.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>ray (Ray2D) - A ray in 2D space.</li>
+<li>box (Box2D) - A rotated rectangle.</li>
+<li>dist (float) - A float updated to be the distance to the point of intersection. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="circleandpoint"><span style="color:darkolivegreen">CircleAndPoint</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">CircleAndPoint</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">point</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a point lies in a circle.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>circle (Circle) - A circle.</li>
+<li>point (Vec2D) - A point in 2D space.</li>
+</ul>
+<h3 id="circleandline"><span style="color:darkolivegreen">CircleAndLine</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">CircleAndLine</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a line intersects a circle.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>circle (Circle) - A circle.</li>
+<li>line (Vec2D) - A line in 2D space.</li>
+</ul>
+<h3 id="circleandcircle"><span style="color:darkolivegreen">CircleAndCircle</span></h3>
+<p>`
+<span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">CircleAndCircle</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle1</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle2</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if two circles intersect.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>circle1 (Circle) - A circle.</li>
+<li>circle2 (Circle) - A second circle.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">CircleAndCircle</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle1</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle2</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">normal</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if two circles intersect and calculate the collision normal.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>circle1 (Circle) - A circle.</li>
+<li>circle2 (Circle) - A second circle.</li>
+<li>normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="circleandaabb"><span style="color:darkolivegreen">CircleAndAABB</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">CircleAndAABB</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a circle intersects an AABB.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>circle (Circle) - A circle.</li>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">CircleAndAABB</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">normal</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a circle intersects an AABB and calculate the collision normal.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>circle (Circle) - A circle.</li>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+<li>normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="circleandbox2d"><span style="color:darkolivegreen">CircleAndBox2D</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">CircleAndBox2D</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a circle intersects a Box2D.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>circle (Circle) - A circle.</li>
+<li>box (Box2D) - A rotated rectangle.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">CircleAndBox2D</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">normal</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a circle intersects a Box2D and calculate the collision normal.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>circle (Circle) - A circle.</li>
+<li>box (Box2D) - A rotated rectangle.</li>
+<li>normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="aabbandpoint"><span style="color:darkolivegreen">AABBAndPoint</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">AABBAndPoint</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">point</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a point lies in an AABB.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+<li>point (Vec2D) - A point in 2D space.</li>
+</ul>
+<h3 id="aabbandline"><span style="color:darkolivegreen">AABBAndLine</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">AABBAndLine</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a line intersects an AABB.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>aabb (AABB) - An unrotated rectangle</li>
+<li>line (Line2D) - A line in 2D space.</li>
+</ul>
+<h3 id="aabbandcircle"><span style="color:darkolivegreen">AABBAndCircle</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">AABBAndCircle</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a circle intersects an AABB.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+<li>circle (Circle) - A circle.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">AABBAndCircle</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">normal</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a circle intersects an AABB and calculate the collision normal.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+<li>circle (Circle) - A circle.</li>
+<li>normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="aabbandaabb"><span style="color:darkolivegreen">AABBAndAABB</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">AABBAndAABB</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb1</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb2</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if two AABBs intersect.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>aabb1 (AABB) - An unrotated rectangle.</li>
+<li>aabb2 (AABB) - A second unrotated rectangle.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">AABBAndAABB</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb1</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb2</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">normal</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if two AABBs intersect and calculate the collision normal.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>aabb1 (AABB) - An unrotated rectangle.</li>
+<li>aabb2 (AABB) - A second unrotated rectangle.</li>
+<li>normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="aabbandbox2d"><span style="color:darkolivegreen">AABBAndBox2D</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">AABBAndBox2D</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if an AABB and Box2D intersect.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+<li>box (Box2D) - A rotated rectangle.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">AABBAndBox2D</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">normal</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if an AABB and Box2D intersect and calculate the collision normal.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+<li>box (Box2D) - A rotated rectangle.</li>
+<li>normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="box2dandpoint"><span style="color:darkolivegreen">Box2DAndPoint</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">Box2DAndPoint</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">point</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a point lies in a Box2D.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>box (Box2D) - A rotated rectangle.</li>
+<li>point (Vec2D) - A point in 2D space.</li>
+</ul>
+<h3 id="box2dandline"><span style="color:darkolivegreen">Box2DAndLine</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">Box2DAndLine</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Line2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">line</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a line intersects a Box2D.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>box (Box2D) - A rotated rectangle.</li>
+<li>line (Line2D) - A line in 2D space.</li>
+</ul>
+<h3 id="box2dandcircle"><span style="color:darkolivegreen">Box2DAndCircle</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">Box2DAndCircle</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a circle intersects a Box2D.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>box (Box2D) - A rotated rectangle.</li>
+<li>circle (Circle) - A circle.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">Box2DAndCircle</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Circle</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">circle</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">normal</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if a circle intersects a Box2D and calculate the collision normal.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>box (Box2D) - A rotated rectangle.</li>
+<li>circle (Circle) - A circle.</li>
+<li>normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="box2dandaabb"><span style="color:darkolivegreen">Box2DAndAABB</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">Box2DAndAABB</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if an AABB intersects a Box2D.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>box (Box2D) - A rotated rectangle.</li>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">Box2DAndAABB</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">AABB</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">aabb</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">normal</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if an AABB intersects a Box2D and calculate the collision normal.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>box (Box2D) - A rotated rectangle.</li>
+<li>aabb (AABB) - An unrotated rectangle.</li>
+<li>normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="box2dandbox2d"><span style="color:darkolivegreen">Box2DAndBox2D</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">Box2DAndBox2D</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box1</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box2</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a bool representing if two Box2Ds intersect.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>box1 (Box2D) - A rotated rectangle.</li>
+<li>box2 (Box2D) - A second rotated rectangle.</li>
+</ul>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">Box2DAndBox2D</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box1</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">Box2D</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">box2</span><span class="p">,</span><span class="w"> </span><span class="n">ZMath</span><span class="o">::</span><span class="n">Vec2D</span><span class="w"> </span><span class="o">&amp;</span><span class="n">normal</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span> </p>
+<ul>
+<li>Return a bool representing if two Box2Ds intersect and calculate the collision normal.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>box1 (Box2D) - A rotated rectangle.</li>
+<li>box2 (Box2D) - A second rotated rectangle.</li>
+<li>normal (Vec2D) - Updated to be the collision normal. If this returns false, this will be a junk value.</li>
+</ul>
+<h3 id="findcollisionfeatures"><span style="color:darkolivegreen">findCollisionFeatures</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="n">CollisionManifold</span><span class="w"> </span><span class="nf">findCollisionFeatures</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">RigidBody2D</span><span class="o">*</span><span class="w"> </span><span class="n">rb1</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">RigidBody2D</span><span class="o">*</span><span class="w"> </span><span class="n">rb2</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a <a href="https://salamence064.github.io/Zeta2D/collisions/#collision-manifold">CollisionManifold</a> with data about the collision between two rigid bodies. The physics handler calls this automatically. It is not recommended for you to call this function.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>rb1 (RigidBody2D*) - A pointer to a rigid body.</li>
+<li>rb2 (RigidBody2D*) - A pointer to a different rigid body.</li>
+</ul>
+<h3 id="findcollisionfeatures_1"><span style="color:darkolivegreen">findCollisionFeatures</span></h3>
+<p><span style="color:slategrey">Function Signature:</span></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="n">CollisionManifold</span><span class="w"> </span><span class="nf">findCollisionFeatures</span><span class="p">(</span><span class="n">Primitives</span><span class="o">::</span><span class="n">RigidBody2D</span><span class="o">*</span><span class="w"> </span><span class="n">rb</span><span class="p">,</span><span class="w"> </span><span class="n">Primitives</span><span class="o">::</span><span class="n">StaticBody2D</span><span class="o">*</span><span class="w"> </span><span class="n">sb</span><span class="p">);</span>
+</code></pre></div>
+<p><span style="color:slategrey">Description:</span>  </p>
+<ul>
+<li>Return a <a href="https://salamence064.github.io/Zeta2D/collisions/#collision-manifold">CollisionManifold</a> with data about the collision between a rigid and static body. The physics handler calls this automatically. It is not recommended for you to call this function.</li>
+</ul>
+<p><span style="color:slategrey">Parameters:</span></p>
+<ul>
+<li>rb (RigidBody2D*) - A pointer to a rigid body.</li>
+<li>sb (StaticBody2D*) - A pointer to a static body.</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2023 <a href = "https://github.com/Salamence064" target="_blank" rel="noopener">Thomas Ducote</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Salamence064/Zeta2D" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>
